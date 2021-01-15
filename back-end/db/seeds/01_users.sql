@@ -1,8 +1,19 @@
 INSERT INTO
-users(username, email, password)
+users(first_name, last_name, email, password)
 VALUES
-    ('Mario', 'mario@nintendo.com', 'test'),
-    ('Luigi', 'luigi@nintendo.com', 'test'),
-    ('Peach','peach@nintendo.com', 'test'),
-    ('Daisy','daisy@nintendo.com', 'test'),
-    ('DK', 'donkey@nintendo.com', 'test');
+    ('Mario', 'Bros', 'mario@nintendo.com', 'test'),
+    ('Luigi', 'Bros', 'luigi@nintendo.com', 'test'),
+    (
+        'Princess',
+        'Peach',
+        'peach@nintendo.com',
+        'test'
+    ),
+    (
+        'Princess',
+        'Daisy',
+        'daisy@nintendo.com',
+        'test'
+    ),
+    ('Donkey', 'Kong', 'donkey@nintendo.com', 'test');
+
