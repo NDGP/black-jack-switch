@@ -16,3 +16,4 @@ VALUES
         'test'
     ),
     ('Donkey', 'Kong', 'donkey@nintendo.com', 'test');
+
