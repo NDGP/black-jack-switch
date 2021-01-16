@@ -9,6 +9,8 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Header from './components/Header';
 import Footer from './components/Footer'
+import Withdraw from './components/Withdraw';
+import Deposit from './components/Deposit'
 
 function App() {
   return (
@@ -18,6 +20,12 @@ function App() {
       <Switch>
         <Route path ="/login">
           <Login />
+        </Route>
+        <Route path ="/deposit">
+          <Deposit />
+        </Route>
+        <Route path ="/withdraw">
+          <Withdraw />
         </Route>
         <Route path ="/">
           <Home />
