@@ -4,6 +4,19 @@ CREATE TABLE users(
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
+    password VARCHAR(255) NOT NULL,
+    flag VARCHAR(255) NOT NULL,
+    bankroll INT,
+    thp INT,
+    te INT,
+    mwh INT,
+    mlh INT,
+    mws INT, 
+    mls INT,
+    wp INT,
+    wpdd INT, 
+    bj INT,
+    bjp INT
+    ); 
+
 

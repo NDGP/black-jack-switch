@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS transactions CASCADE;
+
+CREATE TABLE transactions (
+  id SERIAL PRIMARY KEY NOT NULL,
+  ammount INT,
+  date DATE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
