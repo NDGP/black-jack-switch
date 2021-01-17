@@ -1,4 +1,3 @@
-
 class Deck {
     constructor(decks) {
         let cards = []
@@ -62,3 +61,5 @@ const swap = (hand1, hand2)=> {
     hand1.cards[1] = hand2.cards[1];
     hand2.cards[1] = temp;
 }
+
+module.exports = { Deck, Hand, swap };
