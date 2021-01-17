@@ -52,7 +52,7 @@ module.exports = (db) => {
         getUsers,
         getUserByEmail,
         addUser,
-        getUsersPosts
+        getUsersPosts,
     };
 };
 
