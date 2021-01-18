@@ -1,4 +1,6 @@
+import axios from "axios";
 import { Deck, Hand, swap} from "../helpers/card-logic";
+import { useState, useEffect } from "react";
 
 const deck = new Deck(1);
 const hand1 = new Hand();
@@ -12,6 +14,21 @@ hand2.add(deck.draw());
 
 export default function Home(props){
   
+  const [state, setState] = useState({
+    users: []
+  })
+
+  useEffect(() => {
+    Promise.all([
+      axios.get('http://localhost:3001/api/users',
+      {headers: {'Access-Control-Allow-Origin':'*'}})
+    ]).then((all) => {
+      setState(prev => ({...prev, users: all[0].data}))
+    });
+  }, []);
+
+
+      console.log("Users.data??", state.users)
   return (
     <section>
       <h1> Blackjack switch table</h1>
@@ -42,6 +59,11 @@ export default function Home(props){
       <button onClick={() => hand1.add(deck.draw())}>
         DRAW CARD
       </button>
+
+      <div>
+        THESE ARE THE USERS:
+        {JSON.stringify(state.users)}
+      </div>
 
     </section>
 

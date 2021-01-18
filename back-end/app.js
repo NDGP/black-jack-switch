@@ -8,8 +8,15 @@ const dbHelpers = require('./db/helpers/dbHelpers')(db);
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const { nextTick } = require('process');
 
 const app = express();
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin','*')
+  res.setHeader('Access-Control-Allow-Headers','*')
+  next()
+})
+
 
 app.use(logger('dev'));
 app.use(express.json());
