@@ -1,3 +1,4 @@
+const pool = require('../app')
 
 class Deck {
     constructor(decks) {
@@ -62,3 +63,7 @@ const swap = (hand1, hand2)=> {
     hand1.cards[1] = hand2.cards[1];
     hand2.cards[1] = temp;
 }
+
+let test = pool.query('Select * from users;')
+
+console.log(test)

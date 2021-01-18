@@ -1,13 +1,106 @@
 // winning condition switch
+let wins = 0;
+let losses = 0;
+let draws = 0;
+let blackjacks = 0;
 
-// if dealer has 21 and player doesn't dealer wins (lose bet)
-// if player has 21 and dealer doesn't player wins (win bet)
-// if they have both have 21 they push (no change)
-// if dealer gets 22 its a push (no change)
-// if player busts (22+) dealer wins (lose bet)
-// if dealer busts (23+) player wins (win bet)
-// if player is closer to 21 without going over (win bet)
-// if dealer is closer to 21 without going over (lose bet)
+const winningConditions = (playerValue, dealerValue, cards) => {
+  let playerWin = false;
+  let playerLose = false;
+  let playerTie = true;
+  let message = "";
+
+  // if player busts (22+) dealer wins (lose bet)
+  if (playerValue > 21) {
+    playerLose = true;
+    message = `You bust with ${playerValue}. You lose!`;
+    losses++;
+  }
+  // if dealer busts (23+) player wins (win bet)
+  else if (playerValue <= 21 && dealerValue > 22) {
+    playerWin = true
+    message = `Dealer busted with ${dealerValue}. You win with ${playerValue}!;`
+    wins++;
+  }
+  // if dealer gets 22 its a push (no change)
+  else if (dealerValue === 22 && playerValue < 22) {
+    playerTie = true
+    message = "Push, dealer has 22."
+    draws++;
+  }
+  // Dealer and Player have same value its a push (no change)
+  else if (playerValue === dealerValue && playerValue < 22) {
+    playerTie = true
+    message = `Push you both have ${playerValue}`;
+    draws++;
+  }
+  // if player has blackjack and dealer doesn't player wins (win bet)
+  else if (playerValue === 21 && dealerValue < 21 && cards === 2) {
+    playerWin = true;
+    message = `You win with blackjack!`
+    wins++;
+    blackjacks++;
+  }
+  // if dealer has 21 and player doesn't dealer wins (lose bet)
+  else if (dealerValue === 21 && playerValue < 21) {
+    playerLose = true
+    message = `You lose, dealer has ${dealerValue} and you have ${playerValue}.`
+    losses++;
+  }
+  // if player is closer to 21 without going over (win bet)
+  else if ((21 - playerValue) < (21 - dealerValue) && dealerValue <= 20 && playerValue <= 20) {
+    playerWin = true
+    message = `You win with ${playerValue} and the dealer has ${dealerValue}.`
+    wins++;
+  }
+  // if dealer is closer to 21 without going over (lose bet)
+  else if ((21 - dealerValue) < (21 - playerValue) && dealerValue <= 20 && playerValue <= 20) {
+    playerLose = true;
+    message = `You lose with ${playerValue} and the dealer has ${dealerValue}.`
+    losses++;
+  }
+  return message
+}
+// player bust
+console.log(winningConditions(22, 15))
+// dealer bust
+console.log(winningConditions(20, 23))
+// dealer 22 = push
+console.log(winningConditions(20, 22))
+// same value 
+console.log(winningConditions(17, 17))
+// both 21 
+console.log(winningConditions(21, 21))
+// player wins with 21
+console.log(winningConditions(21, 20, 2))
+// dealer wins with 21
+console.log(winningConditions(20, 21))
+// player wins with < 21 
+console.log(winningConditions(20, 17))
+// dealer wins with < 21 
+console.log(winningConditions(12, 17))
+
+
+// stats
+console.log(`${wins} wins`)
+console.log(`${losses} losses`)
+console.log(`${draws} draws`)
+console.log(`${blackjacks} blackjacks`)
+
+let totalHands = wins + losses + draws
+// win percentage
+let winPercentage = wins/totalHands
+console.log(`Win percentage: ${winPercentage.toFixed(2)*100}%`)
+// blackjack percentage
+let bjPercentage = blackjacks/totalHands
+console.log(`Blackjack percentage: ${bjPercentage.toFixed(2)*100}%`)
+
+
+
+
+
+
+
 
 // blackjack quirks
 // if player gets BJ (before switching) he wins, can't push on 22
