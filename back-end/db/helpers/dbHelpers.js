@@ -48,11 +48,24 @@ module.exports = (db) => {
 
     }
 
+    //CARD QUERIES
+
+    const getCards = (card) => {
+        const query = {
+            text: `SELECT * FROM cards;`
+        }
+
+        return db.query(query)
+            .then(result => result.rows)
+            .catch(err => err);
+    }
+
     return {
         getUsers,
         getUserByEmail,
         addUser,
         getUsersPosts,
+        getCards
     };
 };
 

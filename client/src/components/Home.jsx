@@ -15,20 +15,30 @@ hand2.add(deck.draw());
 export default function Home(props){
   
   const [state, setState] = useState({
-    users: []
+    users: [],
+    cards: []
   })
 
   useEffect(() => {
     Promise.all([
       axios.get('http://localhost:3001/api/users',
+      {headers: {'Access-Control-Allow-Origin':'*'}}),
+      axios.get('http://localhost:3001/api/cards',
       {headers: {'Access-Control-Allow-Origin':'*'}})
     ]).then((all) => {
-      setState(prev => ({...prev, users: all[0].data}))
+      setState(prev => ({...prev, users: all[0].data, cards: all[1].data}))
     });
   }, []);
 
+  let image = "https://i.pinimg.com/564x/12/04/e1/1204e1f1b0833cdee4bf1403a01f96b6.jpg";
 
-      console.log("Users.data??", state.users)
+  
+  if (state.cards.length > 0) {
+    let aceOfSpades = state.cards[0];
+    console.log("test card:", aceOfSpades.image)
+    image = aceOfSpades.image;
+  }
+      
   return (
     <section>
       <h1> Blackjack switch table</h1>
@@ -65,6 +75,9 @@ export default function Home(props){
         {JSON.stringify(state.users)}
       </div>
 
+      <div>
+        <img src={image} alt="ERROR"></img>
+      </div>
     </section>
 
   )
