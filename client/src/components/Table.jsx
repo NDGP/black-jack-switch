@@ -21,18 +21,16 @@ export default function Table(props) {
 
           <Hand
             name="Dealer"
+            cardLibrary={props.cardLibrary}
             value={dealer.value}
             cards={dealer.cards}
-            image3={props.image3}
-            image4={props.image4}
           />
 
           <Hand
             name="Player"
+            cardLibrary={props.cardLibrary}
             value={player.value}
             cards={player.cards}
-            image3={props.image1}
-            image4={props.image2}
           />
 
       </section>
