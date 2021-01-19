@@ -1,84 +1,94 @@
 import axios from "axios";
-import { Deck, Hand, swap} from "../helpers/card-logic";
+import { Deck, Hand, swap } from "../helpers/card-logic";
 import { useState, useEffect } from "react";
 
-const deck = new Deck(1);
-const hand1 = new Hand();
-const hand2 = new Hand();
+import "./Home.css";
 
-hand1.add(deck.draw());
-hand1.add(deck.draw());
+let deck = new Deck(1);
+let playerHand = new Hand();
+let dealerHand = new Hand();
 
-hand2.add(deck.draw());
-hand2.add(deck.draw());
+let image1 = "https://deckofcardsapi.com/static/img/XX.png";
+let image2 = "https://deckofcardsapi.com/static/img/XX.png";
+let image3 = "https://deckofcardsapi.com/static/img/XX.png";
+let image4 = "https://deckofcardsapi.com/static/img/XX.png";
 
-export default function Home(props){
-  
+playerHand.add(deck.draw());
+playerHand.add(deck.draw());
+
+export default function Home(props) {
+
   const [state, setState] = useState({
     users: [],
-    cards: []
+    cards: [],
+    dealer: dealerHand
   })
 
   useEffect(() => {
     Promise.all([
       axios.get('http://localhost:3001/api/users',
-      {headers: {'Access-Control-Allow-Origin':'*'}}),
+        { headers: { 'Access-Control-Allow-Origin': '*' } }),
       axios.get('http://localhost:3001/api/cards',
-      {headers: {'Access-Control-Allow-Origin':'*'}})
+        { headers: { 'Access-Control-Allow-Origin': '*' } })
     ]).then((all) => {
-      setState(prev => ({...prev, users: all[0].data, cards: all[1].data}))
+      setState(prev => ({ ...prev, users: all[0].data, cards: all[1].data }))
     });
   }, []);
 
-  let image = "https://i.pinimg.com/564x/12/04/e1/1204e1f1b0833cdee4bf1403a01f96b6.jpg";
-
+  // dealerHand = state.dealer
+  // dealerHand.add(deck.draw());
   
+  // setState({
+  //   ...prev,
+  //   dealer: dealerHand
+  // })
+
+  // const getImage = (hand) => {
+  //   if (state.cards.length > 0) {
+  //     let foundCard = state.cards.find(i => i.name === hand.cards[0])
+  //     // for (const card of playerHand.cards) {
+  //     // }
+  //     return foundCard.image
+  //   }
+  // }
+
   if (state.cards.length > 0) {
-    let aceOfSpades = state.cards[0];
-    console.log("test card:", aceOfSpades.image)
-    image = aceOfSpades.image;
+    image1 = state.cards.find(card => card.name === playerHand.cards[0]).image
+    image2 = state.cards.find(card => card.name === playerHand.cards[1]).image
+    // image3 = state.cards.find(card => card.name === state.dealer.cards[0]).image
+    // image4 = state.cards.find(card => card.name === state.dealer.cards[1]).image
   }
-      
+
   return (
-    <section>
-      <h1> Blackjack switch table</h1>
-      <h3> Place your bet</h3>
-      <ul>
-        <li>Switch</li>
-        <li>Hit</li>
-        <li>Stand</li>
-        <li>Double down</li>
-        <li>Split</li>
-
-      </ul>
-
-      <div>
-        DECK:
-        < br/>
-        {deck.cards}
-      </div>
-
-      <div>
-        HAND1: {hand1.cards}
-      </div>
-
-      <div>
-        HAND2: {hand2.cards}
-      </div>
-
-      <button onClick={() => hand1.add(deck.draw())}>
-        DRAW CARD
-      </button>
-
-      <div>
-        THESE ARE THE USERS:
-        {JSON.stringify(state.users)}
-      </div>
-
-      <div>
-        <img src={image} alt="ERROR"></img>
-      </div>
-    </section>
-
+    <div class="table">
+      <section>
+        <h1> Blackjack switch table</h1>
+        <h3> Place your bet</h3>
+        
+          <div id="deck">
+            DECK:
+          < br />
+            {deck.cards}
+          </div>
+          
+          {/* <div class="dealerHand">
+            Dealer Hand: {state.dealer.cards}
+            <img src={image1} alt="ERROR"></img>
+            <img src={image2} alt="ERROR"></img>
+          </div> */}
+      
+        <div class="playerHand">
+            Player Hand: {playerHand.cards}
+            <img src={image1} alt="ERROR"></img>
+            <img src={image2} alt="ERROR"></img>
+          </div>
+        {/* <div class="test">
+        <div>
+            THESE ARE THE USERS:
+            {JSON.stringify(state.users)}
+          </div>
+      </div> */}
+      </section>
+    </div>
   )
 }
