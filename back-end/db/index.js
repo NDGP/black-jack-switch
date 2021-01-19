@@ -10,4 +10,9 @@ const client = new pg.Client({
 console.log( `Connected to ${process.env.DB_NAME} on ${process.env.DB_HOST}` );
 client.connect();
 
+// client.query('SELECT * FROM users', (err, res) => {
+//     console.log(err ? err.stack : res.rows) // Testing db query from back-end!
+//     client.end()
+//   })
+
 module.exports = client;
