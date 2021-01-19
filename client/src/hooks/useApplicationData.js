@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function useApplicationData() { 
+export default function useApplicationData() {
 
   const [state, setState] = useState({
     users: [],
@@ -22,15 +22,23 @@ export default function useApplicationData() {
   }, []);
 
   const updateHand = (hand) => {
-    if (state.cards.length > 0) {
-      for (const card of hand.cards) {
-        let cardInfo = state.cards.find(info => info.name === card);
-        console.log("INFO: " + cardInfo + "for" + card)
-				if (cardInfo.ace === true && hand.ace === false) hand.ace = true;
-				hand.value += cardInfo.value;
+    let value = 0;
+    let aces = hand.ace;
+    for (const card of hand.cards) {
+      let cardInfo = state.cards.find(info => info.name === card);
+
+      value += cardInfo.value;
+      if (cardInfo.ace === true) aces++;
+    }
+
+    for (let i = aces; i > 0; i--) {
+      if (value > 21){
+        value -= 10;
       }
-      setState(prev => ({...prev, [hand]: hand}))
-    }    
+    }
+
+    hand.value = value;
+    setState(prev => ({ ...prev, [hand]: hand }))
   }
 
 

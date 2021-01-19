@@ -3,7 +3,7 @@ import twentyFive from "./images/chip25.png"
 import oneHundred from "./images/chip100.png"
 import fiveHundred from "./images/chip500.png"
 
-export default function Hand(props) {
+export default function Chips(props) {
   return (
     <div class="Chips">
       <input type="image" src={five} alt="Wrong path" />

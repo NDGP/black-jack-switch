@@ -18,9 +18,6 @@ export default function Hand(props) {
             {props.name}: {props.value}
             { cardsInHand }
           </div>
-
-          <button onClick={() => console.log('clicked')}>Click to console.log</button>;
-
       </div>
   );
 }
