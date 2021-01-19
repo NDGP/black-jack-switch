@@ -63,7 +63,7 @@ class Hand {
 
 
 //switch is not allowed as a function name in js, I will use swap instead
-const swap = (hand1, hand2)=> {
+const swap = (hand1, hand2) => {
     let temp = hand1.cards[1];
     hand1.cards[1] = hand2.cards[1];
     hand2.cards[1] = temp;
