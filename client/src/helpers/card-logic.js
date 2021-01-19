@@ -6,7 +6,7 @@ class Deck {
 
         for (let deckCount = 0; deckCount < decks; deckCount++) {
             for (const suit of suits) {
-                for (let i = 2; i < 11; i++) {
+                for (let i = 1; i < 10; i++) {
                     cards.push(`${i}${suit}`)
                 }
                 for (const face of faces) {
@@ -42,6 +42,8 @@ class Hand {
         let cards = [];
         if (firstCard) cards.push(firstCard);
         this.cards = cards;
+        this.value = 0;
+        this.ace = false;
     }
     add(card) {
         this.cards.push(card);
@@ -51,6 +53,11 @@ class Hand {
     }
     splitHand() {
         return this.cards.pop();
+    }
+    clear() {
+        this.cards = [];
+        this.value = 0;
+        this.ace = false;
     }
 }
 

@@ -10,6 +10,7 @@ module.exports = ({
           .catch((err) => res.json({
               error: err.message
           }));
+
   });
 
   return router;
