@@ -31,6 +31,7 @@ function App() {
           <Home />
         </Route>
       </Switch>
+      <div id="portal"></div>
       <Footer />
     </div>
     </Router>
