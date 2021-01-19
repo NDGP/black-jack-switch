@@ -4,7 +4,6 @@ import Hand from "./Hand"
 export default function Table(props) {
   const deck = props.deck;
   const dealer = props.dealer;
-  const player = props.player;
 
   return (
     <section>
@@ -27,10 +26,17 @@ export default function Table(props) {
           />
 
           <Hand
-            name="Player"
+            name="Hand1"
             cardLibrary={props.cardLibrary}
-            value={player.value}
-            cards={player.cards}
+            value={props.hand1.value}
+            cards={props.hand1.cards}
+          />
+          
+          <Hand
+            name="Hand2"
+            cardLibrary={props.cardLibrary}
+            value={props.hand2.value}
+            cards={props.hand2.cards}
           />
 
       </section>
