@@ -1,13 +1,9 @@
 .table {
   background-color: #0c691e;
   background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
-  border: 3em;
-  height: 100%;
-  width: 80%;
-  border-radius: 50%;
-  margin: auto;
-  margin-top: 30px;
-  border: 10px solid brown
+  border: 20px solid saddlebrown;
+  color: whitesmoke;
+  padding: 20px 0 90px 0;
 }
 
 
