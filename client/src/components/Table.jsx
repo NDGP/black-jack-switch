@@ -4,41 +4,48 @@ import Hand from "./Hand"
 export default function Table(props) {
   const deck = props.deck;
   const dealer = props.dealer;
+  const hands = props.hand;
+  const handsInPlay = [];
+
+  for (const hand of hands) {
+    if (hand.value > 0) {
+      handsInPlay.push(hand)
+    }
+  }
+
+  const handsInPlay2 = handsInPlay.map((hand, index) => {
+    return (
+      <Hand
+        name={`Hand${index + 1}`}
+        cardLibrary={props.cardLibrary}
+        value={handsInPlay[index].value}
+        cards={handsInPlay[index].cards}
+      />
+    );
+  })
 
   return (
     <section>
-        <h1> Blackjack switch table</h1>
-        <h3> Place your bet</h3>
-        
-          <div id="deck">
-            DECK:
+      <h1> Blackjack switch table</h1>
+      <h3> Place your bet</h3>
+
+      <div id="deck">
+        DECK:
           < br />
-            {deck.cards}
-          </div>
-          
-          < br />
+        {deck.cards}
+      </div>
 
-          <Hand
-            name="Dealer"
-            cardLibrary={props.cardLibrary}
-            value={dealer.value}
-            cards={dealer.cards}
-          />
+      < br />
 
-          <Hand
-            name="Hand1"
-            cardLibrary={props.cardLibrary}
-            value={props.hand1.value}
-            cards={props.hand1.cards}
-          />
-          
-          <Hand
-            name="Hand2"
-            cardLibrary={props.cardLibrary}
-            value={props.hand2.value}
-            cards={props.hand2.cards}
-          />
+      <Hand
+        name="Dealer"
+        cardLibrary={props.cardLibrary}
+        value={dealer.value}
+        cards={dealer.cards}
+      />
 
-      </section>
+      { handsInPlay2}
+
+    </section>
   );
 }
