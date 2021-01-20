@@ -8,58 +8,55 @@ import Actions from './Actions';
 import "./Home.css";
 
 
-//should be called when a new game is started
-let hand = []
-hand[0] = new Hand();
-hand[1] = new Hand();
-hand[2] = new Hand();
-hand[3] = new Hand();
-
-hand[1].canSplit = false;
-hand[2].canSplit = false;
+// hand[1].canSplit = false;
+// hand[2].canSplit = false;
 
 let deck = new Deck(1);
 let dealer = new Hand();
 let swapped = false;
-let currentHand = 0;
 
+let actions = {
+  deal: true,
+  split: true,
+  switch: true
+}
 
 export default function Home(props) {
   const {
     state,
-    updateHand
+    updateHand,
+    addSplitHand,
+    updateGame
   } = useApplicationData();
 
+  let hand = state.hand;
+  let currentHand = state.currentHand;
+  if (hand[currentHand]) actions.split = hand[currentHand].canSplit;
 
   const deal = () => {
-    if (hand[0].value === 0 && hand[2].value === 0 && dealer.value === 0) {
       swapped = false;
-
+      actions.deal = false;
+      updateHand(hand[0]);
       setTimeout(() => { hit(hand[0]) }, 400);
       setTimeout(() => { hit(hand[0]) }, 1600);
 
-      setTimeout(() => { hit(hand[2]) }, 800);
-      setTimeout(() => { hit(hand[2]) }, 2000);
+      setTimeout(() => { hit(hand[1]) }, 800);
+      setTimeout(() => { hit(hand[1]) }, 2000);
 
       setTimeout(() => { hit(dealer) }, 1200);
       setTimeout(() => { hit(dealer) }, 2400);
-
-    }
   }
 
   const hit = (hand) => {
-    if (hand.value < 21) {
       hand.add(deck.draw())
       updateHand(hand);
-    }
   }
 
   const stay = () => {
     if (currentHand < hand.length - 1) {
       currentHand++
-      if (hand[currentHand].value === 0) {
-        currentHand++
-      }
+      updateHand(hand[currentHand]);
+      updateGame(currentHand);
     }
   }
 
@@ -67,7 +64,8 @@ export default function Home(props) {
   const split = () => {
     if (hand[currentHand].canSplit === true) {
       hand[currentHand].canSplit = false;
-      hand[currentHand + 1].add(hand[currentHand].splitHand())
+      let newHand = new Hand(hand[currentHand].splitHand())
+      addSplitHand(newHand);
       updateHand(hand[currentHand])
       setTimeout(() => { hit(hand[currentHand]) }, 500);
       updateHand(hand[currentHand + 1])
@@ -85,6 +83,7 @@ export default function Home(props) {
   const swap = (hand1, hand2) => {
     if (swapped === false) {
       swapped = true;
+      actions.switch = false;
       let temp = hand1.cards[1];
       hand1.cards[1] = hand2.cards[1];
       hand2.cards[1] = temp;
@@ -93,6 +92,7 @@ export default function Home(props) {
     }
   }
 
+  
   return (
     <div class="table">
       <Table
@@ -107,9 +107,10 @@ export default function Home(props) {
         hitD={() => hit(dealer)}
         stay={() => stay()}
         deal={() => deal()}
-        swap={() => swap(hand[currentHand], hand[currentHand + 2])}
+        swap={() => swap(hand[0], hand[1])}
         split={() => split()}
         double={() => doubleDown()}
+        actions={actions}
       />
       <Chips />
 

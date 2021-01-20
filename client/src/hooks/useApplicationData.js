@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import { Deck, Hand } from "../helpers/cardLogic";
+
 export default function useApplicationData() {
 
   const [state, setState] = useState({
     users: [],
     cards: [],
     hand: [],
-    dealer: {}
+    dealer: {},
+    currentHand: 0,
+    turn: null
   })
 
   useEffect(() => {
@@ -17,11 +21,19 @@ export default function useApplicationData() {
       axios.get('http://localhost:3001/api/cards',
         { headers: { 'Access-Control-Allow-Origin': '*' } })
     ]).then((all) => {
-      setState(prev => ({ ...prev, users: all[0].data, cards: all[1].data }))
+      let hand = []
+      hand[0] = new Hand();
+      hand[1] = new Hand();
+      setState(prev => ({ ...prev,
+        users: all[0].data,
+        cards: all[1].data,
+        hand: hand,
+      }))
     });
   }, []);
 
   const updateHand = (hand) => {
+    //first calculates the values hand
     let value = 0;
     let aces = hand.ace;
     for (const card of hand.cards) {
@@ -30,14 +42,13 @@ export default function useApplicationData() {
       value += cardInfo.value;
       if (cardInfo.ace === true) aces++;
     }
-
     for (let i = aces; i > 0; i--) {
       if (value > 21){
         value -= 10;
       }
     }
 
-    //check if split should be possible
+    //checks if splitting should be possible
     if (hand.cards.length === 2) {
       let card1value = state.cards.find(x => x.name === hand.cards[0]).value;
       let card2value = state.cards.find(x => x.name === hand.cards[1]).value;
@@ -49,9 +60,25 @@ export default function useApplicationData() {
     }
 
     hand.value = value;
-    setState(prev => ({ ...prev, [hand]: hand }))
+    let activeHand = state.currentHand;
+
+    //checks if hand is >= 21, if so, on to the next hand
+    if (hand.value >= 21 && activeHand < state.hand.length - 1) {
+      activeHand++;
+    }
+
+    setState(prev => ({ ...prev, [hand]: hand, currentHand: activeHand }))
   }
 
+  const addSplitHand = (newHand) => {
+    let updateHands = state.hand;
+    updateHands.splice(1, 0, newHand)
+    setState(prev => ({ ...prev, hand: updateHands }))
+  }
 
-  return { state, updateHand }
+  const updateGame = (x) => {
+    setState(prev => ({ ...prev, currentHand: x }))
+  }
+
+  return { state, updateHand, addSplitHand, updateGame }
 }

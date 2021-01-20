@@ -1,0 +1,8 @@
+.card {
+	animation: dealCard .6s;
+	display: inline-block
+}
+@keyframes dealCard{
+	0%{transform: translate(350px,-300px)}
+	100%{}
+}

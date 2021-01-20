@@ -2,3 +2,15 @@ button {
   font-size: 24px;
   
 }
+
+.deal-hidden {
+  visibility: hidden;
+}
+
+.switch-hidden{
+  visibility: hidden;
+}
+
+.split-hidden{
+  visibility: hidden;
+}
