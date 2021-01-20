@@ -87,7 +87,7 @@ export default function useApplicationData() {
 
   const addSplitHand = (newHand) => {
     let updateHands = state.hand;
-    updateHands.splice(1, 0, newHand)
+    updateHands.splice(state.currenthand + 1, 0, newHand)
     setState(prev => ({ ...prev, hand: updateHands }))
   }
 
@@ -106,7 +106,7 @@ export default function useApplicationData() {
           hit: true,
           stay: true,
           split: state.hand[currentHand].canSplit,
-          switch: true,
+          switch: false,
           double: true
         }
         break;
