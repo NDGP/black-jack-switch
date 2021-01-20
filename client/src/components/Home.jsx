@@ -1,33 +1,8 @@
-<<<<<<< HEAD
-import {useState} from "react"
-import Popup from "./Popup"
-import Header from "./Header"
-
-
-export default function Home( props){
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-
-  <div>
-    <div>
-    <Popup open={isOpen}>Hellllooooooo</Popup>
-    </div>
-    <section>
-      <h1> Blackjack switch table</h1>
-      <h3> Place your bet</h3>
-      <ul>
-        <li>Switch</li>
-        <li>Hit</li>
-        <li>Stand</li>
-        <li>Double down</li>
-        <li>Split</li>
-=======
 import axios from "axios";
 import { Deck, Hand, swap } from "../helpers/card-logic";
 import { useState, useEffect } from "react";
-
 import "./Home.css";
+
 
 let deck = new Deck(1);
 let playerHand = new Hand();
@@ -40,20 +15,14 @@ let image4 = "https://deckofcardsapi.com/static/img/XX.png";
 
 playerHand.add(deck.draw());
 playerHand.add(deck.draw());
->>>>>>> main
 
 export default function Home(props) {
 
-<<<<<<< HEAD
-    </section>
-  </div>
-=======
   const [state, setState] = useState({
     users: [],
     cards: [],
     dealer: dealerHand
   })
->>>>>>> main
 
   useEffect(() => {
     Promise.all([
