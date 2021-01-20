@@ -6,7 +6,7 @@ export default function useApplicationData() {
   const [state, setState] = useState({
     users: [],
     cards: [],
-    player: {},
+    hand: [],
     dealer: {}
   })
 

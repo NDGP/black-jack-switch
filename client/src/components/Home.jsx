@@ -8,13 +8,16 @@ import "./Home.css";
 
 
 //should be called when a new game is started
+let hand = []
+
 let deck = new Deck(1);
-let hand1 = new Hand();
-let hand2 = new Hand();
+hand[0] = new Hand();
+hand[1] = new Hand();
+hand[2] = new Hand();
+hand[3] = new Hand();
 let dealer = new Hand();
-let hand1s = [];
-let hand2s = [];
 let swapped = false;
+let currentHand = 0;
 
 
 export default function Home(props) {
@@ -25,14 +28,14 @@ export default function Home(props) {
 
 
   const deal = () => {
-    if (hand1.value === 0 && hand2.value === 0 && dealer.value === 0) {
+    if (hand[0].value === 0 && hand[2].value === 0 && dealer.value === 0) {
       swapped = false;
 
-      setTimeout(() => { hit(hand1) }, 500);
-      setTimeout(() => { hit(hand1) }, 2000);
+      setTimeout(() => { hit(hand[0]) }, 500);
+      setTimeout(() => { hit(hand[0]) }, 2000);
 
-      setTimeout(() => { hit(hand2) }, 1000);
-      setTimeout(() => { hit(hand2) }, 2500);
+      setTimeout(() => { hit(hand[2]) }, 1000);
+      setTimeout(() => { hit(hand[2]) }, 2500);
 
       setTimeout(() => { hit(dealer) }, 1500);
       setTimeout(() => { hit(dealer) }, 3000);
@@ -40,16 +43,35 @@ export default function Home(props) {
     }
   }
 
-
   const hit = (hand) => {
-    if (hand.value < 21){
+    if (hand.value < 21) {
       hand.add(deck.draw())
       updateHand(hand);
     }
   }
 
-  const split = (hand) => {
-    hand1s.add(hand1.splitHand())
+  const stay = () => {
+    if (currentHand < hand.length - 1) {
+      currentHand++
+      if (hand[currentHand].value === 0) {
+        currentHand++
+      }
+    }
+  }
+
+
+  const split = () => {
+    hand[currentHand + 1].add(hand[currentHand].splitHand())
+    updateHand(hand[currentHand])
+    setTimeout(() => { hit(hand[currentHand]) }, 500);
+    updateHand(hand[currentHand + 1])
+    setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
+  }
+
+  const doubleDown = () => {
+    //add code to double current hand's bet here
+    hit(hand[currentHand]);
+    stay()
   }
 
   //switch is not allowed as a function name in js, I will use swap instead
@@ -69,16 +91,18 @@ export default function Home(props) {
       <Table
         cardLibrary={state.cards}
         deck={deck}
-        hand1={hand1}
-        hand2={hand2}
+        hand={hand}
         dealer={dealer}
+        currentHand={currentHand}
       />
       <Actions
-        hit1={() => hit(hand1)}
-        hit2={() => hit(hand2)}
+        hit={() => hit(hand[currentHand])}
         hitD={() => hit(dealer)}
+        stay={() => stay()}
         deal={() => deal()}
-        swap={() => swap(hand1, hand2)}
+        swap={() => swap(hand[currentHand], hand[currentHand + 2])}
+        split={() => split()}
+        double={() => doubleDown()}
       />
       <Chips />
 
