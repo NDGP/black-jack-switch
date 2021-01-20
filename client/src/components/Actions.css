@@ -14,3 +14,15 @@ button {
 .split-hidden{
   visibility: hidden;
 }
+
+.hit-hidden {
+  visibility: hidden;
+}
+
+.stay-hidden{
+  visibility: hidden;
+}
+
+.double-hidden{
+  visibility: hidden;
+}

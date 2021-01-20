@@ -11,7 +11,15 @@ export default function useApplicationData() {
     hand: [],
     dealer: {},
     currentHand: 0,
-    turn: null
+    turn: null,
+    actions: {
+      deal: false,
+      hit: false,
+      stay: false,
+      split: false,
+      switch: false,
+      double: false
+    }
   })
 
   useEffect(() => {
@@ -24,10 +32,14 @@ export default function useApplicationData() {
       let hand = []
       hand[0] = new Hand();
       hand[1] = new Hand();
+      let updateActions = state.actions
+      updateActions.deal = true;
       setState(prev => ({ ...prev,
         users: all[0].data,
         cards: all[1].data,
         hand: hand,
+        actions: updateActions,
+        turn: "bet"
       }))
     });
   }, []);
@@ -36,6 +48,7 @@ export default function useApplicationData() {
     //first calculates the values hand
     let value = 0;
     let aces = hand.ace;
+
     for (const card of hand.cards) {
       let cardInfo = state.cards.find(info => info.name === card);
 
@@ -56,7 +69,7 @@ export default function useApplicationData() {
         hand.canSplit = true;
       }
     } else {
-      hand.canSplit = false;
+      hand.canSplit= false;
     }
 
     hand.value = value;
@@ -65,6 +78,8 @@ export default function useApplicationData() {
     //checks if hand is >= 21, if so, on to the next hand
     if (hand.value >= 21 && activeHand < state.hand.length - 1) {
       activeHand++;
+    } else if (hand.value >= 21 && activeHand === state.hand.length - 1) {
+      updateGame(0, "dealer")
     }
 
     setState(prev => ({ ...prev, [hand]: hand, currentHand: activeHand }))
@@ -76,8 +91,37 @@ export default function useApplicationData() {
     setState(prev => ({ ...prev, hand: updateHands }))
   }
 
-  const updateGame = (x) => {
-    setState(prev => ({ ...prev, currentHand: x }))
+  const updateGame = (currentHand, phase) => {
+    let updateActions = state.actions
+    switch (phase) {
+      case "bet":
+        updateActions.deal = true;
+        break;
+      case "deal":
+        updateActions.deal = false;
+        break;
+      case "player":
+        updateActions = {
+          deal: false,
+          hit: true,
+          stay: true,
+          split: state.hand[currentHand].canSplit,
+          switch: true,
+          double: true
+        }
+        break;
+      case "dealer":
+        updateActions = {
+          deal: false,
+          hit: false,
+          stay: false,
+          split: false,
+          switch: false,
+          double: false
+        }
+        break;
+    }
+    setState(prev => ({ ...prev, currentHand: currentHand, actions: updateActions, turn: phase }))
   }
 
   return { state, updateHand, addSplitHand, updateGame }

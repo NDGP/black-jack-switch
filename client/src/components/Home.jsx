@@ -15,11 +15,6 @@ let deck = new Deck(1);
 let dealer = new Hand();
 let swapped = false;
 
-let actions = {
-  deal: true,
-  split: true,
-  switch: true
-}
 
 export default function Home(props) {
   const {
@@ -31,12 +26,14 @@ export default function Home(props) {
 
   let hand = state.hand;
   let currentHand = state.currentHand;
+  let actions = state.actions
   if (hand[currentHand]) actions.split = hand[currentHand].canSplit;
 
   const deal = () => {
       swapped = false;
       actions.deal = false;
-      updateHand(hand[0]);
+      updateGame(currentHand, "deal")
+
       setTimeout(() => { hit(hand[0]) }, 400);
       setTimeout(() => { hit(hand[0]) }, 1600);
 
@@ -45,6 +42,8 @@ export default function Home(props) {
 
       setTimeout(() => { hit(dealer) }, 1200);
       setTimeout(() => { hit(dealer) }, 2400);
+
+      setTimeout(() => { updateGame(currentHand, "player") }, 2460);
   }
 
   const hit = (hand) => {
@@ -56,10 +55,17 @@ export default function Home(props) {
     if (currentHand < hand.length - 1) {
       currentHand++
       updateHand(hand[currentHand]);
-      updateGame(currentHand);
+      updateGame(currentHand, "player");
+    } else if (currentHand === hand.length -1) {
+      updateGame(currentHand, "dealer");
     }
   }
 
+  if (state.turn === "dealer") {
+    if (dealer.value < 17) {
+      hit(dealer)
+    }
+  }
 
   const split = () => {
     if (hand[currentHand].canSplit === true) {

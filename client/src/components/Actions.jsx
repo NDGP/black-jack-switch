@@ -20,6 +20,18 @@ export default function Actions(props) {
     split = split + "-hidden"
   }
 
+  if (!props.actions.hit) {
+    hit = hit + "-hidden"
+  }
+
+  if (!props.actions.stay) {
+    stay = stay + "-hidden"
+  }
+
+  if (!props.actions.double) {
+    double = double + "-hidden"
+  }
+
 
   return (
     <div class="Actions">
@@ -39,8 +51,6 @@ export default function Actions(props) {
       <span class={split}>
         <button type="button" class="Split" onClick={props.split}>Split</button>
       </span>
-
-      <button type="button" class="Hit" onClick={props.hitD}>Dealer</button>
 
       <span class={stay}>
         <button type="button" class="Stay" onClick={props.stay}>Stay</button>
