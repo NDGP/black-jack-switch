@@ -44,6 +44,7 @@ class Hand {
         this.cards = cards;
         this.value = 0;
         this.ace = 0;
+        this.canSplit = false;
     }
     add(card) {
         this.cards.push(card);
@@ -58,6 +59,7 @@ class Hand {
         this.cards = [];
         this.value = 0;
         this.ace = 0;
+        this.canSplit = false;
     }
 }
 

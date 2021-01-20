@@ -37,6 +37,17 @@ export default function useApplicationData() {
       }
     }
 
+    //check if split should be possible
+    if (hand.cards.length === 2) {
+      let card1value = state.cards.find(x => x.name === hand.cards[0]).value;
+      let card2value = state.cards.find(x => x.name === hand.cards[1]).value;
+      if (card1value === card2value) {
+        hand.canSplit = true;
+      }
+    } else {
+      hand.canSplit = false;
+    }
+
     hand.value = value;
     setState(prev => ({ ...prev, [hand]: hand }))
   }

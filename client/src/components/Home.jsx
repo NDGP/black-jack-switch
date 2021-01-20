@@ -1,5 +1,6 @@
-import { Deck, Hand } from "../helpers/card-logic";
+import { Deck, Hand } from "../helpers/cardLogic";
 import useApplicationData from "../hooks/useApplicationData"
+
 import Table from "./Table";
 import Chips from "./Chips";
 import Actions from './Actions';
@@ -9,12 +10,15 @@ import "./Home.css";
 
 //should be called when a new game is started
 let hand = []
-
-let deck = new Deck(1);
 hand[0] = new Hand();
 hand[1] = new Hand();
 hand[2] = new Hand();
 hand[3] = new Hand();
+
+hand[1].canSplit = false;
+hand[2].canSplit = false;
+
+let deck = new Deck(1);
 let dealer = new Hand();
 let swapped = false;
 let currentHand = 0;
@@ -31,14 +35,14 @@ export default function Home(props) {
     if (hand[0].value === 0 && hand[2].value === 0 && dealer.value === 0) {
       swapped = false;
 
-      setTimeout(() => { hit(hand[0]) }, 500);
-      setTimeout(() => { hit(hand[0]) }, 2000);
+      setTimeout(() => { hit(hand[0]) }, 400);
+      setTimeout(() => { hit(hand[0]) }, 1600);
 
-      setTimeout(() => { hit(hand[2]) }, 1000);
-      setTimeout(() => { hit(hand[2]) }, 2500);
+      setTimeout(() => { hit(hand[2]) }, 800);
+      setTimeout(() => { hit(hand[2]) }, 2000);
 
-      setTimeout(() => { hit(dealer) }, 1500);
-      setTimeout(() => { hit(dealer) }, 3000);
+      setTimeout(() => { hit(dealer) }, 1200);
+      setTimeout(() => { hit(dealer) }, 2400);
 
     }
   }
@@ -61,11 +65,14 @@ export default function Home(props) {
 
 
   const split = () => {
-    hand[currentHand + 1].add(hand[currentHand].splitHand())
-    updateHand(hand[currentHand])
-    setTimeout(() => { hit(hand[currentHand]) }, 500);
-    updateHand(hand[currentHand + 1])
-    setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
+    if (hand[currentHand].canSplit === true) {
+      hand[currentHand].canSplit = false;
+      hand[currentHand + 1].add(hand[currentHand].splitHand())
+      updateHand(hand[currentHand])
+      setTimeout(() => { hit(hand[currentHand]) }, 500);
+      updateHand(hand[currentHand + 1])
+      setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
+    }
   }
 
   const doubleDown = () => {
@@ -74,7 +81,7 @@ export default function Home(props) {
     stay()
   }
 
-  //switch is not allowed as a function name in js, I will use swap instead
+  //switch is not allowed as a function name in js, use swap instead
   const swap = (hand1, hand2) => {
     if (swapped === false) {
       swapped = true;

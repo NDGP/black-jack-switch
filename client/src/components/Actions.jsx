@@ -1,3 +1,4 @@
+import "./Actions.css";
 
 export default function Actions(props) {
   return (
