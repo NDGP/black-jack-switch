@@ -5,21 +5,19 @@ export default function Table(props) {
   const deck = props.deck;
   const dealer = props.dealer;
   const hands = props.hand;
-  const activeHands = [];
 
-  for (const hand of hands) {
-    if (hand.value > 0) {
-      activeHands.push(hand)
-    }
+  const activeHand = (index) => {
+    return (index === props.currentHand)
   }
 
-  const handsInPlay = activeHands.map((x, index) => {
+  const displayHands = hands.map((x, index) => {
     return (
       <Hand
         name={`Hand${index + 1}`}
         cardLibrary={props.cardLibrary}
-        value={activeHands[index].value}
-        cards={activeHands[index].cards}
+        value={hands[index].value}
+        cards={hands[index].cards}
+        active={activeHand(index)}
       />
     );
   })
@@ -45,7 +43,7 @@ export default function Table(props) {
       />
 
       <div id="player" >
-        { handsInPlay }
+        { displayHands }
       </div>
 
 

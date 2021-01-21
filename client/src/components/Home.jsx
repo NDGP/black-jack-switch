@@ -94,7 +94,7 @@ export default function Home(props) {
     }
   }
 
-  if ((state.turn) && currentHand === 0 && hand[currentHand].cards.length === 2) {
+  if ((state.turn) && currentHand === 0 && hand[0].cards.length === 2 && hand[1].cards.length === 2) {
     actions.switch = true;
   }
   

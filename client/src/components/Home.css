@@ -1,7 +1,7 @@
 .table {
   background-color: #0c691e;
   background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
-  border: 20px solid saddlebrown;
+  border: 20px solid rgba(97, 54, 23, 0.781);
   color: whitesmoke;
   padding: 20px 0 90px 0;
 }
