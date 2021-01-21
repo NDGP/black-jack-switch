@@ -101,12 +101,13 @@ export default function useApplicationData() {
         updateActions.deal = false;
         break;
       case "player":
+        let swapStatus = (currentHand === 0 && state.hand[1].cards.length === 2 && state.hand.length === 2)
         updateActions = {
           deal: false,
           hit: true,
           stay: true,
           split: state.hand[currentHand].canSplit,
-          switch: false,
+          switch: swapStatus,
           double: true
         }
         break;

@@ -1,6 +1,8 @@
 import React from "react";
 import Hand from "./Hand"
 
+import './Table.css'
+
 export default function Table(props) {
   const deck = props.deck;
   const dealer = props.dealer;

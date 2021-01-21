@@ -8,9 +8,6 @@ import Actions from './Actions';
 import "./Home.css";
 
 
-// hand[1].canSplit = false;
-// hand[2].canSplit = false;
-
 let deck = new Deck(1);
 let dealer = new Hand();
 
@@ -46,6 +43,7 @@ export default function Home(props) {
   const hit = (hand) => {
       hand.add(deck.draw())
       updateHand(hand);
+      updateGame(currentHand, "player")
   }
 
   const stay = () => {
@@ -58,6 +56,7 @@ export default function Home(props) {
     }
   }
 
+  //dealer code
   if (state.turn === "dealer") {
     if (dealer.value < 17) {
       hit(dealer)
@@ -73,6 +72,7 @@ export default function Home(props) {
       setTimeout(() => { hit(hand[currentHand]) }, 500);
       updateHand(hand[currentHand + 1])
       setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
+      //**Might have to add updateGame here! */
     }
   }
 
@@ -85,7 +85,7 @@ export default function Home(props) {
   //switch is not allowed as a function name in js, use swap instead
   const swap = (hand1, hand2) => {
     if (actions.switch) {
-      actions.switch = false;
+      // actions.switch = false;
       let temp = hand1.cards[1];
       hand1.cards[1] = hand2.cards[1];
       hand2.cards[1] = temp;
@@ -94,10 +94,6 @@ export default function Home(props) {
     }
   }
 
-  if ((state.turn) && currentHand === 0 && hand[0].cards.length === 2 && hand[1].cards.length === 2) {
-    actions.switch = true;
-  }
-  
   return (
     <div class="table">
       <Table
