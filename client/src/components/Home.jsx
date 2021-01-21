@@ -58,7 +58,7 @@ export default function Home(props) {
 
   //dealer code
   if (state.turn === "dealer") {
-    if (dealer.value < 17) {
+    if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
       hit(dealer)
     }
   }
