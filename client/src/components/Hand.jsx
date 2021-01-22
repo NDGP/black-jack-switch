@@ -19,7 +19,7 @@ if (props.dealerCount <= 1){
   const cardsInHand = props.cards.map(card => {
     let image = props.cardLibrary.find(x => x.name === card).image
     return (
-      <span class="card">
+      <span class="one-card">
         <Card
           image={image}
         />
