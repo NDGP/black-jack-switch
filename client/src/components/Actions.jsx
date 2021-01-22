@@ -7,6 +7,7 @@ export default function Actions(props) {
   let hit = "hit";
   let stay = "stay";
   let double = "double"
+  let reset = "reset"
 
   if (!props.actions.deal) {
     deal = deal + "-hidden"
@@ -32,6 +33,9 @@ export default function Actions(props) {
     double = double + "-hidden"
   }
 
+  if (!props.actions.reset) {
+    reset = reset + "-hidden"
+  }
 
   return (
     <div class="Actions">
@@ -58,6 +62,10 @@ export default function Actions(props) {
 
       <span class={double}>
         <button type="button" class="Double" onClick={props.double}>Double Down</button>
+      </span>
+
+      <span class={reset}>
+        <button type="button" class="reset" onClick={props.reset}>TEST: RESET</button>
       </span>
     </div>
   )

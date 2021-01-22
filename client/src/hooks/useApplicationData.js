@@ -10,7 +10,7 @@ export default function useApplicationData() {
     cards: [],
     hand: [],
     dealer: {},
-    currentHand: 0,
+    currentHand: -1,
     turn: null,
     actions: {
       deal: false,
@@ -18,12 +18,13 @@ export default function useApplicationData() {
       stay: false,
       split: false,
       switch: false,
-      double: false
+      double: false,
+      reset: true,
     }
   })
 
   useEffect(() => {
-    Promise.all([
+    Promise.all([ //unsure what the * does, might be security risk
       axios.get('http://localhost:3001/api/users',
         { headers: { 'Access-Control-Allow-Origin': '*' } }),
       axios.get('http://localhost:3001/api/cards',
@@ -32,12 +33,15 @@ export default function useApplicationData() {
       let hand = []
       hand[0] = new Hand();
       hand[1] = new Hand();
+      let dealer = new Hand();
       let updateActions = state.actions
       updateActions.deal = true;
-      setState(prev => ({ ...prev,
+      setState(prev => ({
+        ...prev,
         users: all[0].data,
         cards: all[1].data,
         hand: hand,
+        dealer: dealer,
         actions: updateActions,
         turn: "bet"
       }))
@@ -57,12 +61,13 @@ export default function useApplicationData() {
       if (cardInfo.ace === true) aces++;
     }
     for (let i = aces; i > 0; i--) {
-      if (value > 21){
+      if (value > 21) {
         value -= 10;
       }
     }
 
-      //checks if splitting should be possible
+    //checks if splitting should be possible
+    if (state.turn !== "dealer") {
       if (hand.cards.length === 2) {
         let card1value = state.cards.find(x => x.name === hand.cards[0]).value;
         let card2value = state.cards.find(x => x.name === hand.cards[1]).value;
@@ -71,25 +76,10 @@ export default function useApplicationData() {
         }
       } else {
         hand.canSplit = false;
-      }
+      }      
+    }
 
     hand.value = value;
-
-    // function check(x) {
-    //   x = hand;
-    // }
-    // let activeHand = state.hand.findIndex(check);
-
-
-    //checks if hand is >= 21, if so, on to the next hand
-    // if (state.turn === "player") {
-    //   if (hand.value >= 21 && currentHand < state.hand.length - 1) {
-    //     currentHand = currentHand + 1;
-    //     updateActions(currentHand, "player");
-    //   } else if (hand.value >= 21 && currentHand === state.hand.length - 1) {
-    //     updateActions(0, "dealer");
-    //   }
-    // }
 
     setState(prev => ({ ...prev, [hand]: hand }));
   }
@@ -104,7 +94,7 @@ export default function useApplicationData() {
 
       for (const card of hand.cards) {
         let cardInfo = state.cards.find(info => info.name === card);
-  
+
         value += cardInfo.value;
         if (cardInfo.ace === true) aces++;
       }
@@ -144,18 +134,22 @@ export default function useApplicationData() {
     } else {
       updateHands.push(currentHand);
     }
-    
+
     setState(prev => ({ ...prev, hand: updateHands }))
   }
 
   const updateActions = (currentHand, phase) => {
     let updateActions = state.actions
     switch (phase) {
+      case "reveal":
+        updateActions.reset = true;
+        break;
       case "bet":
         updateActions.deal = true;
         break;
       case "deal":
         updateActions.deal = false;
+        updateActions.reset = false;
         break;
       case "player":
         let swapStatus = (currentHand === 0 && state.hand[1].cards.length === 2 && state.hand.length === 2)
@@ -182,5 +176,15 @@ export default function useApplicationData() {
     setState(prev => ({ ...prev, currentHand: currentHand, actions: updateActions, turn: phase }))
   }
 
-  return { state, updateHand, updateHands, addSplitHand, updateActions }
+  const resetHands = () => {
+      let hand = []
+      hand[0] = new Hand();
+      hand[1] = new Hand();
+      let dealer = new Hand();
+      setState(prev => ({
+        ...prev, hand: hand, currentHand: 0, dealer: dealer
+      }))
+  }
+
+  return { state, updateHand, updateHands, addSplitHand, updateActions, resetHands }
 }
