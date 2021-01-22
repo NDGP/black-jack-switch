@@ -35,7 +35,7 @@ export default function Header(props){
       </Popup>
     <button onClick={() => setSelectedMenu("login")}>Login</button>
       <Popup open = { selectedMenu === "login"} onClose = { () => setSelectedMenu(null)}>
-          <Login></Login>
+          <Login onClose = { () => setSelectedMenu(null)}></Login>
       </Popup>
       <button class="logout">Logout </button>  
       </div>
