@@ -31,6 +31,17 @@ module.exports = ({
             }));
     });
 
+    router.post('/login',(req, res) => {
+        console.log(req.body)
+        getUserByEmail(req.body.email)
+            .then(user => {
+                console.log(user)
+                res.send(user)
+                req.session['id'] = user.id;
+
+            })
+    })  
+
     router.post(
         '/', 
         check("first_name")
@@ -57,9 +68,9 @@ module.exports = ({
             });
         }),
         check("password")
-        .unescape()
-        .isLength({ min: 8 })
-        .withMessage('Password must be at least 8 characters long'),
+            .unescape()
+            .isLength({ min: 8 })
+            .withMessage('Password must be at least 8 characters long'),
 
 
         check('confirmPassword').custom((value, { req }) => {
@@ -90,7 +101,9 @@ module.exports = ({
                     return res.status(299).json({ errors: errors.array()});
                 } else {
                     return addUser(first_name, last_name, email, password, flag)
-                    .then(newUser => res.json(newUser))
+                    .then(newUser => {
+                        res.json(newUser)
+                    })
 
                     .catch(err => res.json({
                         error: err.message

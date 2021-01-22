@@ -1,4 +1,4 @@
-.card {
+.one-card {
 	animation: dealCard .6s;
 	display: inline-block
 }
@@ -12,7 +12,7 @@
 	-ms-transform: scale(1.2);
 	transform: scale(1.2);
 	background-color: rgba(168, 255, 168, 0.753);
-	padding: 0 10px 10px 10px;
+	padding: 30px 10px 0 10px;
 	border-radius: 25px;
 }
 

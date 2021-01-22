@@ -36,3 +36,7 @@ button {
 .double-hidden{
   visibility: hidden;
 }
+
+.reset-hidden {
+  visibility: hidden;
+}
