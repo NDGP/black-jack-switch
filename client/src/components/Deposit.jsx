@@ -1,5 +1,31 @@
-export default function Deposit(props){
+import React, { useState } from 'react'
+import { Button, Form } from "react-bootstrap"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./Popup.css"
+
+export default function Deposit(onClose) {
+
+  const [amount, setAmount] = useState("")
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(amount)
+}
+
   return (
-  <div><h1> Would you like to deposit money? </h1></div>
+    <div>
+   
+      <Form onSubmit={handleSubmit, onClose}>
+          <Form.Group controlId="formBasicEmail">
+          <Form.Label>Deposet</Form.Label>
+              <Form.Control 
+                  value= { amount } 
+                  onChange={ (e) => { setAmount(e.target.value) }} 
+                  type="deposit funds" 
+                  placeholder="Enter Amount" />
+
+              </Form.Group>
+      </Form>
+    </div>
   )
 }

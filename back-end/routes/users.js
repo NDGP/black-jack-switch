@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {
-    getPostsByUsers
-} = require('../../client/src/helpers/dataHelpers');
+const bcrypt = require('bcrypt')
+const { body, validationResult, check } = require('express-validator');
+const { getPostsByUsers } = require('../../client/src/helpers/dataHelpers');
+
 
 module.exports = ({
     getUsers,
@@ -30,32 +31,71 @@ module.exports = ({
             }));
     });
 
-    router.post('/', (req, res) => {
-
-        const {
-            first_name,
-            last_name,
-            email,
-            password
-        } = req.body;
-
-        getUserByEmail(email)
-            .then(user => {
-
+    router.post(
+        '/', 
+        check("first_name")
+            .notEmpty()
+            .withMessage('Must add first name')
+            .trim()
+            .unescape(),
+        check("last_name")
+            .notEmpty()
+            .withMessage('Must add last name')
+            .trim()
+            .unescape(),
+        check("email")
+            .trim()
+            .unescape()
+            .isEmail()
+            .withMessage('Must be valid email')
+            .normalizeEmail(),
+        check('email').custom(value => {
+            return getUserByEmail(value).then(user => {
                 if (user) {
-                    res.json({
-                        msg: 'Sorry, a user account with this email already exists'
-                    });
-                } else {
-                    return addUser(first_name, last_name, email, password)
+                    return Promise.reject('E-mail already in use');
                 }
+            });
+        }),
+        check("password")
+        .unescape()
+        .isLength({ min: 8 })
+        .withMessage('Password must be at least 8 characters long'),
 
-            })
-            .then(newUser => res.json(newUser))
-            .catch(err => res.json({
-                error: err.message
-            }));
 
+        check('confirmPassword').custom((value, { req }) => {
+            if (value !== req.body.password) {
+              throw new Error('Password confirmation does not match password');
+            }
+        
+            // Indicates the success of this synchronous custom validator
+            return true;
+          }),
+
+        
+        (req, res) => {
+
+            console.log(req.body)
+
+            const {
+                first_name,
+                last_name,
+                email,
+                password,
+                flag
+            } = req.body;
+            
+            const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                    console.log("this is the error" ,errors.array());
+                    return res.status(299).json({ errors: errors.array()});
+                } else {
+                    return addUser(first_name, last_name, email, password, flag)
+                    .then(newUser => res.json(newUser))
+
+                    .catch(err => res.json({
+                        error: err.message
+                    }));
+                    }
     })
 
     return router;
