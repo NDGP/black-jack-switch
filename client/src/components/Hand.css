@@ -1,4 +1,4 @@
-.card {
+.one-card {
 	animation: dealCard .6s;
 	display: inline-block
 }
@@ -15,6 +15,15 @@
 	padding: 30px 10px 0 10px;
 	border-radius: 25px;
 }
+
+.check {
+font-size: .8em;
+}
+.check-hide{
+	font-size: 0px;
+  visibility: hidden;
+}
+
 
 /* .hand-active .cards {
 	border: 10px dashed black;
