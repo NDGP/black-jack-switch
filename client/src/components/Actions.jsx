@@ -1,15 +1,64 @@
 import "./Actions.css";
 
 export default function Actions(props) {
+  let deal = "deal";
+  let swap = "switch";
+  let split = "split";
+  let hit = "hit";
+  let stay = "stay";
+  let double = "double"
+
+  if (!props.actions.deal) {
+    deal = deal + "-hidden"
+  }
+
+  if (!props.actions.switch) {
+    swap = swap + "-hidden"
+  }
+
+  if (!props.actions.split) {
+    split = split + "-hidden"
+  }
+
+  if (!props.actions.hit) {
+    hit = hit + "-hidden"
+  }
+
+  if (!props.actions.stay) {
+    stay = stay + "-hidden"
+  }
+
+  if (!props.actions.double) {
+    double = double + "-hidden"
+  }
+
+
   return (
     <div class="Actions">
-    <button type="button" class="Deal" onClick={props.deal}>Deal</button>
-    <button type="button" class="Switch" onClick={props.swap} >Switch</button>
-    <button type="button" class="Hit" onClick={props.hit}>Hit</button>
-    <button type="button" class="Hit" onClick={props.hitD}>Dealer</button>
-    <button type="button" class="Stay"onClick={props.stay}>Stay</button>
-    <button type="button" class="Double"onClick={props.double}>Double Down</button>
-    <button type="button" class="Split"onClick={props.split}>Split</button>
-  </div>
+
+      <span class={deal}>
+        <button type="button" class="Deal" onClick={props.deal}>Deal</button>
+      </span>
+
+      <span class={swap}>
+        <button type="button" class="Switch" onClick={props.swap} >Switch</button>
+      </span>
+
+      <span class={hit}>
+        <button type="button" class="Hit" onClick={props.hit}>Hit</button>
+      </span>
+
+      <span class={split}>
+        <button type="button" class="Split" onClick={props.split}>Split</button>
+      </span>
+
+      <span class={stay}>
+        <button type="button" class="Stay" onClick={props.stay}>Stay</button>
+      </span>
+
+      <span class={double}>
+        <button type="button" class="Double" onClick={props.double}>Double Down</button>
+      </span>
+    </div>
   )
 }

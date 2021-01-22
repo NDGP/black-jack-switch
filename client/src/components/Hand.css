@@ -1,0 +1,32 @@
+.card {
+	animation: dealCard .6s;
+	display: inline-block
+}
+@keyframes dealCard{
+	0%{transform: translate(350px,-300px)}
+	100%{}
+}
+
+.hand-active {
+	-webkit-transform: scale(1.2);
+	-ms-transform: scale(1.2);
+	transform: scale(1.2);
+	background-color: rgba(168, 255, 168, 0.753);
+	padding: 0 10px 10px 10px;
+	border-radius: 25px;
+}
+
+.check {
+font-size: .8em;
+}
+.check-hide{
+	font-size: 0px;
+  visibility: hidden;
+}
+
+
+/* .hand-active .cards {
+	border: 10px dashed black;
+	display: inline;
+	height: 150;
+} */

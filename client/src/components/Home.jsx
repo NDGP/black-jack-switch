@@ -8,70 +8,93 @@ import Actions from './Actions';
 import "./Home.css";
 
 
-//should be called when a new game is started
-let hand = []
-hand[0] = new Hand();
-hand[1] = new Hand();
-hand[2] = new Hand();
-hand[3] = new Hand();
-
-hand[1].canSplit = false;
-hand[2].canSplit = false;
-
 let deck = new Deck(1);
 let dealer = new Hand();
-let swapped = false;
-let currentHand = 0;
 
 
 export default function Home(props) {
   const {
     state,
-    updateHand
+    updateHand,
+    updateHands,
+    addSplitHand,
+    updateActions
   } = useApplicationData();
 
+  let hand = state.hand;
+  let currentHand = state.currentHand;
+  let actions = state.actions;
+
+  if (hand[currentHand]) actions.split = hand[currentHand].canSplit;
 
   const deal = () => {
-    if (hand[0].value === 0 && hand[2].value === 0 && dealer.value === 0) {
-      swapped = false;
+    actions.deal = false;
+    updateActions(currentHand, "deal")
 
-      setTimeout(() => { hit(hand[0]) }, 400);
-      setTimeout(() => { hit(hand[0]) }, 1600);
+    setTimeout(() => { hit(hand[0]) }, 400);
+    setTimeout(() => { hit(hand[0]) }, 1600);
 
-      setTimeout(() => { hit(hand[2]) }, 800);
-      setTimeout(() => { hit(hand[2]) }, 2000);
+    setTimeout(() => { hit(hand[1]) }, 800);
+    setTimeout(() => { hit(hand[1]) }, 2000);
 
-      setTimeout(() => { hit(dealer) }, 1200);
-      setTimeout(() => { hit(dealer) }, 2400);
+    setTimeout(() => { hit(dealer) }, 1200);
+    setTimeout(() => { updateActions(0, "player") }, 2050);
+  }
 
-    }
+  //testcode
+  const fakehit = (hand) => {
+    hand.add("AS")
+    updateHand(hand);
+  }
+  const fakehit2 = (hand) => {
+    hand.add("KH")
+    updateHand(hand);
   }
 
   const hit = (hand) => {
-    if (hand.value < 21) {
-      hand.add(deck.draw())
-      updateHand(hand);
+    hand.add(deck.draw())
+    updateHand(hand);
+  }
+
+  const checkBlackjack = () => {
+    if (hand[currentHand]) {
+      if (hand[currentHand].value >= 21 && state.turn === "player") {
+        stay()
+      }
     }
   }
 
   const stay = () => {
     if (currentHand < hand.length - 1) {
+      updateHand(hand[currentHand]);
       currentHand++
-      if (hand[currentHand].value === 0) {
-        currentHand++
-      }
+      updateActions(currentHand, "player");
+    } else if (currentHand === hand.length - 1) {
+      updateActions(currentHand, "dealer");
     }
   }
 
+  //DEALER
+  //dealer code
+  if (state.turn === "dealer") {
+    if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
+      hit(dealer)
+    } else {
+      actions.deal = true;
+      updateActions(0, "bet");
+    }
+  }
 
   const split = () => {
     if (hand[currentHand].canSplit === true) {
       hand[currentHand].canSplit = false;
-      hand[currentHand + 1].add(hand[currentHand].splitHand())
-      updateHand(hand[currentHand])
+      let newHand = new Hand(hand[currentHand].splitHand())
+      addSplitHand(newHand);
+      updateHand(hand[currentHand]);
+      updateHand(hand[currentHand + 1]);
       setTimeout(() => { hit(hand[currentHand]) }, 500);
-      updateHand(hand[currentHand + 1])
       setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
+      //**Might have to add updateActions here! */
     }
   }
 
@@ -83,8 +106,8 @@ export default function Home(props) {
 
   //switch is not allowed as a function name in js, use swap instead
   const swap = (hand1, hand2) => {
-    if (swapped === false) {
-      swapped = true;
+    if (actions.switch) {
+      // actions.switch = false;
       let temp = hand1.cards[1];
       hand1.cards[1] = hand2.cards[1];
       hand2.cards[1] = temp;
@@ -92,6 +115,8 @@ export default function Home(props) {
       updateHand(hand2);
     }
   }
+
+  checkBlackjack();
 
   return (
     <div class="table">
@@ -104,12 +129,12 @@ export default function Home(props) {
       />
       <Actions
         hit={() => hit(hand[currentHand])}
-        hitD={() => hit(dealer)}
         stay={() => stay()}
         deal={() => deal()}
-        swap={() => swap(hand[currentHand], hand[currentHand + 2])}
+        swap={() => swap(hand[0], hand[1])}
         split={() => split()}
         double={() => doubleDown()}
+        actions={actions}
       />
       <Chips />
 
