@@ -10,7 +10,6 @@ export default function Hand(props) {
     hand = hand + "-active"
   };
 
-
   const cardsInHand = props.cards.map(card => {
     let image = props.cardLibrary.find(x => x.name === card).image
     return (
@@ -24,13 +23,12 @@ export default function Hand(props) {
 
   return (
     <div class={hand}>
-      <h3>
-        {props.name}: {props.value}
-      </h3>
       <div class="cards">
         {cardsInHand}
       </div>
-
+      <h3>
+        {props.name}: {props.value}
+      </h3>
     </div>
   );
 }

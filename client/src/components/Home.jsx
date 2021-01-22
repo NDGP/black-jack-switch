@@ -11,12 +11,12 @@ import "./Home.css";
 let deck = new Deck(1);
 let dealer = new Hand();
 
-
 export default function Home(props) {
   const {
     state,
     updateHand,
     updateHands,
+    resetHands,
     addSplitHand,
     updateActions
   } = useApplicationData();
@@ -24,21 +24,22 @@ export default function Home(props) {
   let hand = state.hand;
   let currentHand = state.currentHand;
   let actions = state.actions;
-
+  
+  //if (state.dealer) dealer = state.dealer;
   if (hand[currentHand]) actions.split = hand[currentHand].canSplit;
 
   const deal = () => {
     actions.deal = false;
-    updateActions(currentHand, "deal")
+    updateActions(-1, "deal")
 
-    setTimeout(() => { hit(hand[0]) }, 400);
-    setTimeout(() => { hit(hand[0]) }, 1600);
+    setTimeout(() => { hit(hand[0]) }, 350);
+    setTimeout(() => { hit(hand[0]) }, 1400);
 
-    setTimeout(() => { hit(hand[1]) }, 800);
-    setTimeout(() => { hit(hand[1]) }, 2000);
+    setTimeout(() => { hit(hand[1]) }, 700);
+    setTimeout(() => { hit(hand[1]) }, 1750);
 
-    setTimeout(() => { hit(dealer) }, 1200);
-    setTimeout(() => { updateActions(0, "player") }, 2050);
+    setTimeout(() => { hit(dealer) }, 1050);
+    setTimeout(() => { updateActions(0, "player") }, 1755);
   }
 
   //testcode
@@ -54,9 +55,10 @@ export default function Home(props) {
   const hit = (hand) => {
     hand.add(deck.draw())
     updateHand(hand);
+    actions.switch = false;
   }
 
-  const checkBlackjack = () => {
+  const checkBlackjack = () => {    
     if (hand[currentHand]) {
       if (hand[currentHand].value >= 21 && state.turn === "player") {
         stay()
@@ -80,8 +82,7 @@ export default function Home(props) {
     if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
       hit(dealer)
     } else {
-      actions.deal = true;
-      updateActions(0, "bet");
+      updateActions(-1, "reveal");
     }
   }
 
@@ -118,6 +119,12 @@ export default function Home(props) {
 
   checkBlackjack();
 
+  const clearTable = () => {
+      resetHands()
+      dealer = new Hand();
+      updateActions(-1, "bet");
+  }
+
   return (
     <div class="table">
       <Table
@@ -134,6 +141,7 @@ export default function Home(props) {
         swap={() => swap(hand[0], hand[1])}
         split={() => split()}
         double={() => doubleDown()}
+        reset={() => clearTable()}
         actions={actions}
       />
       <Chips />
