@@ -38,7 +38,7 @@ if (props.dealerCount <= 1){
       </div>
       <div class={check}>
       <h2>
-        {props.result}
+        {props.message}
       </h2>
       </div>
     </div>
