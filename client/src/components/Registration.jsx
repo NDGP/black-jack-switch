@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Col } from "react-bootstrap"
+import { Button, Form, Col, Alert, Row } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 import axios from 'axios';
@@ -12,16 +12,21 @@ export default function Registration({props, onClose}) {
     const [userPassword, setUserPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
+    const [show, setShow] = useState(false);
+    const [errText, setErrText] = useState('')
 
-    const validate = () => {
-        let errors = {};
 
-            if (firstName === "") errors.firstName = "Must have first name"
-            if (lastName === "") errors.lastName = "Must have last name"
-            if (userEmail === "") errors.email = "Must have eamil"
-            if (userPassword === "") errors.pasword = "Must have password"
-        console.log(errors)
-    }
+
+    // const validate = () => {
+    //     let errors = {};
+
+    //         if (firstName === "") errors.firstName = "Must have first name"
+    //         if (lastName === "") errors.lastName = "Must have last name"
+    //         if (userEmail === "") errors.email = "Must have eamil"
+    //         if (userPassword === "") errors.pasword = "Must have password"
+    //     console.log(errors)
+    // }
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,84 +36,118 @@ export default function Registration({props, onClose}) {
         console.log(userPassword)
         console.log(confirmPassword)
 
-    const errors = validate(e);
-
-    if (Object.keys(errors).length === 0){
-        console.log("ready to send user to api")
-        //call API here
-        axios.post("http://localhost:3001/api/users", {
+    // const errors = validate(e);
+   
+    axios.post("http://localhost:3001/api/users", {
             first_name: firstName,
             last_name: lastName,
             email: userEmail,
-            pasword: userPassword
+            password: userPassword,
+            confirmPassword: confirmPassword
         }).then(res => {
-            console.log(res)
-            console.log(res.data)
-        })
-    } 
-        
-    }
+            if (res.data){
+                console.log(res.data)
+                let errText = [];
 
+                for (let key in res.data.errors){
+                    let err = res.data.errors[key]
+                        errText.push(err.msg)
+                    }
+                if (errText.length === 0){
+                    onClose()
+                }else{
+                errText[errText.length] += '.';
+                setErrText(errText.join('. '))
+                setShow(true)
+                }
+                
+            }
+        }).catch(res => {
+            console.log(res)
+        })
+    }
+    
+
+    if(!show){
     return (
         <div>
 
-        <Form onSubmit={handleSubmit, onClose}>
-            <Form.Row>
-            <Col>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Control 
-                    value= { firstName } 
-                    onChange={ (e) => { setFirstName(e.target.value) }} 
-                    type="first name" 
-                    placeholder="Enter Fist Name" />
+            <Form onSubmit={ handleSubmit }>
+                <Form.Row>
+                <Col>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Control 
+                        value= { firstName } 
+                        onChange={ (e) => { setFirstName(e.target.value) }} 
+                        type="first name" 
+                        placeholder="Enter First Name" />
 
-            </Form.Group>
-            </Col>
-            <Col>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Control 
-                    value= { lastName } 
-                    onChange={ (e) => { setLastName(e.target.value) }} 
-                    type="last name" 
-                    placeholder="Enter Last Name" />
-
-            </Form.Group>
-            </Col>
-            </Form.Row>
-
-            <Form.Group controlId="formBasicEmail">
-                <Form.Control 
-                    value= { userEmail } 
-                    onChange={ (e) => { setUserEmail(e.target.value) }} 
-                    type="email" 
-                    placeholder="Enter email" />
-
-            </Form.Group>
-
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control 
-                    valuse= { userEmail }
-                    onChange={ (e) => { setUserPassword(e.target.value) }}  
-                    type="password" 
-                    placeholder="Password" />
                 </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-            </Form.Group>
+                </Col>
+                <Col>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Control 
+                        value= { lastName } 
+                        onChange={ (e) => { setLastName(e.target.value) }} 
+                        type="last name" 
+                        placeholder="enter last name"   />
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Control 
-                    valuse= { confirmPassword }
-                    onChange={ (e) => { setConfirmPassword(e.target.value) }}
-                    type="password" 
-                    placeholder="Password" />
                 </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-            </Form.Group>
-           
-          <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
+                </Col>
+                </Form.Row>
+
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Control 
+                        value= { userEmail } 
+                        onChange={ (e) => { setUserEmail(e.target.value) }} 
+                        type="email" 
+                        placeholder= "Enter Email"/>
+
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPassword">
+                    <Form.Control 
+                        valuse= { userPassword }
+                        onChange={ (e) => { setUserPassword(e.target.value) }}  
+                        type="password" 
+                        placeholder= "Enter Password" />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicCheckbox">
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPassword">
+                <Form.Control 
+                        valuse= { confirmPassword }
+                        onChange={ (e) => { setConfirmPassword(e.target.value) }}
+                        type="password" 
+                        placeholder="Confirm Password" />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicCheckbox">
+                </Form.Group>
+
+            <Row>
+                <Col>
+                <Button variant="primary" type="submit">
+                    Submit
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant="outline-danger" onClick = { onClose } >close</Button>
+                </Col>
+            </Row>
+
+            </Form>
         </div>
     )
+    } else {
+        return (
+            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                <Alert.Heading>Oh snap!</Alert.Heading>
+                    <p>
+                        {errText}
+                    </p>
+          </Alert>
+          
+        )
+    }
 }

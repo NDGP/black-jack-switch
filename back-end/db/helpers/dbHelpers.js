@@ -1,3 +1,19 @@
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+const bcryptPrommis = (password, saltRounds) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, saltRounds, function(err, hash){
+            if (err){
+                reject(err)
+            } else {
+                resolve(hash)
+            }
+        })
+
+    })
+}
+
 module.exports = (db) => {
     const getUsers = () => {
         const query = {
@@ -7,7 +23,6 @@ module.exports = (db) => {
         return db
             .query(query)
             .then((result) => result.rows)
-            .catch((err) => err);
     };
 
     const getUserByEmail = email => {
@@ -20,19 +35,22 @@ module.exports = (db) => {
         return db
             .query(query)
             .then(result => result.rows[0])
-            .catch((err) => err);
+           
     }
 
-    const addUser = (firstName, lastName, email, password) => {
-        const query = {
-            text: `INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *` ,
-            values: [firstName, lastName, email, password]
+    // Store hash in your password DB.
+    const addUser = (firstName, lastName, email, password, flag) => {
+            
+        return bcryptPrommis(password, saltRounds).then((hash) => {
+            const query = {
+                text: `INSERT INTO users (first_name, last_name, email, password, flag) VALUES ($1, $2, $3, $4, $5) RETURNING *` ,
+                values: [firstName, lastName, email, hash, flag]
+            }
+    
+            return db.query(query)
+                .then(result => result.rows[0])
+            });
         }
-
-        return db.query(query)
-            .then(result => result.rows[0])
-            .catch(err => err);
-    }
 
     const getUsersPosts = () => {
         const query = {
@@ -44,7 +62,6 @@ module.exports = (db) => {
 
         return db.query(query)
             .then(result => result.rows)
-            .catch(err => err);
 
     }
 
@@ -57,7 +74,6 @@ module.exports = (db) => {
 
         return db.query(query)
             .then(result => result.rows)
-            .catch(err => err);
     }
 
     const getCard = (name) => {
@@ -68,8 +84,7 @@ module.exports = (db) => {
 
         return db.query(query)
             .then(result => result.rows)
-            .catch(err => err);
-    }
+   }
 
     return {
         getUsers,

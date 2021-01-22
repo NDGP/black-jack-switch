@@ -1,94 +1,118 @@
-import axios from "axios";
-import { Deck, Hand, swap } from "../helpers/card-logic";
-import { useState, useEffect } from "react";
+import { Deck, Hand } from "../helpers/cardLogic";
+import useApplicationData from "../hooks/useApplicationData"
+
+import Table from "./Table";
+import Chips from "./Chips";
+import Actions from './Actions';
+
 import "./Home.css";
 
 
+//should be called when a new game is started
+let hand = []
+hand[0] = new Hand();
+hand[1] = new Hand();
+hand[2] = new Hand();
+hand[3] = new Hand();
+
+hand[1].canSplit = false;
+hand[2].canSplit = false;
+
 let deck = new Deck(1);
-let playerHand = new Hand();
-let dealerHand = new Hand();
+let dealer = new Hand();
+let swapped = false;
+let currentHand = 0;
 
-let image1 = "https://deckofcardsapi.com/static/img/XX.png";
-let image2 = "https://deckofcardsapi.com/static/img/XX.png";
-let image3 = "https://deckofcardsapi.com/static/img/XX.png";
-let image4 = "https://deckofcardsapi.com/static/img/XX.png";
-
-playerHand.add(deck.draw());
-playerHand.add(deck.draw());
 
 export default function Home(props) {
+  const {
+    state,
+    updateHand
+  } = useApplicationData();
 
-  const [state, setState] = useState({
-    users: [],
-    cards: [],
-    dealer: dealerHand
-  })
 
-  useEffect(() => {
-    Promise.all([
-      axios.get('http://localhost:3001/api/users',
-        { headers: { 'Access-Control-Allow-Origin': '*' } }),
-      axios.get('http://localhost:3001/api/cards',
-        { headers: { 'Access-Control-Allow-Origin': '*' } })
-    ]).then((all) => {
-      setState(prev => ({ ...prev, users: all[0].data, cards: all[1].data }))
-    });
-  }, []);
+  const deal = () => {
+    if (hand[0].value === 0 && hand[2].value === 0 && dealer.value === 0) {
+      swapped = false;
 
-  // dealerHand = state.dealer
-  // dealerHand.add(deck.draw());
-  
-  // setState({
-  //   ...prev,
-  //   dealer: dealerHand
-  // })
+      setTimeout(() => { hit(hand[0]) }, 400);
+      setTimeout(() => { hit(hand[0]) }, 1600);
 
-  // const getImage = (hand) => {
-  //   if (state.cards.length > 0) {
-  //     let foundCard = state.cards.find(i => i.name === hand.cards[0])
-  //     // for (const card of playerHand.cards) {
-  //     // }
-  //     return foundCard.image
-  //   }
-  // }
+      setTimeout(() => { hit(hand[2]) }, 800);
+      setTimeout(() => { hit(hand[2]) }, 2000);
 
-  if (state.cards.length > 0) {
-    image1 = state.cards.find(card => card.name === playerHand.cards[0]).image
-    image2 = state.cards.find(card => card.name === playerHand.cards[1]).image
-    // image3 = state.cards.find(card => card.name === state.dealer.cards[0]).image
-    // image4 = state.cards.find(card => card.name === state.dealer.cards[1]).image
+      setTimeout(() => { hit(dealer) }, 1200);
+      setTimeout(() => { hit(dealer) }, 2400);
+
+    }
+  }
+
+  const hit = (hand) => {
+    if (hand.value < 21) {
+      hand.add(deck.draw())
+      updateHand(hand);
+    }
+  }
+
+  const stay = () => {
+    if (currentHand < hand.length - 1) {
+      currentHand++
+      if (hand[currentHand].value === 0) {
+        currentHand++
+      }
+    }
+  }
+
+
+  const split = () => {
+    if (hand[currentHand].canSplit === true) {
+      hand[currentHand].canSplit = false;
+      hand[currentHand + 1].add(hand[currentHand].splitHand())
+      updateHand(hand[currentHand])
+      setTimeout(() => { hit(hand[currentHand]) }, 500);
+      updateHand(hand[currentHand + 1])
+      setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
+    }
+  }
+
+  const doubleDown = () => {
+    //add code to double current hand's bet here
+    hit(hand[currentHand]);
+    stay()
+  }
+
+  //switch is not allowed as a function name in js, use swap instead
+  const swap = (hand1, hand2) => {
+    if (swapped === false) {
+      swapped = true;
+      let temp = hand1.cards[1];
+      hand1.cards[1] = hand2.cards[1];
+      hand2.cards[1] = temp;
+      updateHand(hand1);
+      updateHand(hand2);
+    }
   }
 
   return (
     <div class="table">
-      <section>
-        <h1> Blackjack switch table</h1>
-        <h3> Place your bet</h3>
-        
-          <div id="deck">
-            DECK:
-          < br />
-            {deck.cards}
-          </div>
-          
-          {/* <div class="dealerHand">
-            Dealer Hand: {state.dealer.cards}
-            <img src={image1} alt="ERROR"></img>
-            <img src={image2} alt="ERROR"></img>
-          </div> */}
-      
-        <div class="playerHand">
-            Player Hand: {playerHand.cards}
-            <img src={image1} alt="ERROR"></img>
-            <img src={image2} alt="ERROR"></img>
-          </div>
-        {/* <div class="test">
-        <div>
-            THESE ARE THE USERS:
-            {JSON.stringify(state.users)}
-          </div>
-      </div> */}
-      </section>
+      <Table
+        cardLibrary={state.cards}
+        deck={deck}
+        hand={hand}
+        dealer={dealer}
+        currentHand={currentHand}
+      />
+      <Actions
+        hit={() => hit(hand[currentHand])}
+        hitD={() => hit(dealer)}
+        stay={() => stay()}
+        deal={() => deal()}
+        swap={() => swap(hand[currentHand], hand[currentHand + 2])}
+        split={() => split()}
+        double={() => doubleDown()}
+      />
+      <Chips />
+
     </div>
   )
 }

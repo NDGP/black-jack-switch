@@ -23,7 +23,7 @@ export default function Header(props){
   <div id="myDropdown" class="dropdown-content">
   <button onClick={() => setSelectedMenu("register")}>Resgister</button>
       <Popup open = { selectedMenu === "register" } onClose = { () => setSelectedMenu(null)}>
-          <Registration></Registration>
+          <Registration onClose = { () => setSelectedMenu(null)}></Registration>
       </Popup>
     <button onClick={() => setSelectedMenu("deposit")}>Deposit</button>
       <Popup open = { selectedMenu === "deposit" } onClose = { () => setSelectedMenu(null)}>

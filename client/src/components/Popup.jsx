@@ -4,7 +4,7 @@ import { Card, Button, Form } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 
-export default function Popup({ open, children, onClose }){
+export default function Popup({ open, children }){
   if (!open) return null
   return ReactDom.createPortal(
     <>
@@ -13,8 +13,6 @@ export default function Popup({ open, children, onClose }){
         <Card.Img className="img" variant="top" src="https://gaming.unlv.edu/gallery/BJ.jpg" />
         <Card.Body>
           {children}
-          <Button variant="primary" onClick = { onClose } >close</Button>
-
         </Card.Body>
 
       </Card>

@@ -1,0 +1,14 @@
+GET http://localhost:3001/api/users
+
+###
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "first_name": "dsa",
+    "last_name": "dsad",
+    "email": "fwasaefefdsfsdfdewfawf@egmail.com",
+    "password": "12345678",
+    "confirmPassword":"12345678"
+}
