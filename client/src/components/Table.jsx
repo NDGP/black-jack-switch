@@ -39,8 +39,12 @@ export default function Table(props) {
       result = "win";
       message = `You win with blackjack!`
     }    
-    if (hands[index].value === 21 && dealer.value !== 21 && dealer.value !== 22) {
+    if (hands[index].value === 21 && dealer.value !== 21 && dealer.value !== 22 && hands[index].cards.length !== 2 ) {
       result = "win";
+      message = `You win, you have ${hands[index].value} and dealer has ${dealer.value}.`
+    }
+    if (dealer.value === 21 && hands[index].value < 21 ) {
+      result = "lose";
       message = `You lose, dealer has ${dealer.value} and you have ${hands[index].value}.`
     }
     if ((21 - hands[index].value) < (21 - dealer.value) && dealer.value <= 20 && hands[index].value <= 20) {
@@ -50,7 +54,6 @@ export default function Table(props) {
     if ((21 - dealer.value) < (21 - hands[index].value) && dealer.value <= 20 && hands[index].value <= 20) {
       result = "loss";
       message = `You lose with ${hands[index].value} and the dealer has ${dealer.value}.`
-
     }
     
 
