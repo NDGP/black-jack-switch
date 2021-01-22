@@ -16,50 +16,72 @@ export default function Home(props) {
   const {
     state,
     updateHand,
+    updateHands,
     addSplitHand,
-    updateGame
+    updateActions
   } = useApplicationData();
 
   let hand = state.hand;
   let currentHand = state.currentHand;
-  let actions = state.actions
+  let actions = state.actions;
+
   if (hand[currentHand]) actions.split = hand[currentHand].canSplit;
 
   const deal = () => {
-      actions.deal = false;
-      updateGame(currentHand, "deal")
+    actions.deal = false;
+    updateActions(currentHand, "deal")
 
-      setTimeout(() => { hit(hand[0]) }, 400);
-      setTimeout(() => { hit(hand[0]) }, 1600);
+    setTimeout(() => { hit(hand[0]) }, 400);
+    setTimeout(() => { hit(hand[0]) }, 1600);
 
-      setTimeout(() => { hit(hand[1]) }, 800);
-      setTimeout(() => { hit(hand[1]) }, 2000);
+    setTimeout(() => { hit(hand[1]) }, 800);
+    setTimeout(() => { hit(hand[1]) }, 2000);
 
-      setTimeout(() => { hit(dealer) }, 1200);
+    setTimeout(() => { hit(dealer) }, 1200);
+    setTimeout(() => { updateActions(0, "player") }, 2050);
+  }
 
-      setTimeout(() => { updateGame(currentHand, "player") }, 2460);
+  //testcode
+  const fakehit = (hand) => {
+    hand.add("AS")
+    updateHand(hand);
+  }
+  const fakehit2 = (hand) => {
+    hand.add("KH")
+    updateHand(hand);
   }
 
   const hit = (hand) => {
-      hand.add(deck.draw())
-      updateHand(hand);
-      updateGame(currentHand, "player")
+    hand.add(deck.draw())
+    updateHand(hand);
+  }
+
+  const checkBlackjack = () => {
+    if (hand[currentHand]) {
+      if (hand[currentHand].value >= 21 && state.turn === "player") {
+        stay()
+      }
+    }
   }
 
   const stay = () => {
     if (currentHand < hand.length - 1) {
-      currentHand++
       updateHand(hand[currentHand]);
-      updateGame(currentHand, "player");
-    } else if (currentHand === hand.length -1) {
-      updateGame(currentHand, "dealer");
+      currentHand++
+      updateActions(currentHand, "player");
+    } else if (currentHand === hand.length - 1) {
+      updateActions(currentHand, "dealer");
     }
   }
 
+  //DEALER
   //dealer code
   if (state.turn === "dealer") {
-    if (dealer.value < 17) {
+    if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
       hit(dealer)
+    } else {
+      actions.deal = true;
+      updateActions(0, "bet");
     }
   }
 
@@ -68,11 +90,11 @@ export default function Home(props) {
       hand[currentHand].canSplit = false;
       let newHand = new Hand(hand[currentHand].splitHand())
       addSplitHand(newHand);
-      updateHand(hand[currentHand])
+      updateHand(hand[currentHand]);
+      updateHand(hand[currentHand + 1]);
       setTimeout(() => { hit(hand[currentHand]) }, 500);
-      updateHand(hand[currentHand + 1])
       setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
-      //**Might have to add updateGame here! */
+      //**Might have to add updateActions here! */
     }
   }
 
@@ -93,6 +115,8 @@ export default function Home(props) {
       updateHand(hand2);
     }
   }
+
+  checkBlackjack();
 
   return (
     <div class="table">
