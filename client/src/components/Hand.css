@@ -18,12 +18,12 @@
 
 .check {
 font-size: .8em;
+display: unset
 }
 .check-hide{
 	font-size: 0px;
-  visibility: hidden;
+  display: none
 }
-
 
 /* .hand-active .cards {
 	border: 10px dashed black;

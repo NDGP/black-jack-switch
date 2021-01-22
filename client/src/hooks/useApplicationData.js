@@ -19,7 +19,7 @@ export default function useApplicationData() {
       split: false,
       switch: false,
       double: false,
-      reset: true,
+      reset: false,
     }
   })
 
@@ -146,6 +146,7 @@ export default function useApplicationData() {
         break;
       case "bet":
         updateActions.deal = true;
+        updateActions.reset = false;
         break;
       case "deal":
         updateActions.deal = false;

@@ -8,7 +8,7 @@ import Actions from './Actions';
 import "./Home.css";
 
 
-let deck = new Deck(1);
+let deck = new Deck(4);
 let dealer = new Hand();
 
 export default function Home(props) {

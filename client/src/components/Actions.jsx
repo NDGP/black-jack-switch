@@ -1,6 +1,16 @@
 import "./Actions.css";
 
 export default function Actions(props) {
+  //DRY up this code
+  //maybe iterate over the props.actions object
+  //maybe all the button containers could be the same class
+  
+  for (const actions in props.actions) {
+    if (action) {
+      //WIP
+    }
+  }
+
   let deal = "deal";
   let swap = "switch";
   let split = "split";
@@ -65,7 +75,7 @@ export default function Actions(props) {
       </span>
 
       <span class={reset}>
-        <button type="button" class="reset" onClick={props.reset}>TEST: RESET</button>
+        <button type="button" class="reset" onClick={props.reset}>New Bet</button>
       </span>
     </div>
   )

@@ -79,7 +79,7 @@ export default function Table(props) {
       <div id="deck">
         DECK:
           < br />
-        {deck.cards}
+        {deck.cards.length}
       </div>
 
       < br />
