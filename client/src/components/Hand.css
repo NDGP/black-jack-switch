@@ -16,6 +16,13 @@
 	border-radius: 25px;
 }
 
+
+.check-hide
+{
+  visibility: hidden;
+}
+
+
 /* .hand-active .cards {
 	border: 10px dashed black;
 	display: inline;
