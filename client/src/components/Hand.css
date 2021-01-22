@@ -16,9 +16,11 @@
 	border-radius: 25px;
 }
 
-
-.check-hide
-{
+.check {
+font-size: .8em;
+}
+.check-hide{
+	font-size: 0px;
   visibility: hidden;
 }
 
