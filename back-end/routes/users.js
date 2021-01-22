@@ -31,6 +31,13 @@ module.exports = ({
             }));
     });
 
+    router.post('/login',(req, res) => {
+        const user = getUserByEmail(res.body.email).then(user => {
+
+            console.log(user)
+        })
+    })
+
     router.post(
         '/', 
         check("first_name")
@@ -57,9 +64,9 @@ module.exports = ({
             });
         }),
         check("password")
-        .unescape()
-        .isLength({ min: 8 })
-        .withMessage('Password must be at least 8 characters long'),
+            .unescape()
+            .isLength({ min: 8 })
+            .withMessage('Password must be at least 8 characters long'),
 
 
         check('confirmPassword').custom((value, { req }) => {

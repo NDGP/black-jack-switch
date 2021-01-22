@@ -28,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 
 app.use('/users', usersRouter);
+app.use('/users/login', usersRouter);
+
 app.use('/cards', cardsRouter);
 app.use('/api/users', usersRouter(dbHelpers));
 app.use('/api/cards', cardsRouter(dbHelpers));

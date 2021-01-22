@@ -1,7 +1,7 @@
 GET http://localhost:3001/api/users
 
 ###
-
+//registration
 POST http://localhost:3001/api/users
 Content-Type: application/json
 
@@ -11,4 +11,14 @@ Content-Type: application/json
     "email": "fwasaefefdsfsdfdewfawf@egmail.com",
     "password": "12345678",
     "confirmPassword":"12345678"
+}
+
+###
+//login
+POST http://localhost:3001/api/users/login
+Content-Type: application/json
+
+{
+    "email": "fwasaefefdsfsdfdewfawf@egmail.com",
+    "password": "12345678",
 }
