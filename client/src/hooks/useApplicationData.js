@@ -62,7 +62,6 @@ export default function useApplicationData() {
       }
     }
 
-    if (state.turn === "player") {
       //checks if splitting should be possible
       if (hand.cards.length === 2) {
         let card1value = state.cards.find(x => x.name === hand.cards[0]).value;
@@ -73,7 +72,6 @@ export default function useApplicationData() {
       } else {
         hand.canSplit = false;
       }
-    }
 
     hand.value = value;
 
