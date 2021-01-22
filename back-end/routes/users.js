@@ -32,11 +32,15 @@ module.exports = ({
     });
 
     router.post('/login',(req, res) => {
-        const user = getUserByEmail(res.body.email).then(user => {
+        console.log(req.body)
+        getUserByEmail(req.body.email)
+            .then(user => {
+                console.log(user)
+                res.send(user)
+                req.session['id'] = user.id;
 
-            console.log(user)
-        })
-    })
+            })
+    })  
 
     router.post(
         '/', 
@@ -97,7 +101,9 @@ module.exports = ({
                     return res.status(299).json({ errors: errors.array()});
                 } else {
                     return addUser(first_name, last_name, email, password, flag)
-                    .then(newUser => res.json(newUser))
+                    .then(newUser => {
+                        res.json(newUser)
+                    })
 
                     .catch(err => res.json({
                         error: err.message

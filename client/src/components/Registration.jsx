@@ -16,18 +16,6 @@ export default function Registration({props, onClose}) {
     const [errText, setErrText] = useState('')
 
 
-
-    // const validate = () => {
-    //     let errors = {};
-
-    //         if (firstName === "") errors.firstName = "Must have first name"
-    //         if (lastName === "") errors.lastName = "Must have last name"
-    //         if (userEmail === "") errors.email = "Must have eamil"
-    //         if (userPassword === "") errors.pasword = "Must have password"
-    //     console.log(errors)
-    // }
-    
-
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(firstName)

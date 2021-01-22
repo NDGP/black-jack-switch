@@ -8,6 +8,14 @@ export default function Login({props, onClose }) {
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
 
+    axios.post("http://localhost:3001/api/users", {
+        email: userEmail,
+        password: userPassword
+    }).then(res => {
+        
+    })
+
+    
     return (
         <div>
             <Form>
