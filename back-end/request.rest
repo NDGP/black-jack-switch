@@ -19,7 +19,8 @@ POST http://localhost:3001/api/users/login
 Content-Type: application/json
 
 {
-    "email": "fwasaefefdsfsdfdewfawf@egmail.com"
+    "email": "fwasaefefdsfsdfdewfawf@egmail.com",
+    "password": "12345678"
  
 }
 

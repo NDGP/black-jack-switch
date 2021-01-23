@@ -4,12 +4,10 @@ const logger = require('morgan');
 const cookieSession = require('cookie-session')
 const db = require('./db');
 const dbHelpers = require('./db/helpers/dbHelpers')(db);
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards')
 const { nextTick } = require('process');
-
 const app = express();
 
 app.use((req, res, next) => {
@@ -18,14 +16,9 @@ app.use((req, res, next) => {
   next()
 })
 
-
 app.use(cookieSession({
-  secret: "milPool",
-  saveUninitialized: true,
-  resave: false,
-  cookie: {
-    httpOnly: true
-  }
+  name:"session",
+  keys: ["milPool"]
 }))
 
 app.use(logger('dev'));
@@ -34,12 +27,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', usersRouter(dbHelpers));
 app.use('/cards', cardsRouter);
 app.use('/api/users', usersRouter(dbHelpers));
 app.use('/api/cards', cardsRouter(dbHelpers));
 
 module.exports = app;
-

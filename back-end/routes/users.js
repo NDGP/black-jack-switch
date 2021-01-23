@@ -31,16 +31,35 @@ module.exports = ({
             }));
     });
 
-    router.post('/login',(req, res) => {
-        console.log(req.body)
-        getUserByEmail(req.body.email)
-            .then(user => {
-                console.log(user)
-                res.send(user)
-                req.session['id'] = user.id;
+    // add/subtract backroll rout
+    router.post('/bankroll', (req, res) => {
+        
+    })
 
-            })
-    })  
+
+
+    //login router
+
+    router.post('/login', async (req, res) => {
+        getUserByEmail(req.body.email).then(user => {
+            if(!user){
+                res.send("password or email incorect")
+            } else {
+                bcrypt.compare(req.body.password, user.password, function(err, result) {
+                    if (err){
+                        res.send("password or email incorect")
+                    } else {
+                        res.send(result)
+                    }
+            });
+
+            }
+        })
+      }) 
+
+
+
+    // registration router
 
     router.post(
         '/', 
@@ -100,6 +119,7 @@ module.exports = ({
                     console.log("this is the error" ,errors.array());
                     return res.status(299).json({ errors: errors.array()});
                 } else {
+                    req.session.id = "id";
                     return addUser(first_name, last_name, email, password, flag)
                     .then(newUser => {
                         res.json(newUser)
