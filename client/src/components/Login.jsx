@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import { Button, Form, Row, Col, Alert } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
+<<<<<<< HEAD
 import axios from 'axios';
 
+=======
+import axios from "axios";
+>>>>>>> aa206998a7b81d575e7f52e3521882d26ac74298
 
 export default function Login({props, onClose }) {
 

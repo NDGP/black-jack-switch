@@ -2,8 +2,7 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Home from './components/Home';
 import Login from './components/Login';
@@ -12,8 +11,14 @@ import Footer from './components/Footer'
 import Withdraw from './components/Withdraw';
 import Deposit from './components/Deposit'
 import Rules from './components/Rules'
+import Strategy from './components/Strategy'
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    document.title = "Blackjack Switch"
+    }, [])
+    
   return (
     <Router> 
     <div className="App">
@@ -30,6 +35,9 @@ function App() {
         </Route>
         <Route path ="/rules">
           <Rules />
+        </Route>
+        <Route path ="/strategy">
+          <Strategy />
         </Route>
         <Route path ="/">
           <Home />

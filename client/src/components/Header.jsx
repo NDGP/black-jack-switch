@@ -6,6 +6,8 @@ import Withdraw from "./Withdraw"
 import Registration from "./Registration"
 import Rules from './Rules';
 import { Navbar, NavDropdown, Nav, Image} from "react-bootstrap"
+import Strategy from './Strategy';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Header.css";
 import "./Popup.css"
 import "./NewHeader.css"
@@ -45,7 +47,10 @@ export default function Header(props) {
               <Popup open={selectedMenu === "rules"} onClose={() => setSelectedMenu(null)}>
                 <Rules onClose={() => setSelectedMenu(null)}></Rules>
               </Popup>
-          
+              <NavDropdown.Item onClick={() => setSelectedMenu("rules")}>Rules</NavDropdown.Item>
+              <Popup open={selectedMenu === "rules"} onClose={() => setSelectedMenu(null)}>
+                <Rules onClose={() => setSelectedMenu(null)}></Rules>
+              </Popup>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>

@@ -11,17 +11,28 @@
 	-webkit-transform: scale(1.2);
 	-ms-transform: scale(1.2);
 	transform: scale(1.2);
-	background-color: rgba(168, 255, 168, 0.753);
-	padding: 30px 10px 0 10px;
+	background-color: rgba(168, 255, 168, 0.678);
+	padding: 16px 12px 0px 12px;
 	border-radius: 25px;
 }
 
+.cards{
+	height: 150px;
+}
+
 .check {
-font-size: .8em;
+	color: goldenrod;
+	font-style: italic;
+	font-size: .8em;
+	animation: result .4s;
 }
 .check-hide{
 	font-size: 0px;
-  visibility: hidden;
+  display: none
+}
+@keyframes result{
+	0%{transform: translate(0px, 50px)}
+	100%{transform: translate(0px, -20px)}
 }
 
 

@@ -3,3 +3,24 @@
  flex-direction: row-reverse;
  justify-content: space-evenly;
 }
+
+.stats{
+  background-color: #0c691e;
+  background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
+  color:white;
+  left: -50px;
+  font-size: 1.2em
+}
+
+section {
+  color: whitesmoke;
+  height: 510px;
+}
+
+#player {
+
+}
+
+#dealer {
+
+}

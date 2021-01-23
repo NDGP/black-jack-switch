@@ -28,17 +28,17 @@ export default function Hand(props) {
 
   return (
     <div class={hand}>
+      <div class={check}>
+        <h2>
+          {props.message}
+        </h2>
+      </div>
       <div class="cards">
         {cardsInHand}
       </div>
       <h3>
         {props.name}: {props.value}
       </h3>
-      <div class={check}>
-        <h2>
-          {props.message}
-        </h2>
-      </div>
     </div>
   );
 }

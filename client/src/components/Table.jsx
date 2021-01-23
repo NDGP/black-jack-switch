@@ -11,52 +11,51 @@ export default function Table(props) {
   const activeHand = (index) => {
     return (index === props.currentHand)
   }
-  
- const dealerCount = dealer.cards.length
+
+  const dealerCount = dealer.cards.length
 
   let result = 'result'
   let message = "";
+  let wins = 0;
+  let losses = 0;
+  let draws = 0;
+  let blackjacks = 0;
+
 
   const displayHands = hands.map((x, index) => {
 
     if (hands[index].value > 21) {
       result = "loss"
-      message = `You bust with ${hands[index].value}. You lose!`;
+      message = `BUST`;
     }
     if (hands[index].value <= 21 && dealer.value > 22) {
       result = "win";
-      message = `Dealer busted with ${dealer.value}. You win with ${hands[index].value}!`
+      message = `WIN`
     }
-    if (dealer.value === 22 && hands[index].value < 22) {
+    if ((dealer.value === 22 && hands[index].value < 21) || (hands[index].value === dealer.value && hands[index].value < 22)) {
       result = "push";
-      message = "Push, dealer has 22."
-    }
-    if (hands[index].value === dealer.value && hands[index].value < 22) {
-      result = "push";
-      message = `Push you both have ${dealer.value}`;
+      message = "PUSH"
     }
     if (hands[index].value === 21 && dealer.value !== 21 && dealer.value !== 22 && hands[index].cards.length === 2) {
       result = "win";
-      message = `You win with blackjack!`
+      message = `BLACKJACK`
     }    
     if (hands[index].value === 21 && dealer.value !== 21 && dealer.value !== 22 && hands[index].cards.length !== 2 ) {
       result = "win";
-      message = `You win, you have ${hands[index].value} and dealer has ${dealer.value}.`
+      message = `WIN`
     }
     if (dealer.value === 21 && hands[index].value < 21 ) {
-      result = "lose";
-      message = `You lose, dealer has ${dealer.value} and you have ${hands[index].value}.`
+      result = "loss";
+      message = `LOSS`
     }
     if ((21 - hands[index].value) < (21 - dealer.value) && dealer.value <= 20 && hands[index].value <= 20) {
       result = "win"
-      message = `You win with ${hands[index].value} and the dealer has ${dealer.value}.`
+      message = `WIN`
     }
     if ((21 - dealer.value) < (21 - hands[index].value) && dealer.value <= 20 && hands[index].value <= 20) {
       result = "loss";
-      message = `You lose with ${hands[index].value} and the dealer has ${dealer.value}.`
+      message = `LOSS`
     }
-    
-
     return (
       <Hand
         name={`Hand${index + 1}`}
@@ -70,26 +69,40 @@ export default function Table(props) {
       />
     );
   })
+  let totalHands = props.totalWins + props.totalLosses + props.totalDraws
+  const winPercentage = () => {
+    if (totalHands > 0) {
+      return (props.totalWins / totalHands).toFixed(2) * 100
+    } else {
+      return "0"
+    }
+  }
+  const blackjackPercentage = () => {
+    if (totalHands > 0) {
+      return (props.totalBlackjacks / totalHands).toFixed(2) * 100
+    } else {
+      return "0"
+    }
+  };
+  props.recordStats(wins, losses, draws, blackjacks);
 
   return (
     <section>
       <h1> Blackjack Switch! </h1>
-      <div class="result">
-      </div>
       <div id="deck">
         DECK:
           < br />
-        {deck.cards}
+        {deck.cards.length}
       </div>
 
-      < br />
-
+      <div id="dealer">
       <Hand
         name="Dealer"
         cardLibrary={props.cardLibrary}
         value={dealer.value}
         cards={dealer.cards}
-      />
+      />        
+      </div>
 
       <div id="player" >
         {displayHands}

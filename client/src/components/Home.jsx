@@ -8,8 +8,14 @@ import Actions from './Actions';
 import "./Home.css";
 
 
-let deck = new Deck(1);
+let deck = new Deck(6);
 let dealer = new Hand();
+
+
+let totalWins = 0;
+let totalLosses = 0;
+let totalDraws = 0;
+let totalBlackjacks = 0;
 
 export default function Home(props) {
   const {
@@ -24,7 +30,18 @@ export default function Home(props) {
   let hand = state.hand;
   let currentHand = state.currentHand;
   let actions = state.actions;
-  
+
+
+  const recordStats = (turnWins, turnLosses, turnDraws, turnBlackjacks) => {
+    //  console.log(`Record Stats before: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
+    if (state.turn === "reveal") {
+      totalWins += (turnWins / 2);
+      totalLosses += (turnLosses / 2);
+      totalDraws += (turnDraws / 2);
+      totalBlackjacks += (turnBlackjacks / 2);
+      console.log(`Record Stats after: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
+    }
+  }
   //if (state.dealer) dealer = state.dealer;
   if (hand[currentHand]) actions.split = hand[currentHand].canSplit;
 
@@ -43,14 +60,14 @@ export default function Home(props) {
   }
 
   //testcode
-  const fakehit = (hand) => {
-    hand.add("AS")
-    updateHand(hand);
-  }
-  const fakehit2 = (hand) => {
-    hand.add("KH")
-    updateHand(hand);
-  }
+  // const fakehit = (hand) => {
+  //   hand.add("AS")
+  //   updateHand(hand);
+  // }
+  // const fakehit2 = (hand) => {
+  //   hand.add("KH")
+  //   updateHand(hand);
+  // }
 
   const hit = (hand) => {
     hand.add(deck.draw())
@@ -58,7 +75,7 @@ export default function Home(props) {
     actions.switch = false;
   }
 
-  const checkBlackjack = () => {    
+  const checkBlackjack = () => {
     if (hand[currentHand]) {
       if (hand[currentHand].value >= 21 && state.turn === "player") {
         stay()
@@ -120,10 +137,12 @@ export default function Home(props) {
   checkBlackjack();
 
   const clearTable = () => {
-      resetHands()
-      dealer = new Hand();
-      updateActions(-1, "bet");
+    resetHands()
+    dealer = new Hand();
+    updateActions(-1, "bet");
   }
+
+
 
   return (
     <div class="table">
@@ -133,6 +152,11 @@ export default function Home(props) {
         hand={hand}
         dealer={dealer}
         currentHand={currentHand}
+        recordStats={recordStats}
+        totalWins={totalWins}
+        totalLosses={totalLosses}
+        totalDraws={totalDraws}
+        totalBlackjacks={totalBlackjacks}
       />
       <Actions
         hit={() => hit(hand[currentHand])}

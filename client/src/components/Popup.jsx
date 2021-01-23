@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDom from "react-dom"
-import { Card, Button, Form } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 
