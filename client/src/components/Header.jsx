@@ -7,6 +7,7 @@ import Deposit from "./Deposit"
 import Withdraw from "./Withdraw"
 import Registration from "./Registration"
 import Rules from './Rules';
+import Strategy from './Strategy';
 import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Header.css";
@@ -42,6 +43,10 @@ export default function Header(props){
       <button onClick={() => setSelectedMenu("rules")}>Rules</button>
       <Popup open = { selectedMenu === "rules" } onClose = { () => setSelectedMenu(null)}>
           <Rules onClose = { () => setSelectedMenu(null)}></Rules>
+      </Popup>
+      <button onClick={() => setSelectedMenu("strategy")}>Strategy</button>
+      <Popup open = { selectedMenu === "strategy" } onClose = { () => setSelectedMenu(null)}>
+          <Strategy onClose = { () => setSelectedMenu(null)}></Strategy>
       </Popup>
       <button class="logout">Logout </button>  
       </div>
