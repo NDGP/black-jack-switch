@@ -3,3 +3,16 @@
  flex-direction: row-reverse;
  justify-content: space-evenly;
 }
+
+section {
+  color: whitesmoke;
+  height: 510px;
+}
+
+#player {
+
+}
+
+#dealer {
+
+}

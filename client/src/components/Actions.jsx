@@ -5,11 +5,11 @@ export default function Actions(props) {
   //maybe iterate over the props.actions object
   //maybe all the button containers could be the same class
   
-  for (const actions in props.actions) {
-    if (action) {
-      //WIP
-    }
-  }
+  // for (const actions in props.actions) {
+  //   if (action) {
+  //     //WIP
+  //   }
+  // }
 
   let deal = "deal";
   let swap = "switch";
