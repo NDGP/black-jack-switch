@@ -173,6 +173,15 @@ export default function useApplicationData() {
           double: false
         }
         break;
+      default:
+        updateActions = {
+          deal: false,
+          hit: false,
+          stay: false,
+          split: false,
+          switch: false,
+          double: false
+        }
     }
     setState(prev => ({ ...prev, currentHand: currentHand, actions: updateActions, turn: phase }))
   }
