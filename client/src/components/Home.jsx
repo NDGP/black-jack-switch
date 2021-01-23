@@ -8,11 +8,7 @@ import Actions from './Actions';
 import "./Home.css";
 
 
-<<<<<<< HEAD
 let deck = new Deck(6);
-=======
-let deck = new Deck(4);
->>>>>>> front-end/table
 let dealer = new Hand();
 
 
