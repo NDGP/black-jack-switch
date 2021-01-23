@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 import axios from "axios";
 
-
 export default function Login({props, onClose }) {
 
     const [userEmail, setUserEmail] = useState("")

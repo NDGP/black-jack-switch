@@ -47,40 +47,14 @@ export default function Header(props) {
               <Popup open={selectedMenu === "rules"} onClose={() => setSelectedMenu(null)}>
                 <Rules onClose={() => setSelectedMenu(null)}></Rules>
               </Popup>
-              <NavDropdown.Item onClick={() => setSelectedMenu("rules")}>Rules</NavDropdown.Item>
-              <Popup open={selectedMenu === "rules"} onClose={() => setSelectedMenu(null)}>
-                <Rules onClose={() => setSelectedMenu(null)}></Rules>
+              <NavDropdown.Item onClick={() => setSelectedMenu("strategy")}>Strategy</NavDropdown.Item>
+              <Popup open={selectedMenu === "strategy"} onClose={() => setSelectedMenu(null)}>
+                <Strategy onClose={() => setSelectedMenu(null)}></Strategy>
               </Popup>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-    // <div class="dropdown">
-    //   <button class="dropbtn">Menu</button>
-    // <div id="myDropdown" class="dropdown-content">
-
-    // <button onClick={() => setSelectedMenu("register")}>Resgister</button>
-    //     <Popup open = { selectedMenu === "register" } onClose = { () => setSelectedMenu(null)}>
-    //         <Registration onClose = { () => setSelectedMenu(null)}></Registration>
-    //     </Popup>
-    //   <button onClick={() => setSelectedMenu("deposit")}>Deposit</button>
-    //     <Popup open = { selectedMenu === "deposit" } onClose = { () => setSelectedMenu(null)}>
-    //         <Deposit></Deposit>
-    //     </Popup>
-    //   <button onClick={() => setSelectedMenu("withdraw")}>Withdraw</button>
-    //     <Popup open = { selectedMenu === "withdraw" } onClose = { () => setSelectedMenu(null)}>
-    //         <Withdraw></Withdraw>
-    //     </Popup>
-    //   <button onClick={() => setSelectedMenu("login")}>Login</button>
-    // <Popup open = { selectedMenu === "login"} onClose = { () => setSelectedMenu(null)}>
-    //     <Login onClose = { () => setSelectedMenu(null)}></Login>
-    // </Popup>
-    // <button onClick={() => setSelectedMenu("rules")}>Rules</button>
-    //     <Popup open = { selectedMenu === "rules" } onClose = { () => setSelectedMenu(null)}>
-    //         <Rules onClose = { () => setSelectedMenu(null)}></Rules>
-    //     </Popup>
-    //     <button class="logout">Logout </button>  
-    //     </div>
-    //   </div>
+   
   )
 }

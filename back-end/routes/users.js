@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt')
 const { body, validationResult, check } = require('express-validator');
 const { getPostsByUsers } = require('../../client/src/helpers/dataHelpers');
+const cookieSession = require('cookie-session');
 
 
 module.exports = ({
