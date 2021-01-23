@@ -11,7 +11,6 @@ export default function Registration({props, onClose}) {
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-
     const [show, setShow] = useState(false);
     const [errText, setErrText] = useState('')
 
