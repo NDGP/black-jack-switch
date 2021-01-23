@@ -1,14 +1,11 @@
 import React, { useState } from "react"
-import {Link} from 'react-router-dom'
 import Popup from "./Popup"
-import Home from "./Home"
 import Login from "./Login"
 import Deposit from "./Deposit"
 import Withdraw from "./Withdraw"
 import Registration from "./Registration"
 import Rules from './Rules';
 import Strategy from './Strategy';
-import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Header.css";
 import "./Popup.css"
