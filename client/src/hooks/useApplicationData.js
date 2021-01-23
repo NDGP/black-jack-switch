@@ -19,7 +19,7 @@ export default function useApplicationData() {
       split: false,
       switch: false,
       double: false,
-      reset: true,
+      reset: false,
     }
   })
 
@@ -146,6 +146,7 @@ export default function useApplicationData() {
         break;
       case "bet":
         updateActions.deal = true;
+        updateActions.reset = false;
         break;
       case "deal":
         updateActions.deal = false;
@@ -172,6 +173,15 @@ export default function useApplicationData() {
           double: false
         }
         break;
+      default:
+        updateActions = {
+          deal: false,
+          hit: false,
+          stay: false,
+          split: false,
+          switch: false,
+          double: false
+        }
     }
     setState(prev => ({ ...prev, currentHand: currentHand, actions: updateActions, turn: phase }))
   }
