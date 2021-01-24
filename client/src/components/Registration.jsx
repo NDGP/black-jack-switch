@@ -25,7 +25,7 @@ export default function Registration({props, onClose}) {
 
     // const errors = validate(e);
    
-    axios.post("http://localhost:3001/api/users", {
+    axios.post("/api/users", {
             first_name: firstName,
             last_name: lastName,
             email: userEmail,
@@ -77,7 +77,7 @@ export default function Registration({props, onClose}) {
                         value= { lastName } 
                         onChange={ (e) => { setLastName(e.target.value) }} 
                         type="last name" 
-                        placeholder="enter last name"   />
+                        placeholder="Enter last name"   />
 
                 </Form.Group>
                 </Col>

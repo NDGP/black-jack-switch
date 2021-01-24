@@ -4,27 +4,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 import axios from "axios";
 
-export default function Login({props, onClose }) {
+export default function Login({props, onClose, logIn }) {
 
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
     const [show, setShow] = useState(false);
 
 
-
     const handleSubmit = (e) => {
-            e.preventDefault();
+            e.preventDefault();            
             // console.log(userEmail)
             // console.log(userPassword)
-
-        axios.post("http://localhost:3001/api/users/login", {
+        axios.post("/api/users/login", {
                 email: userEmail,
                 password: userPassword
             }).then(res => {
                 console.log(res)
+                axios.get('/api/users').then(res =>{
+                    debugger
+                })
                 if (res.data === "false"){
                     setShow(true)
                 } else {
+                    logIn()
                     onClose()
                 }
 

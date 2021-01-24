@@ -24,3 +24,13 @@ Content-Type: application/json
  
 }
 
+###
+
+GET http://localhost:3001/api/users/user
+
+###
+POST http://localhost:3001/api/users/logout
+Content-Type: application/json
+
+
+
