@@ -74,20 +74,26 @@ export default function useApplicationData() {
   }
 
   const addBet = (amount) => {
+    let bankroll = state.cash.bankroll;
     //if (state.turn === "bet"){
-    let bankroll = state.cash.bankroll - (amount * state.hand.length);
-    let bet = state.cash.bet + amount;
-    let cash = {
-      bankroll: bankroll,
-      bet: bet,
-      initBankroll: state.cash.initBankroll
+    if (amount * 2 > bankroll) {
+      window.alert(`Insufficient funds, you are missing ${(bankroll - amount * 2) * -1}$`)
+    } else {
+      bankroll = state.cash.bankroll - (amount * state.hand.length);
+      let bet = state.cash.bet + amount;
+      let cash = {
+        bankroll: bankroll,
+        bet: bet,
+        initBankroll: state.cash.initBankroll
+      }
+      let hands = state.hand;
+      for (const hand of hands) {
+        hand.bet = bet;
+      }
+
+      setState(prev => ({ ...prev, cash: cash, hand: hands }));
+      //}
     }
-    let hands = state.hand;
-    for (const hand of hands) {
-      hand.bet = bet;
-    }
-    setState(prev => ({ ...prev, cash: cash, hand: hands }));
-    //}
   }
 
   //splitBet
@@ -115,12 +121,12 @@ export default function useApplicationData() {
 
   const clearBet = () => {
     //if (state.turn === "bet") {
-      let cash = {
-        bankroll: state.cash.initBankroll,
-        bet: 0,
-        initBankroll: state.cash.initBankroll
-      }
-      setState(prev => ({ ...prev, cash: cash }));
+    let cash = {
+      bankroll: state.cash.initBankroll,
+      bet: 0,
+      initBankroll: state.cash.initBankroll
+    }
+    setState(prev => ({ ...prev, cash: cash }));
     //}
   }
 

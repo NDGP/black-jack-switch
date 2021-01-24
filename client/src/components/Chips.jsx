@@ -7,7 +7,7 @@ import clear from "./images/delete.png"
 import './Chips.css'
 export default function Chips(props) {
 
-let bet = props.bet;
+let totalBet = 0;
 let bankroll = props.bankroll;
 let tokens = "tokens";
 
