@@ -72,14 +72,14 @@ export default function Home(props) {
   }
 
   //testcode
-  const fakehit = (hand) => {
-    hand.add("AS")
-    updateHand(hand);
-  }
-  const fakehit2 = (hand) => {
-    hand.add("KH")
-    updateHand(hand);
-  }
+  // const fakehit = (hand) => {
+  //   hand.add("AS")
+  //   updateHand(hand);
+  // }
+  // const fakehit2 = (hand) => {
+  //   hand.add("KH")
+  //   updateHand(hand);
+  // }
 
   const hit = (hand) => {
     hand.add(deck.draw())

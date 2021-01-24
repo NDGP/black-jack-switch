@@ -42,7 +42,6 @@ export default function Table(props) {
       result = `WIN`
     }
     if ((dealer.value === 22 && hands[index].value < 22 && (hands[index].value === 21 && hands[index].cards.length !== 2)) || (hands[index].value === dealer.value && hands[index].value < 22)) {
-      result = "push";
       result = "PUSH"
     }
     if (hands[index].value === 21 && dealer.value !== 21 && dealer.value !== 22 && hands[index].cards.length === 2) {
@@ -99,6 +98,11 @@ export default function Table(props) {
   return (
     <section>
       <h1> Blackjack Switch! </h1>
+      {/* <p>Wins: {props.totalWins}</p>
+      <p>Win percentage: {winPercentage()}%</p>
+      <p>Blackjacks: {props.totalBlackjacks}</p>
+      <p>Blackjack percentage: {blackjackPercentage()}%</p> */}
+
       <div id="deck">
         DECK:
           < br />

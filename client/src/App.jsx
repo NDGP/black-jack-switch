@@ -2,8 +2,7 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Home from './components/Home';
 import Login from './components/Login';
@@ -16,7 +15,7 @@ import { useEffect } from 'react';
 
 function App() {
   useEffect(() => {
-    document. title = "Blackjack Switch"
+    document.title = "Blackjack Switch"
     }, [])
     
   return (

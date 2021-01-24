@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { Deck, Hand } from "../helpers/cardLogic";
+import { Hand } from "../helpers/cardLogic";
 
 export default function useApplicationData() {
 

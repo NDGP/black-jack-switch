@@ -1,25 +1,43 @@
 import React, { useState } from 'react'
-import { Button, Form, Row, Col } from "react-bootstrap"
+import { Button, Form, Row, Col, Alert } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 import axios from "axios";
+
 
 export default function Login({props, onClose }) {
 
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
+    const [show, setShow] = useState(false);
 
-    axios.post("http://localhost:3001/api/users", {
-        email: userEmail,
-        password: userPassword
-    }).then(res => {
-        
-    })
 
-    
+
+    const handleSubmit = (e) => {
+            e.preventDefault();
+            // console.log(userEmail)
+            // console.log(userPassword)
+
+        axios.post("http://localhost:3001/api/users/login", {
+                email: userEmail,
+                password: userPassword
+            }).then(res => {
+                console.log(res)
+                if (res.data === "false"){
+                    setShow(true)
+                } else {
+                    onClose()
+                }
+
+            }).catch(res => {
+                console.log(res)
+        })
+    }
+
+    if(!show){
     return (
         <div>
-            <Form>
+            <Form onSubmit={ handleSubmit }>
                 <header>Login</header>
             <Form.Group controlId="formBasicEmail">
                     <Form.Control 
@@ -53,4 +71,15 @@ export default function Login({props, onClose }) {
             </Form>
         </div>
     )
+    } else {
+        return (
+            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                <Alert.Heading>Oh snap!</Alert.Heading>
+                    <p>
+                        "Email or Password Incorect"
+                    </p>
+        </Alert>
+        
+        )
+    }
 }
