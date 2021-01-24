@@ -13,7 +13,6 @@ export default function Table(props) {
   }
 
   const dealerCount = dealer.cards.length
-
   
   let wins = 0;
   let losses = 0;
@@ -71,7 +70,7 @@ export default function Table(props) {
         active={activeHand(index)}
         result={result}
         dealerCount={dealerCount}
-        bet={bet}
+        bet={hands[index].bet}
       />
     );
   })

@@ -38,7 +38,7 @@ class Deck {
 }
 
 class Hand {
-    constructor(firstCard) {
+    constructor(firstCard, preBet) {
         let cards = [];
         if (firstCard) cards.push(firstCard);
         this.cards = cards;
@@ -46,6 +46,7 @@ class Hand {
         this.ace = 0;
         this.canSplit = false;
         this.bet = 0;
+        if (preBet) this.bet = preBet;
     }
     add(card) {
         this.cards.push(card);
