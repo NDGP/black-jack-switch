@@ -135,10 +135,14 @@ export default function Home(props) {
   }
 
   const doubleDown = () => {
-    hit(hand[currentHand]);
-    hand[currentHand].bet += state.cash.bet;
-    updateBet(cash.bet);
-    stay();
+    if (cash.amount > cash.bankroll) {
+      window.alert(`Insufficient funds, you are missing ${cash.amount - cash.bankroll}$`)
+    } else {
+      hit(hand[currentHand]);
+      hand[currentHand].bet += state.cash.bet;
+      updateBet(cash.bet);
+      stay();
+    }
   }
 
   //switch is not allowed as a function name in js, use swap instead
@@ -156,7 +160,6 @@ export default function Home(props) {
   checkBlackjack();
 
   const clearTable = () => {
-    resetHands()
     clearBet()
     dealer = new Hand();
     updateActions(-1, "bet");

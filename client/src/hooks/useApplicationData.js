@@ -126,11 +126,10 @@ export default function useApplicationData() {
       bet: 0,
       initBankroll: state.cash.initBankroll
     }
-    let hands = state.hand;
-      for (const hand of hands) {
-        hand.bet = 0;
-      }
-    setState(prev => ({ ...prev, cash: cash, hand: hands }));
+    //let updateHands = state.hand.map( x => x.bet = 0);
+    //  hand: updateHands
+    setState(prev => ({ ...prev, cash: cash }));
+    resetHands();
     //}
   }
 
@@ -281,7 +280,7 @@ export default function useApplicationData() {
     hand[1] = new Hand();
     let dealer = new Hand();
     setState(prev => ({
-      ...prev, hand: hand, currentHand: 0, dealer: dealer
+      ...prev, hand: hand, dealer: dealer
     }))
   }
 
