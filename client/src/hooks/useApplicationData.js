@@ -31,9 +31,9 @@ export default function useApplicationData() {
 
   useEffect(() => {
     Promise.all([ //unsure what the * does, might be security risk
-      axios.get('http://localhost:3001/api/users',
+      axios.get('/api/users',
         { headers: { 'Access-Control-Allow-Origin': '*' } }),
-      axios.get('http://localhost:3001/api/cards',
+      axios.get('/api/cards',
         { headers: { 'Access-Control-Allow-Origin': '*' } })
     ]).then((all) => {
       let hand = []
@@ -126,8 +126,6 @@ export default function useApplicationData() {
       bet: 0,
       initBankroll: state.cash.initBankroll
     }
-    //let updateHands = state.hand.map( x => x.bet = 0);
-    //  hand: updateHands
     setState(prev => ({ ...prev, cash: cash }));
     resetHands();
     //}
@@ -280,7 +278,7 @@ export default function useApplicationData() {
     hand[1] = new Hand();
     let dealer = new Hand();
     setState(prev => ({
-      ...prev, hand: hand, dealer: dealer
+      ...prev, hand: hand, currentHand: 0, dealer: dealer
     }))
   }
 

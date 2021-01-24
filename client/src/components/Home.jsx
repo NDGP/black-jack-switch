@@ -135,8 +135,8 @@ export default function Home(props) {
   }
 
   const doubleDown = () => {
-    if (cash.amount > cash.bankroll) {
-      window.alert(`Insufficient funds, you are missing ${cash.amount - cash.bankroll}$`)
+    if (cash.bet > cash.bankroll) {
+      window.alert(`Insufficient funds, you are missing ${cash.bet - cash.bankroll}$`)
     } else {
       hit(hand[currentHand]);
       hand[currentHand].bet += state.cash.bet;
