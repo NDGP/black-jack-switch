@@ -8,7 +8,7 @@ class Deck {
             for (const suit of suits) {
                 for (let i = 1; i < 10; i++) {
                     cards.push(`${i}${suit}`)
-                }
+                } 
                 for (const face of faces) {
                     cards.push(`${face}${suit}`)
                 }

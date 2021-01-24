@@ -45,6 +45,11 @@ export default function Home(props) {
   let actions = state.actions;
   let cash = state.cash;
 
+  // shuffle
+  if (state.turn === "reveal" && deck.cards.length < deck.resetCards.length / 2){
+      deck.reset()
+    }
+
   const recordStats = (turnWins, turnLosses, turnDraws, turnBlackjacks) => {
     //  console.log(`Record Stats before: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
     if (state.turn === "reveal") {
