@@ -31,7 +31,7 @@ module.exports = (db) => {
             text: `SELECT * FROM users WHERE email = $1` ,
             values: [email]
         }
-
+// luigi@nintendo.com
         return db
             .query(query)
             .then(result => result.rows[0])

@@ -12,6 +12,7 @@ export default function useApplicationData() {
     dealer: {},
     currentHand: -1,
     turn: null,
+    currentUser: null,
     actions: {
       deal: false,
       hit: false,
@@ -20,7 +21,12 @@ export default function useApplicationData() {
       switch: false,
       double: false,
       reset: false,
-    }
+    },
+     cash: {
+      bankroll: 0,
+      bet: 0,
+      initBankroll: 0
+     }
   })
 
   useEffect(() => {
@@ -43,10 +49,50 @@ export default function useApplicationData() {
         hand: hand,
         dealer: dealer,
         actions: updateActions,
-        turn: "bet"
+        turn: "bet",
+        //temporary codevvv
       }))
     });
   }, []);
+
+  const testLogin = () => {
+    let currentUser = state.users[1]; // placeholder, will have variable for cookie later
+    let cash = {
+      bankroll: currentUser.bankroll,
+      bet: 0,
+      initBankroll: currentUser.bankroll
+    }
+    setState(prev => ({...prev, currentUser: currentUser, cash: cash}));
+  }
+
+  const updateBankroll = (newBankroll) => {
+    let cash = {
+      bankroll: newBankroll,
+      bet: 0,
+      initBankroll: newBankroll
+    }
+    setState(prev => ({...prev, cash: cash}));
+  }
+
+  const addBet = (amount) => {
+    let bankroll = state.cash.bankroll - amount;
+    let bet = state.cash.bet + amount;
+    let cash = {
+      bankroll: bankroll,
+      bet: bet,
+      initBankroll: state.cash.initBankroll
+    }
+    setState(prev => ({...prev, cash: cash}));
+  }
+
+  const clearBet = () => {
+    let cash = {
+      bankroll: state.cash.initBankroll,
+      bet: 0,
+      initBankroll: state.cash.initBankroll
+    }
+    setState(prev => ({...prev, cash: cash}));
+  }
 
   const updateHand = (hand) => {
     //first calculates the values hand
@@ -143,14 +189,17 @@ export default function useApplicationData() {
     switch (phase) {
       case "reveal":
         updateActions.reset = true;
+        updateActions.split = false;
         break;
       case "bet":
         updateActions.deal = true;
         updateActions.reset = false;
+        updateActions.split = false;
         break;
       case "deal":
         updateActions.deal = false;
         updateActions.reset = false;
+        updateActions.split = false;
         break;
       case "player":
         let swapStatus = (currentHand === 0 && state.hand[1].cards.length === 2 && state.hand.length === 2)
@@ -196,5 +245,5 @@ export default function useApplicationData() {
       }))
   }
 
-  return { state, updateHand, updateHands, addSplitHand, updateActions, resetHands }
+  return { state, updateHand, updateHands, addSplitHand, updateActions, resetHands, testLogin, updateBankroll, addBet, clearBet }
 }

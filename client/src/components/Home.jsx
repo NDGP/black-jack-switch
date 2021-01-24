@@ -8,19 +8,22 @@ import Actions from './Actions';
 import "./Home.css";
 
 
-<<<<<<< HEAD
 let deck = new Deck(6);
-=======
-let deck = new Deck(4);
->>>>>>> front-end/table
 let dealer = new Hand();
 
-
+//REFACTOR EVERYTHING
 let totalWins = 0;
 let totalLosses = 0;
 let totalDraws = 0;
 let totalBlackjacks = 0;
 
+let cash = {
+  bet: 0,
+  bankroll : 0,
+  initBankroll: 0
+}
+
+// let currentUser = null;
 
 export default function Home(props) {
   const {
@@ -29,13 +32,17 @@ export default function Home(props) {
     updateHands,
     resetHands,
     addSplitHand,
-    updateActions
+    updateActions,
+    testLogin,
+    updateBankroll,
+    addBet,
+    clearBet,
   } = useApplicationData();
 
   let hand = state.hand;
   let currentHand = state.currentHand;
   let actions = state.actions;
-
+  let cash = state.cash;
 
   const recordStats = (turnWins, turnLosses, turnDraws, turnBlackjacks) => {
     //  console.log(`Record Stats before: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
@@ -147,6 +154,17 @@ export default function Home(props) {
     updateActions(-1, "bet");
   }
 
+  console.log(state.currentUser, "before if.  USERS:", state.users)
+  if (state.currentUser === null && state.users.length > 0) {
+    //currentUser = state.users[1];
+    testLogin();
+    console.log(state.currentUser, "after if")
+  }
+
+  if (state.currentUser !== null && cash.bankroll === 0) {
+    cash.bankroll = state.currentUser.bankroll;
+    cash.initBankroll = state.currentUser.bankroll;
+  }
 
 
   return (
@@ -162,6 +180,7 @@ export default function Home(props) {
         totalLosses={totalLosses}
         totalDraws={totalDraws}
         totalBlackjacks={totalBlackjacks}
+        bet={cash.bet}
       />
       <Actions
         hit={() => hit(hand[currentHand])}
@@ -173,7 +192,17 @@ export default function Home(props) {
         reset={() => clearTable()}
         actions={actions}
       />
-      <Chips />
+      <Chips
+        addBet5={() => addBet(5)}
+        addBet25={() => addBet(25)}
+        addBet100={() => addBet(100)}
+        addBet500={() => addBet(500)}
+        clearBet={() => clearBet()}
+        bet={cash.bet}
+        bankroll={cash.bankroll}
+        initialBankroll={cash.initBankroll}
+      />
+
 
     </div>
   )

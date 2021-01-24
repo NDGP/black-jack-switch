@@ -30,14 +30,14 @@ export default function Hand(props) {
     <div class={hand}>
       <div class={check}>
         <h2>
-          {props.message}
+          {props.result}
         </h2>
       </div>
       <div class="cards">
         {cardsInHand}
       </div>
       <h3>
-        {props.name}: {props.value}
+        {props.name}: {props.value} bet: {props.bet}
       </h3>
     </div>
   );

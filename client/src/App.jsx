@@ -8,7 +8,6 @@ import {
 import Home from './components/Home';
 import Login from './components/Login';
 import Header from './components/Header';
-import Footer from './components/Footer'
 import Withdraw from './components/Withdraw';
 import Deposit from './components/Deposit'
 import Rules from './components/Rules'
@@ -45,7 +44,6 @@ function App() {
         </Route>
       </Switch>
       <div id="portal"></div>
-      <Footer />
     </div>
     </Router>
   );
