@@ -37,6 +37,7 @@ export default function Home(props) {
     updateBankroll,
     addBet,
     clearBet,
+    updateBet
   } = useApplicationData();
 
   let hand = state.hand;
@@ -118,20 +119,21 @@ export default function Home(props) {
   const split = () => {
     if (hand[currentHand].canSplit === true) {
       hand[currentHand].canSplit = false;
-      let newHand = new Hand(hand[currentHand].splitHand())
+      let newHand = new Hand(hand[currentHand].splitHand(), state.cash.bet)
       addSplitHand(newHand);
       updateHand(hand[currentHand]);
       updateHand(hand[currentHand + 1]);
       setTimeout(() => { hit(hand[currentHand]) }, 500);
       setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
-      //**Might have to add updateActions here! */
+      updateBet(cash.bet);
     }
   }
 
   const doubleDown = () => {
-    //add code to double current hand's bet here
     hit(hand[currentHand]);
-    stay()
+    hand[currentHand].bet += state.cash.bet;
+    updateBet(cash.bet);
+    stay();
   }
 
   //switch is not allowed as a function name in js, use swap instead
@@ -150,6 +152,7 @@ export default function Home(props) {
 
   const clearTable = () => {
     resetHands()
+    clearBet()
     dealer = new Hand();
     updateActions(-1, "bet");
   }
@@ -165,9 +168,6 @@ export default function Home(props) {
     cash.bankroll = state.currentUser.bankroll;
     cash.initBankroll = state.currentUser.bankroll;
   }
-
-
-
 
   return (
     <div class="table">
@@ -204,6 +204,7 @@ export default function Home(props) {
         bankroll={cash.bankroll}
         initialBankroll={cash.initBankroll}
         turn={state.turn}
+        hand={hand}
       />
 
 

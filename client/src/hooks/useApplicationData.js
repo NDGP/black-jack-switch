@@ -22,11 +22,11 @@ export default function useApplicationData() {
       double: false,
       reset: false,
     },
-     cash: {
+    cash: {
       bankroll: 0,
       bet: 0,
       initBankroll: 0
-     }
+    }
   })
 
   useEffect(() => {
@@ -50,7 +50,6 @@ export default function useApplicationData() {
         dealer: dealer,
         actions: updateActions,
         turn: "bet",
-        //temporary codevvv
       }))
     });
   }, []);
@@ -62,7 +61,7 @@ export default function useApplicationData() {
       bet: 0,
       initBankroll: currentUser.bankroll
     }
-    setState(prev => ({...prev, currentUser: currentUser, cash: cash}));
+    setState(prev => ({ ...prev, currentUser: currentUser, cash: cash }));
   }
 
   const updateBankroll = (newBankroll) => {
@@ -71,27 +70,58 @@ export default function useApplicationData() {
       bet: 0,
       initBankroll: newBankroll
     }
-    setState(prev => ({...prev, cash: cash}));
+    setState(prev => ({ ...prev, cash: cash }));
   }
 
   const addBet = (amount) => {
-    let bankroll = state.cash.bankroll - amount;
+    //if (state.turn === "bet"){
+    let bankroll = state.cash.bankroll - (amount * state.hand.length);
     let bet = state.cash.bet + amount;
     let cash = {
       bankroll: bankroll,
       bet: bet,
       initBankroll: state.cash.initBankroll
     }
-    setState(prev => ({...prev, cash: cash}));
+    let hands = state.hand;
+    for (const hand of hands) {
+      hand.bet = bet;
+    }
+    setState(prev => ({ ...prev, cash: cash, hand: hands }));
+    //}
   }
 
-  const clearBet = () => {
+  //splitBet
+  const updateBet = (amount) => {
+    let bankroll = state.cash.bankroll - amount;
     let cash = {
-      bankroll: state.cash.initBankroll,
-      bet: 0,
+      bankroll: bankroll,
+      bet: state.cash.bet,
       initBankroll: state.cash.initBankroll
     }
-    setState(prev => ({...prev, cash: cash}));
+    setState(prev => ({ ...prev, cash: cash }));
+  }
+
+  //doubleBet
+  // const updateBet = (amount) => {
+  //   let bankroll = state.cash.bankroll - amount;
+  //   //
+  //   let cash = {
+  //     bankroll: bankroll,
+  //     bet: state.cash.bet,
+  //     initBankroll: state.cash.initBankroll
+  //   }
+  //   setState(prev => ({ ...prev, cash: cash }));
+  // }
+
+  const clearBet = () => {
+    //if (state.turn === "bet") {
+      let cash = {
+        bankroll: state.cash.initBankroll,
+        bet: 0,
+        initBankroll: state.cash.initBankroll
+      }
+      setState(prev => ({ ...prev, cash: cash }));
+    //}
   }
 
   const updateHand = (hand) => {
@@ -122,7 +152,7 @@ export default function useApplicationData() {
         }
       } else {
         hand.canSplit = false;
-      }      
+      }
     }
 
     hand.value = value;
@@ -236,14 +266,14 @@ export default function useApplicationData() {
   }
 
   const resetHands = () => {
-      let hand = []
-      hand[0] = new Hand();
-      hand[1] = new Hand();
-      let dealer = new Hand();
-      setState(prev => ({
-        ...prev, hand: hand, currentHand: 0, dealer: dealer
-      }))
+    let hand = []
+    hand[0] = new Hand();
+    hand[1] = new Hand();
+    let dealer = new Hand();
+    setState(prev => ({
+      ...prev, hand: hand, currentHand: 0, dealer: dealer
+    }))
   }
 
-  return { state, updateHand, updateHands, addSplitHand, updateActions, resetHands, testLogin, updateBankroll, addBet, clearBet }
+  return { state, updateHand, updateHands, addSplitHand, updateActions, resetHands, testLogin, updateBankroll, addBet, clearBet, updateBet }
 }

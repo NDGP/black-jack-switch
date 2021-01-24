@@ -11,6 +11,9 @@ let bet = props.bet;
 let bankroll = props.bankroll;
 let tokens = "tokens";
 
+for (const hand of props.hand) {
+  totalBet += hand.bet;
+}
 if (props.turn !== "bet"){
 tokens = tokens +"-hidden"
 }
@@ -18,7 +21,7 @@ tokens = tokens +"-hidden"
   return (
     <div class="betting">
     <div class="Chips">
-      <h2> Current bet: {bet} </h2>
+      <h2> Total bet: {totalBet} </h2>
       <span class={tokens}>
       <input type="image" onClick={props.addBet5} src={five} alt="Wrong path" height="72" length="72"/>
       <input type="image" onClick={props.addBet25} src={twentyFive} alt="Wrong path"  height="72" length="72"/>
@@ -27,7 +30,7 @@ tokens = tokens +"-hidden"
       <input type="image" onClick={props.clearBet} src={clear} alt="Wrong path" />
       </span>
       </div>
-        <section class="bankroll">
+      <section class="bankroll">
         <h3> {bankroll}$ </h3>
       </section>
     </div>
