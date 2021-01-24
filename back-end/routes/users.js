@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt')
 const { body, validationResult, check } = require('express-validator');
 const { getPostsByUsers } = require('../../client/src/helpers/dataHelpers');
+const cookieSession = require('cookie-session')
+
 
 
 module.exports = ({
@@ -13,12 +15,42 @@ module.exports = ({
 }) => {
     /* GET users listing. */
     router.get('/', (req, res) => {
+        console.log(req.session)
+        if (!req.session.id){
+            res.status(401).send("no good")
+            return 
+        }
         getUsers()
             .then((users) => res.json(users))
             .catch((err) => res.json({
                 error: err.message
             }));
     });
+
+    // get user to check if loged in.
+
+    router.get('/user', (req, res) => {
+        getUserByEmail(req.session.id).then(user => {
+            
+            if(!user){
+                console.log("no session found")
+                res.send("no session found")
+            } else {
+                console.log("session found!")
+                res.send("session found!")
+
+                
+            }
+        })
+    })
+
+    // log user out
+
+    router.post("/logout", (req, res) => {
+        req.session = null;
+        console.log("session termanated")
+        res.send("session termanated")
+    })
 
     router.get('/posts', (req, res) => {
         getUsersPosts()
@@ -42,6 +74,7 @@ module.exports = ({
 
     router.post('/login', async (req, res) => {
         getUserByEmail(req.body.email).then(user => {
+            
             if(!user){
                 res.send("password or email incorect")
             } else {
@@ -49,6 +82,7 @@ module.exports = ({
                     if (err){
                         res.send("password or email incorect")
                     } else {
+                        req.session.id=req.body.email
                         res.send(result)
                     }
             });
@@ -119,7 +153,7 @@ module.exports = ({
                     console.log("this is the error" ,errors.array());
                     return res.status(299).json({ errors: errors.array()});
                 } else {
-                    req.session.id = "id";
+                    req.session.id=req.body.email
                     return addUser(first_name, last_name, email, password, flag)
                     .then(newUser => {
                         res.json(newUser)
