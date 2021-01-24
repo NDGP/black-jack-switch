@@ -167,6 +167,8 @@ export default function Home(props) {
   }
 
 
+
+
   return (
     <div class="table">
       <Table
@@ -201,6 +203,7 @@ export default function Home(props) {
         bet={cash.bet}
         bankroll={cash.bankroll}
         initialBankroll={cash.initBankroll}
+        turn={state.turn}
       />
 
 
