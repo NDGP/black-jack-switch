@@ -157,7 +157,7 @@ export default function Home(props) {
     updateActions(-1, "bet");
   }
 
-  console.log(state.currentUser, "before if.  USERS:", state.users)
+  //console.log(state.currentUser, "before if.  USERS:", state.users)
   if (state.currentUser === null && state.users.length > 0) {
     //currentUser = state.users[1];
     testLogin();

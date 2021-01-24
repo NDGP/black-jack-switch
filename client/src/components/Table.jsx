@@ -20,15 +20,13 @@ export default function Table(props) {
   let blackjacks = 0;
   let bet = props.bet;
   
-  let betResults = 0;
+  let winnings = 0;
 
-  const calculateBet = (result) => {
+  const calculateBet = (result, bet) => {
     if (result = ('WIN' || 'BLACKJACK')) {
-      //add initial bet and winnings to betResults
-    } else if (result = ('LOSS' || "BUST")) {
-      //subtract
-    } else {
-      //add initial bet back to betResults
+      winnings += (bet * 2);
+    } else if (result = 'PUSH') {
+      winnings += bet;
     }
   }
 
@@ -60,7 +58,8 @@ export default function Table(props) {
     }
 
     //change bankroll state depending on results
-    
+    calculateBet(result, hands[index].bet)
+
     return (
       <Hand
         name={`Hand${index + 1}`}

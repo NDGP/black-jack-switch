@@ -126,7 +126,11 @@ export default function useApplicationData() {
       bet: 0,
       initBankroll: state.cash.initBankroll
     }
-    setState(prev => ({ ...prev, cash: cash }));
+    let hands = state.hand;
+      for (const hand of hands) {
+        hand.bet = 0;
+      }
+    setState(prev => ({ ...prev, cash: cash, hand: hands }));
     //}
   }
 
