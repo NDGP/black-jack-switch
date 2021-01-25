@@ -3,124 +3,85 @@ import Hand from "./Hand"
 
 import './Table.css'
 
+import { checkResult } from "../hooks/helpers.js"
+
 export default function Table(props) {
   const deck = props.deck;
   const dealer = props.dealer;
   const hands = props.hand;
 
-  const activeHand = (index) => {
+  const activeHandHighlight = (index) => {
     return (index === props.currentHand)
   }
 
   const dealerCount = dealer.cards.length
-  
-  let wins = 0;
-  let losses = 0;
-  let draws = 0;
-  let blackjacks = 0;
-  let bet = props.bet;
-  
-  let winnings = 0;
 
-  const calculateBet = (result, bet) => {
-    if (result = ('WIN' || 'BLACKJACK')) {
-      winnings += (bet * 2);
-    } else if (result = 'PUSH') {
-      winnings += bet;
-    }
-  }
 
-  const displayHands = hands.map((x, index) => {
-    let result = "";
-    if (hands[index].value > 21) {
-      result = `BUST`;
-    }
-    if (hands[index].value <= 21 && dealer.value > 22) {
-      result = `WIN`
-    }
-    if ((dealer.value === 22 && hands[index].value < 22 && (hands[index].value === 21 && hands[index].cards.length !== 2)) || (hands[index].value === dealer.value && hands[index].value < 22)) {
-      result = "PUSH"
-    }
-    if (hands[index].value === 21 && dealer.value !== 21 && dealer.value !== 22 && hands[index].cards.length === 2) {
-      result = `BLACKJACK`
-    }    
-    if (hands[index].value === 21 && dealer.value !== 21 && dealer.value !== 22 && hands[index].cards.length !== 2 ) {
-      result = `WIN`
-    }
-    if (dealer.value === 21 && hands[index].value < 21 ) {
-      result = `LOSS`
-    }
-    if ((21 - hands[index].value) < (21 - dealer.value) && dealer.value <= 20 && hands[index].value <= 20) {
-      result = `WIN`
-    }
-    if ((21 - dealer.value) < (21 - hands[index].value) && dealer.value <= 20 && hands[index].value <= 20) {
-      result = `LOSS`
-    }
+  const displayHands = hands.map((hand, index) => {
 
-    //change bankroll state depending on results
-    calculateBet(result, hands[index].bet)
+      if (hand.cards.length > 1) hand.result = checkResult(hands[index], dealer)
 
-    return (
-      <Hand
-        name={`Hand${index + 1}`}
-        cardLibrary={props.cardLibrary}
-        value={hands[index].value}
-        cards={hands[index].cards}
-        active={activeHand(index)}
-        result={result}
-        dealerCount={dealerCount}
-        bet={hands[index].bet}
-      />
-    );
-  })
+      return (
+        <Hand
+          name={`Hand${index + 1}`}
+          cardLibrary={props.cardLibrary}
+          value={hands[index].value}
+          cards={hands[index].cards}
+          active={activeHandHighlight(index)}
+          result={hand.result}
+          dealerCount={dealerCount}
+          bet={hands[index].bet}
+        />
+      );
+    })
 
-  let totalHands = props.totalWins + props.totalLosses + props.totalDraws
 
-  const winPercentage = () => {
-    if (totalHands > 0) {
-      return (props.totalWins / totalHands).toFixed(2) * 100
-    } else {
-      return "0"
-    }
-  }
-  const blackjackPercentage = () => {
-    if (totalHands > 0) {
-      return (props.totalBlackjacks / totalHands).toFixed(2) * 100
-    } else {
-      return "0"
-    }
-  };
 
-  props.recordStats(wins, losses, draws, blackjacks);
+// const winPercentage = () => {
+//   if (totalHands > 0) {
+//     return (props.totalWins / totalHands).toFixed(2) * 100
+//   } else {
+//     return "0"
+//   }
+// }
+// const blackjackPercentage = () => {
+//   if (totalHands > 0) {
+//     return (props.totalBlackjacks / totalHands).toFixed(2) * 100
+//   } else {
+//     return "0"
+//   }
+// };
 
-  return (
-    <section>
-      <h1> Blackjack Switch! </h1>
-      {/* <p>Wins: {props.totalWins}</p>
+//props.recordStats(wins, losses, draws, blackjacks);
+
+return (
+  <section>
+    <h1> Blackjack Switch! </h1>
+    {/* <p>Wins: {props.totalWins}</p>
       <p>Win percentage: {winPercentage()}%</p>
       <p>Blackjacks: {props.totalBlackjacks}</p>
       <p>Blackjack percentage: {blackjackPercentage()}%</p> */}
 
-      <div id="deck">
-        DECK:
+    <div id="deck">
+      DECK:
           < br />
-        {deck.cards.length}
-      </div>
+      {deck.cards.length}
+    </div>
 
-      <div id="dealer">
+    <div id="dealer">
       <Hand
         name="Dealer"
         cardLibrary={props.cardLibrary}
         value={dealer.value}
         cards={dealer.cards}
-      />        
-      </div>
+      />
+    </div>
 
-      <div id="player" >
-        {displayHands}
-      </div>
+    <div id="player" >
+      {displayHands}
+    </div>
 
 
-    </section>
-  );
-}
+  </section>
+);
+    }

@@ -28,6 +28,7 @@ export default function Login({props, onClose, logIn }) {
                 } else {
                     logIn()
                     onClose()
+                    res.render('/')
                 }
 
             }).catch(res => {

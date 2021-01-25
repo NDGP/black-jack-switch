@@ -11,7 +11,8 @@ module.exports = ({
     getUsers,
     getUserByEmail,
     addUser,
-    getUsersPosts
+    getUsersPosts,
+    updateBankroll
 }) => {
     /* GET users listing. */
     router.get('/', (req, res) => {
@@ -29,17 +30,18 @@ module.exports = ({
 
     // get user to check if loged in.
 
-    router.get('/user', (req, res) => {
+    router.get('/:id', (req, res) => {
+        let id = req.params.id
+
         getUserByEmail(req.session.id).then(user => {
             
             if(!user){
                 console.log("no session found")
                 res.send("no session found")
             } else {
-                console.log("session found!")
-                res.send("session found!")
-
-                
+                console.log("session found! (router.get)")
+           //     res.send("session found!")
+                res.json(user) 
             }
         })
     })
@@ -62,12 +64,12 @@ module.exports = ({
                 error: err.message
             }));
     });
-
+    
     // add/subtract backroll rout
-    router.post('/bankroll', (req, res) => {
-        
+    router.put('/:id', (req, res) => {
+        updateBankroll(req.body.bankroll, req.params.id);
+        res.send(`UPDATED at id ${req.params.id}, this is from users.js.`)
     })
-
 
 
     //login router
