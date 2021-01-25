@@ -47,6 +47,7 @@ class Hand {
         this.canSplit = false;
         this.bet = 0;
         if (preBet) this.bet = preBet;
+        this.result = 'PUSH'
     }
     add(card) {
         this.cards.push(card);

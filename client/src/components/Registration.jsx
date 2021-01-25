@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 import axios from 'axios';
 
-export default function Registration({props, onClose}) {
+export default function Registration({props, onClose, logIn}) {
 
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -41,6 +41,7 @@ export default function Registration({props, onClose}) {
                         errText.push(err.msg)
                     }
                 if (errText.length === 0){
+                    logIn()
                     onClose()
                 }else{
                 errText[errText.length] += '.';

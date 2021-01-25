@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { checkResult } from "./helpers.js"
 import { Hand } from "../helpers/cardLogic";
 
 export default function useApplicationData() {
 
   const [state, setState] = useState({
-    users: [],
+    user: {},
     cards: [],
     hand: [],
     dealer: {},
     currentHand: -1,
     turn: null,
     currentUser: null,
+    winnings: 0,
     actions: {
       deal: false,
       hit: false,
@@ -31,11 +32,14 @@ export default function useApplicationData() {
 
   useEffect(() => {
     Promise.all([ //unsure what the * does, might be security risk
-      axios.get('http://localhost:3001/api/users',
+      // axios.get('/api/users',
+      //   { headers: { 'Access-Control-Allow-Origin': '*' } }),
+      axios.get('/api/users/user',
         { headers: { 'Access-Control-Allow-Origin': '*' } }),
-      axios.get('http://localhost:3001/api/cards',
+      axios.get('/api/cards',
         { headers: { 'Access-Control-Allow-Origin': '*' } })
     ]).then((all) => {
+      //console.log(all[0].data.email, "EMAIL FROM AXIOS GET")
       let hand = []
       hand[0] = new Hand();
       hand[1] = new Hand();
@@ -44,7 +48,13 @@ export default function useApplicationData() {
       updateActions.deal = true;
       setState(prev => ({
         ...prev,
-        users: all[0].data,
+        // users: all[0].data,
+        user: all[0].data,
+        cash: {
+          bankroll: all[0].data.bankroll,
+          bet: 0,
+          initBankroll: all[0].data.bankroll
+        },
         cards: all[1].data,
         hand: hand,
         dealer: dealer,
@@ -54,15 +64,6 @@ export default function useApplicationData() {
     });
   }, []);
 
-  const testLogin = () => {
-    let currentUser = state.users[1]; // placeholder, will have variable for cookie later
-    let cash = {
-      bankroll: currentUser.bankroll,
-      bet: 0,
-      initBankroll: currentUser.bankroll
-    }
-    setState(prev => ({ ...prev, currentUser: currentUser, cash: cash }));
-  }
 
   const updateBankroll = (newBankroll) => {
     let cash = {
@@ -77,7 +78,7 @@ export default function useApplicationData() {
     let bankroll = state.cash.bankroll;
     //if (state.turn === "bet"){
     if (amount * 2 > bankroll) {
-      window.alert(`Insufficient funds, you are missing ${(bankroll - amount * 2) * -1}$`)
+      window.alert(`Insufficient funds, you are missing ${(amount * 2 - bankroll)}$`)
     } else {
       bankroll = state.cash.bankroll - (amount * state.hand.length);
       let bet = state.cash.bet + amount;
@@ -96,6 +97,35 @@ export default function useApplicationData() {
     }
   }
 
+  const verifyResults = async (hands) => {
+    let hand = hands;
+    for (let i = 0; i < hand.length; i++) {
+      hand[i].result = checkResult(hand[i], state.dealer);
+      updateHand(hand[i]);
+    }
+    return hand;
+  }
+
+  const calculateBankrollChange = async (hands) => {
+    let totalWinnings = 0;
+    for (const hand of hands) {
+      let winnings = 0;
+      if (hand.result === 'WIN' || hand.result === 'BLACKJACK') {
+        winnings = (hand.bet * 2);
+      } else if (hand.result === 'PUSH') {
+        winnings = hand.bet;
+      } else if (hand.result === 'LOSS' || hand.result === 'BUST') {
+        winnings = 0;
+      }
+      console.log(hand.result + ' for ' + hand.cards + 'winning: ' + winnings)
+      totalWinnings += winnings;
+    }
+    console.log("TOTAL WINNINGS: ", totalWinnings)
+    let newBankroll = state.cash.bankroll + totalWinnings
+    console.log(`in calculateBankrollChange, final newBankroll: ${newBankroll}`)
+    return newBankroll;
+  }
+
   //splitBet
   const updateBet = (amount) => {
     let bankroll = state.cash.bankroll - amount;
@@ -107,18 +137,6 @@ export default function useApplicationData() {
     setState(prev => ({ ...prev, cash: cash }));
   }
 
-  //doubleBet
-  // const updateBet = (amount) => {
-  //   let bankroll = state.cash.bankroll - amount;
-  //   //
-  //   let cash = {
-  //     bankroll: bankroll,
-  //     bet: state.cash.bet,
-  //     initBankroll: state.cash.initBankroll
-  //   }
-  //   setState(prev => ({ ...prev, cash: cash }));
-  // }
-
   const clearBet = () => {
     //if (state.turn === "bet") {
     let cash = {
@@ -126,11 +144,8 @@ export default function useApplicationData() {
       bet: 0,
       initBankroll: state.cash.initBankroll
     }
-    //let updateHands = state.hand.map( x => x.bet = 0);
-    //  hand: updateHands
     setState(prev => ({ ...prev, cash: cash }));
     resetHands();
-    //}
   }
 
   const updateHand = (hand) => {
@@ -229,6 +244,16 @@ export default function useApplicationData() {
       case "reveal":
         updateActions.reset = true;
         updateActions.split = false;
+        //will this work for setting state?
+        verifyResults(state.hand).then(res => {
+          calculateBankrollChange(res).then(res => {
+            updateBankroll(res);
+            axios.put(`api/users/${state.user.id}`, { bankroll: res })
+              .then(res => {
+                console.log("This is in the PUT:", res)
+              })
+          })
+        })
         break;
       case "bet":
         updateActions.deal = true;
@@ -284,5 +309,9 @@ export default function useApplicationData() {
     }))
   }
 
-  return { state, updateHand, updateHands, addSplitHand, updateActions, resetHands, testLogin, updateBankroll, addBet, clearBet, updateBet }
+  return {
+    state, updateHand,
+    updateHands, addSplitHand, updateActions, resetHands,
+    updateBankroll, addBet, clearBet, updateBet
+  }
 }
