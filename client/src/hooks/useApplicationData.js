@@ -31,9 +31,9 @@ export default function useApplicationData() {
 
   useEffect(() => {
     Promise.all([ //unsure what the * does, might be security risk
-      axios.get('http://localhost:3001/api/users',
+      axios.get('/api/users',
         { headers: { 'Access-Control-Allow-Origin': '*' } }),
-      axios.get('http://localhost:3001/api/cards',
+      axios.get('/api/cards',
         { headers: { 'Access-Control-Allow-Origin': '*' } })
     ]).then((all) => {
       let hand = []

@@ -62,7 +62,9 @@ export default function Header(props) {
           <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
             <NavDropdown.Item onClick={() => setSelectedMenu("register")}>Register</NavDropdown.Item>
               <Popup open={selectedMenu === "register"} onClose={() => setSelectedMenu(null)}>
-                <Registration onClose={() => setSelectedMenu(null)}></Registration>
+                <Registration 
+                logIn={() => setIsLogedIn(true)}
+                onClose={() => setSelectedMenu(null)}></Registration>
               </Popup>
             <NavDropdown.Item onClick={() => setSelectedMenu("login")}>Login</NavDropdown.Item>
               <Popup open={selectedMenu === "login"} onClose={() => setSelectedMenu(null)}>
