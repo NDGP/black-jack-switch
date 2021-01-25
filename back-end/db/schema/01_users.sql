@@ -6,17 +6,17 @@ CREATE TABLE users(
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     flag VARCHAR(255),
-    bankroll INT,
-    thp INT,
-    te INT,
-    mwh INT,
-    mlh INT,
-    mws INT, 
-    mls INT,
-    wp INT,
-    wpdd INT, 
-    bj INT,
-    bjp INT
+    bankroll INT DEFAULT 0,
+    thp INT DEFAULT 0,
+    te INT DEFAULT 0,
+    mwh INT DEFAULT 0,
+    mlh INT DEFAULT 0,
+    mws INT DEFAULT 0, 
+    mls INT DEFAULT 0,
+    wp INT DEFAULT 0,
+    wpdd INT DEFAULT 0, 
+    bj INT DEFAULT 0,
+    bjp INT DEFAULT 0
     ); 
 
 
