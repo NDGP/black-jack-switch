@@ -37,7 +37,8 @@ export default function Home(props) {
     updateBankroll,
     addBet,
     clearBet,
-    updateBet
+    updateBet,
+    calculateBet
   } = useApplicationData();
 
   let hand = state.hand;
@@ -117,20 +118,25 @@ export default function Home(props) {
     if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
       hit(dealer)
     } else {
+      
       updateActions(-1, "reveal");
     }
   }
 
   const split = () => {
-    if (hand[currentHand].canSplit === true) {
-      hand[currentHand].canSplit = false;
-      let newHand = new Hand(hand[currentHand].splitHand(), state.cash.bet)
-      addSplitHand(newHand);
-      updateHand(hand[currentHand]);
-      updateHand(hand[currentHand + 1]);
-      setTimeout(() => { hit(hand[currentHand]) }, 500);
-      setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
-      updateBet(cash.bet);
+    if (cash.bet > cash.bankroll) {
+      window.alert(`Insufficient funds, you are missing ${cash.bet - cash.bankroll}$`)
+    } else {
+      if (hand[currentHand].canSplit === true) {
+        hand[currentHand].canSplit = false;
+        let newHand = new Hand(hand[currentHand].splitHand(), state.cash.bet)
+        addSplitHand(newHand);
+        updateHand(hand[currentHand]);
+        updateHand(hand[currentHand + 1]);
+        setTimeout(() => { hit(hand[currentHand]) }, 500);
+        setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
+        updateBet(cash.bet);
+      }
     }
   }
 
@@ -140,6 +146,7 @@ export default function Home(props) {
     } else {
       hit(hand[currentHand]);
       hand[currentHand].bet += state.cash.bet;
+      updateHand(hand[currentHand]);
       updateBet(cash.bet);
       stay();
     }
@@ -165,16 +172,27 @@ export default function Home(props) {
     updateActions(-1, "bet");
   }
 
-  //console.log(state.currentUser, "before if.  USERS:", state.users)
-  if (state.currentUser === null && state.users.length > 0) {
-    //currentUser = state.users[1];
-    testLogin();
-    console.log(state.currentUser, "after if")
-  }
+  ////////////////
+  // console.log(state.currentUser, "before if.  USERS:", state.users)
+  // if (state.currentUser === null && state.users.length > 0) {
+  //   //currentUser = state.users[1];
+  //   testLogin();
+  //   console.log(state.currentUser, "after if")
+  // }
 
-  if (state.currentUser !== null && cash.bankroll === 0) {
-    cash.bankroll = state.currentUser.bankroll;
-    cash.initBankroll = state.currentUser.bankroll;
+  // if (state.currentUser !== null && cash.bankroll === 0) {
+  //   cash.bankroll = state.currentUser.bankroll;
+  //   cash.initBankroll = state.currentUser.bankroll;
+  // }
+////////////////////////
+  ////////////////////////
+
+  // console.log(state.user, "signed in! your bankroll is:", state.bankroll)
+
+  const x = () => {
+    //let newBankroll = cash.bankroll + winningsFromTable
+
+    //updateBankroll(newBankroll)
   }
 
   return (
@@ -191,6 +209,7 @@ export default function Home(props) {
         totalDraws={totalDraws}
         totalBlackjacks={totalBlackjacks}
         bet={cash.bet}
+        calculateBet={calculateBet}
       />
       <Actions
         hit={() => hit(hand[currentHand])}
