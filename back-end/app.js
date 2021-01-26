@@ -7,6 +7,7 @@ const dbHelpers = require('./db/helpers/dbHelpers')(db);
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards')
+const statsRouter = require('./routes/stats')
 const { nextTick } = require('process');
 const app = express();
 
@@ -37,5 +38,7 @@ app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 app.use('/api/users', usersRouter(dbHelpers));
 app.use('/api/cards', cardsRouter(dbHelpers));
+app.use('/api/stats', statsRouter(dbHelpers));
+
 
 module.exports = app;
