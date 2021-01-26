@@ -1,7 +1,7 @@
 import React from "react";
 import Hand from "./Hand"
 
-import './Table.css'
+import './CSS/Table.css'
 
 import { checkResult } from "../hooks/helpers.js"
 

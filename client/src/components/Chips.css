@@ -2,3 +2,19 @@
   visibility: hidden;
   border: 4px solid black
 }
+
+.token{
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+.token:hover {  background-color: #0c691e;
+  background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");}
+
+.token:active {
+  background-color: #0c691e;
+  background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
+  transform: translateY(4px);
+}

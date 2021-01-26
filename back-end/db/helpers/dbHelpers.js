@@ -96,6 +96,15 @@ module.exports = (db) => {
             .then(result => result.rows)
     }
 
+    const getStats = () => {
+        const query = {
+            text: `select first_name, last_name,  thp as total_hands_played,  wp as win_percentage,  bj as blackjacks  from users order by thp desc;`
+        }
+        return db.query(query)
+        .then(result => result.rows)
+    }
+
+
     return {
         getUsers,
         getUserByEmail,
@@ -103,7 +112,8 @@ module.exports = (db) => {
         getUsersPosts,
         getCards,
         getCard,
-        updateBankroll
+        updateBankroll,
+        getStats
     };
 };
 

@@ -26,6 +26,12 @@ export default function Hand(props) {
     );
   });
 
+  const displayBet = () => {
+    if (props.name !== "Dealer"){
+      return (`bet: ${props.bet}`)
+    }
+  }
+
   return (
     <div class={hand}>
       <div class={check}>
@@ -37,7 +43,7 @@ export default function Hand(props) {
         {cardsInHand}
       </div>
       <h3>
-        {props.name}: {props.value} bet: {props.bet}
+        {props.value} {displayBet()}
       </h3>
     </div>
   );
