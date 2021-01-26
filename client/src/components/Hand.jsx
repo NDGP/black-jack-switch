@@ -1,11 +1,12 @@
 import React from "react";
 import Card from "./Card";
 
-import './Hand.css'
+import './CSS/Hand.css'
 
 export default function Hand(props) {
   let hand = "hand";
   let check = "check"
+  let handValue = "handValue"
 
   if (props.dealerCount <= 1) {
     check = check + "-hide"
@@ -27,10 +28,14 @@ export default function Hand(props) {
   });
 
   const displayBet = () => {
-    if (props.name !== "Dealer"){
+    if (props.name !== "Dealer") {
       return (`bet: ${props.bet}`)
     }
   }
+
+if (props.value === 0){
+  handValue = handValue + "-hidden"
+}
 
   return (
     <div class={hand}>
@@ -42,8 +47,11 @@ export default function Hand(props) {
       <div class="cards">
         {cardsInHand}
       </div>
+      <h3 class ={handValue}>
+        <strong> {props.value} </strong>
+      </h3>
       <h3>
-        {props.value} {displayBet()}
+        {displayBet()}
       </h3>
     </div>
   );

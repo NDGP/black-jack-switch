@@ -5,7 +5,7 @@ import Deposit from "./Deposit"
 import Withdraw from "./Withdraw"
 import Registration from "./Registration"
 import Rules from './Rules';
-import { Navbar, NavDropdown, Nav, Image, Button} from "react-bootstrap"
+import { Navbar, NavDropdown, Nav, Button} from "react-bootstrap"
 import Strategy from './Strategy';
 import axios from 'axios';
 
@@ -14,7 +14,6 @@ import "./Header.css";
 import "./Popup.css"
 import "./NewHeader.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logo from "./images/logoTest.png"
 
 
 export default function Header(props) {
@@ -30,7 +29,7 @@ export default function Header(props) {
   
   useEffect(() => {
     axios.get("/api/users/user").then(res => {
-        console.log(res)
+        //console.log(res)
         if (res.data === "no session found"){
           console.log("no session")
         } else {

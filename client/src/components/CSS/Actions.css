@@ -15,8 +15,8 @@ button {
   border-radius: 1em !important;
   box-sizing: border-box;
   text-decoration: none;
-  border:0.16em solid rebeccapurple;
-  background-color: rebeccapurple;
+  border:0.16em solid rgb(161, 83, 172);;
+  background-color: rgb(161, 83, 172);;
   font-weight: bold;
 }
 

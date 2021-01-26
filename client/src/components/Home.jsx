@@ -16,6 +16,7 @@ let totalLosses = 0;
 let totalDraws = 0;
 let totalBlackjacks = 0;
 
+
 export default function Home(props) {
   const {
     state,
@@ -34,8 +35,7 @@ export default function Home(props) {
   let bet = state.bet;
   let bankroll = state.bankroll;
   let initBankroll = state.initBankroll;
-  
-console.log(actions)
+
 
   const recordStats = (turnWins, turnLosses, turnDraws, turnBlackjacks) => {
     //  console.log(`Record Stats before: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
@@ -47,7 +47,7 @@ console.log(actions)
       console.log(`Record Stats after: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
     }
   }
-  
+
   const checkBlackjack = () => {
     if (hand[currentHand]) {
       if (hand[currentHand].value >= 21 && state.turn === "player") {
@@ -107,7 +107,7 @@ console.log(actions)
     }
   }
   actions.split.execute = () => split();
-  
+
   const doubleDown = () => {
     if (bet > bankroll) {
       window.alert(`Insufficient funds, you are missing ${bet - bankroll}$`)
@@ -120,12 +120,10 @@ console.log(actions)
     }
   }
   actions.double.execute = () => doubleDown();
-  
+
   //switch is not allowed as a function name in js, use swap instead
   const swap = (hand1, hand2) => {
     if (actions.switch.enabled) {
-      //if statement redundant?
-      // actions.switch = false;
       let temp = hand1.cards[1];
       hand1.cards[1] = hand2.cards[1];
       hand2.cards[1] = temp;
@@ -134,7 +132,7 @@ console.log(actions)
     }
   }
   actions.switch.execute = () => swap(hand[0], hand[1]);
-  
+
   const clearTable = () => {
     clearBet()
     dealer = new Hand();
@@ -142,29 +140,29 @@ console.log(actions)
   }
   actions.reset.execute = () => clearTable();
 
-//////////not function declarations:
-
-  //DEALER
-  //dealer code
-  if (state.turn === "dealer") {
+  const dealerPlays = async () => {
     if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
       hit(dealer)
     } else {
       updateActions(-1, "reveal");
     }
   }
-  
+
+  if (state.turn === "dealer") {
+    dealerPlays();
+  }
+
   checkBlackjack();
 
-   // shuffle
-   if (state.turn === "reveal" && deck.cards.length < deck.resetCards.length / 2){
+  // shuffle
+  if (state.turn === "reveal" && deck.cards.length < deck.resetCards.length / 2) {
     deck.reset()
   }
 
   if (hand[currentHand] && state.turn === "player") {
     actions.split.enabled = hand[currentHand].canSplit;
     if (hand[currentHand].cards.length > 2) actions.double.enabled = false;
-  } 
+  }
 
   return (
     <div class="table">

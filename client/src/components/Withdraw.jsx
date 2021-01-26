@@ -7,7 +7,6 @@ export default function Withdraw(onClose) {
 
   const [value, setValue] = useState("")
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(value)
