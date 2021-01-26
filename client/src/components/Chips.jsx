@@ -23,11 +23,11 @@ tokens = tokens +"-hidden"
     <div class="Chips">
       <h2> Total bet: {totalBet} </h2>
       <span class={tokens}>
-      <input type="image" onClick={props.addBet5} src={five} alt="Wrong path" height="72" length="72"/>
-      <input type="image" onClick={props.addBet25} src={twentyFive} alt="Wrong path"  height="72" length="72"/>
-      <input type="image" onClick={props.addBet100} src={oneHundred} alt="Wrong path" height="72" length="72" />
-      <input type="image" onClick={props.addBet500} src={fiveHundred} alt="Wrong path" height="72" length="72" />
-      <input type="image" onClick={props.clearBet} src={clear} alt="Wrong path" />
+      <input type="image"  class="token" onClick={props.addBet5} src={five} alt="Wrong path" height="72" length="72"/>
+      <input type="image" class="token" onClick={props.addBet25} src={twentyFive} alt="Wrong path"  height="72" length="72"/>
+      <input type="image" class="token" onClick={props.addBet100} src={oneHundred} alt="Wrong path" height="72" length="72" />
+      <input type="image" class="token" onClick={props.addBet500} src={fiveHundred} alt="Wrong path" height="72" length="72" />
+      <input type="image" class="token" onClick={props.clearBet} src={clear} alt="Wrong path" />
       </span>
       </div>
       <section class="bankroll">
