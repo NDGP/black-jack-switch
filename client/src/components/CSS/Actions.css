@@ -1,0 +1,39 @@
+.Actions {
+  border-radius: 20px;
+  margin-top: 50px;
+  padding: 14px 0 14px 0;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  font-size: 21px !important;
+  padding: 21px 12px 21px 12px;
+  min-width: 90px;
+  color: whitesmoke;
+  border-radius: 1em !important;
+  box-sizing: border-box;
+  text-decoration: none;
+  border:0.16em solid rebeccapurple;
+  background-color: rebeccapurple;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: rgb(48, 172, 37);
+  border-color: whitesmoke;
+}
+
+.action {
+  margin-left: 4px;
+  margin-right: 4px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.action-hidden {
+  visibility: hidden;
+}
+
+

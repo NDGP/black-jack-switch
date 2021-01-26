@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { checkResult } from "./helpers.js"
+import { checkResult, calculateBankrollChange } from "./helpers.js"
 import { Hand } from "../helpers/cardLogic";
 
 export default function useApplicationData() {
@@ -17,13 +17,41 @@ export default function useApplicationData() {
     bet: 0,
     initBankroll: 0,
     actions: {
-      deal: false,
-      hit: false,
-      stay: false,
-      split: false,
-      switch: false,
-      double: false,
-      reset: false,
+      reset: {
+        name: "New Bet",
+        enabled: false,
+        execute: ()=>console.log("action function error"),
+      },
+      deal:{
+        name: "Deal", //testing at true, please return to false by default
+        enabled: true,
+        execute: ()=>console.log("action function error"),
+      },
+      switch: {
+        name: "Switch",
+        enabled: false,
+        execute: ()=>console.log("action function error"),
+      },
+      split: {
+        name: "Split",
+        enabled: false,
+        execute: ()=>console.log("action function error"),
+      },
+      double: {
+        name: "Double",
+        enabled: false,
+        execute: ()=>console.log("action function error"),
+      },
+      stay: {
+        name: "Stay",
+        enabled: false,
+        execute: ()=>console.log("action function error"),
+      },
+      hit: {
+        name: "Hit",
+        enabled: false,
+        execute: ()=>console.log("action function error"),
+      },
     }
   })
 
@@ -39,8 +67,8 @@ export default function useApplicationData() {
       hand[0] = new Hand();
       hand[1] = new Hand();
       let dealer = new Hand();
-      let updateActions = {}
-      updateActions.deal = true;
+      // let updateActions = {}
+      // updateActions.deal.enabled = true;
       setState(prev => ({
         ...prev,
         user: all[0].data,
@@ -49,15 +77,13 @@ export default function useApplicationData() {
         cards: all[1].data,
         hand: hand,
         dealer: dealer,
-        actions: updateActions,
-        turn: "bet",
+        turn: "bet"
       }))
     });
   }, []);
 
 
-  //////////betting / money handling
-
+  //betting / money handling
   const updateBankroll = (newBankroll) => {
     setState(prev => ({ ...prev, bankroll: newBankroll, initBankroll: newBankroll }));
   }
@@ -77,34 +103,7 @@ export default function useApplicationData() {
     }
   }
 
-  const verifyResults = async (hands) => {
-    let hand = hands;
-    for (let i = 0; i < hand.length; i++) {
-      hand[i].result = checkResult(hand[i], state.dealer);
-      updateHand(hand[i]);
-    }
-    return hand;
-  }
-
-  const calculateBankrollChange = async (hands) => {
-    let totalWinnings = 0;
-    for (const hand of hands) {
-      let winnings = 0;
-      if (hand.result === 'WIN' || hand.result === 'BLACKJACK') {
-        winnings = (hand.bet * 2);
-      } else if (hand.result === 'PUSH') {
-        winnings = hand.bet;
-      } else if (hand.result === 'LOSS' || hand.result === 'BUST') {
-        winnings = 0;
-      }
-      console.log(hand.result + ' for ' + hand.cards + 'winning: ' + winnings)
-      totalWinnings += winnings;
-    }
-    let newBankroll = state.bankroll + totalWinnings
-    return newBankroll;
-  }
-
-  //called on splits and double-downs
+  //updateBet is called on splits and double-downs
   const updateBet = (amount) => {
     let bankroll = state.bankroll - amount;
     setState(prev => ({ ...prev, bankroll: bankroll }));
@@ -118,12 +117,10 @@ export default function useApplicationData() {
     setState(prev => ({ ...prev, bankroll: initBankroll, bet: 0, hand: hand }));
   }
 
-  ////
-
+  ///Hand manipulation
   const updateHand = (hand) => {
     let value = 0;
     let aces = hand.ace;
-
     //first calculates this hand's value and aces
     for (const card of hand.cards) {
       let cardInfo = state.cards.find(info => info.name === card);
@@ -148,7 +145,6 @@ export default function useApplicationData() {
       }
     }
     hand.value = value;
-
     setState(prev => ({ ...prev, [hand]: hand }));
   }
 
@@ -163,67 +159,70 @@ export default function useApplicationData() {
     setState(prev => ({ ...prev, hand: updateHands }))
   }
 
-  //set available actions for the player based on the current turn/phase
+  const verifyResults = async (hands) => {
+    let hand = hands;
+    for (let i = 0; i < hand.length; i++) {
+      hand[i].result = checkResult(hand[i], state.dealer);
+      updateHand(hand[i]);
+    }
+    return hand;
+  }  
+
+  //updateActions sets available actions for the player based on the current turn/phase.
+  //player's bankroll is updated in back-end databse on reveal phase
   const updateActions = (currentHand, phase) => {
     let updateActions = state.actions
     switch (phase) {
       case "reveal":
-        updateActions.reset = true;
-        updateActions.split = false;
+        updateActions.reset.enabled = true;
+        updateActions.split.enabled = false;
         verifyResults(state.hand).then(res => {
-          calculateBankrollChange(res).then(res => {
+          calculateBankrollChange(res, state.bankroll).then(res => {
             updateBankroll(res);
             axios.put(`api/users/${state.user.id}`, { bankroll: res })
               .then(res => {
-                console.log("This is in the PUT:", res)
+                console.log("Bankroll updated")
               })
           })
         })
         break;
       case "bet":
-        updateActions.deal = true;
-        updateActions.reset = false;
-        updateActions.split = false;
+        updateActions.deal.enabled = true;
+        updateActions.reset.enabled = false;
+        updateActions.split.enabled = false;
         break;
       case "deal":
-        updateActions.deal = false;
-        updateActions.reset = false;
-        updateActions.split = false;
+        updateActions.deal.enabled = false;
+        updateActions.reset.enabled = false;
+        updateActions.split.enabled = false;
         break;
       case "player":
         let swapStatus = (currentHand === 0 && state.hand[1].cards.length === 2 && state.hand.length === 2)
-        updateActions = {
-          deal: false,
-          hit: true,
-          stay: true,
-          split: state.hand[currentHand].canSplit,
-          switch: swapStatus,
-          double: true
-        }
+        updateActions.deal.enabled = false;
+        updateActions.hit.enabled = true;
+        updateActions.stay.enabled = true;
+        updateActions.split.enabled = state.hand[currentHand].canSplit;
+        updateActions.switch.enabled = swapStatus;
+        updateActions.double.enabled = true;
         break;
       case "dealer":
-        updateActions = {
-          deal: false,
-          hit: false,
-          stay: false,
-          split: false,
-          switch: false,
-          double: false
-        }
+        updateActions.deal.enabled = false;
+        updateActions.hit.enabled = false;
+        updateActions.stay.enabled = false;
+        updateActions.split.enabled = false;
+        updateActions.switch.enabled = false;
+        updateActions.double.enabled = false;
         break;
       default:
-        updateActions = {
-          deal: false,
-          hit: false,
-          stay: false,
-          split: false,
-          switch: false,
-          double: false
-        }
+        updateActions.deal.enabled = false;
+        updateActions.hit.enabled = false;
+        updateActions.stay.enabled = false;
+        updateActions.split.enabled = false;
+        updateActions.switch.enabled = false;
+        updateActions.double.enabled = false;
     }
     setState(prev => ({ ...prev, currentHand: currentHand, actions: updateActions, turn: phase }))
   }
-
 
   return {
     state, updateHand,

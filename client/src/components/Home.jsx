@@ -35,6 +35,7 @@ export default function Home(props) {
   let bankroll = state.bankroll;
   let initBankroll = state.initBankroll;
   
+console.log(actions)
 
   const recordStats = (turnWins, turnLosses, turnDraws, turnBlackjacks) => {
     //  console.log(`Record Stats before: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
@@ -46,9 +47,17 @@ export default function Home(props) {
       console.log(`Record Stats after: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
     }
   }
+  
+  const checkBlackjack = () => {
+    if (hand[currentHand]) {
+      if (hand[currentHand].value >= 21 && state.turn === "player") {
+        stay()
+      }
+    }
+  }
 
   const deal = () => {
-    actions.deal = false;
+    actions.deal.enabled = false;
     updateActions(-1, "deal")
 
     setTimeout(() => { hit(hand[0]) }, 350);
@@ -60,20 +69,15 @@ export default function Home(props) {
     setTimeout(() => { hit(dealer) }, 1050);
     setTimeout(() => { updateActions(0, "player") }, 1755);
   }
+  actions.deal.execute = () => deal();
 
   const hit = (hand) => {
     hand.add(deck.draw())
     updateHand(hand);
-    actions.switch = false;
+    actions.switch.enabled = false;
   }
+  actions.hit.execute = () => hit(hand[currentHand]);
 
-  const checkBlackjack = () => {
-    if (hand[currentHand]) {
-      if (hand[currentHand].value >= 21 && state.turn === "player") {
-        stay()
-      }
-    }
-  }
 
   const stay = () => {
     if (currentHand < hand.length - 1) {
@@ -84,6 +88,7 @@ export default function Home(props) {
       updateActions(currentHand, "dealer");
     }
   }
+  actions.stay.execute = () => stay();
 
   const split = () => {
     if (bet > bankroll) {
@@ -101,6 +106,7 @@ export default function Home(props) {
       }
     }
   }
+  actions.split.execute = () => split();
   
   const doubleDown = () => {
     if (bet > bankroll) {
@@ -113,10 +119,12 @@ export default function Home(props) {
       stay();
     }
   }
+  actions.double.execute = () => doubleDown();
   
   //switch is not allowed as a function name in js, use swap instead
   const swap = (hand1, hand2) => {
-    if (actions.switch) {
+    if (actions.switch.enabled) {
+      //if statement redundant?
       // actions.switch = false;
       let temp = hand1.cards[1];
       hand1.cards[1] = hand2.cards[1];
@@ -125,13 +133,15 @@ export default function Home(props) {
       updateHand(hand2);
     }
   }
+  actions.switch.execute = () => swap(hand[0], hand[1]);
   
   const clearTable = () => {
     clearBet()
     dealer = new Hand();
     updateActions(-1, "bet");
   }
-  
+  actions.reset.execute = () => clearTable();
+
 //////////not function declarations:
 
   //DEALER
@@ -152,8 +162,8 @@ export default function Home(props) {
   }
 
   if (hand[currentHand] && state.turn === "player") {
-    actions.split = hand[currentHand].canSplit;
-    if (hand[currentHand].cards.length > 2) actions.double = false;
+    actions.split.enabled = hand[currentHand].canSplit;
+    if (hand[currentHand].cards.length > 2) actions.double.enabled = false;
   } 
 
   return (
@@ -173,13 +183,6 @@ export default function Home(props) {
         calculateBet={calculateBet}
       />
       <Actions
-        hit={() => hit(hand[currentHand])}
-        stay={() => stay()}
-        deal={() => deal()}
-        swap={() => swap(hand[0], hand[1])}
-        split={() => split()}
-        double={() => doubleDown()}
-        reset={() => clearTable()}
         actions={actions}
       />
       <Chips

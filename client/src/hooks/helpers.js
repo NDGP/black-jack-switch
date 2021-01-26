@@ -1,5 +1,3 @@
-const { default: Hand } = require("../components/Card");
-
 const checkResult = (player, dealer) => {
   let result = "";
 
@@ -31,16 +29,20 @@ const checkResult = (player, dealer) => {
   return result;
 }
 
-////Table.jsx
-//hand[index].result = checkResult(hand,dealer)
+const calculateBankrollChange = async (hands, bankroll) => {
+  let totalWinnings = 0;
+  for (const hand of hands) {
+    let winnings = 0;
+    if (hand.result === 'WIN' || hand.result === 'BLACKJACK') {
+      winnings = (hand.bet * 2);
+    } else if (hand.result === 'PUSH') {
+      winnings = hand.bet;
+    }
+    totalWinnings += winnings;
+  }
+  let newBankroll = bankroll + totalWinnings
+  return newBankroll;
+}
 
-//updateHands should update hands.result
 
-
-
-//useAppData
-//calculateBets
-//axios
-//repeat
-
-module.exports = { checkResult }
+module.exports = { checkResult, calculateBankrollChange }
