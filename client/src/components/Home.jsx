@@ -34,8 +34,8 @@ export default function Home(props) {
   let bet = state.bet;
   let bankroll = state.bankroll;
   let initBankroll = state.initBankroll;
-  
-console.log(actions)
+
+  console.log(actions)
 
   const recordStats = (turnWins, turnLosses, turnDraws, turnBlackjacks) => {
     //  console.log(`Record Stats before: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
@@ -47,7 +47,7 @@ console.log(actions)
       console.log(`Record Stats after: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
     }
   }
-  
+
   const checkBlackjack = () => {
     if (hand[currentHand]) {
       if (hand[currentHand].value >= 21 && state.turn === "player") {
@@ -78,7 +78,6 @@ console.log(actions)
   }
   actions.hit.execute = () => hit(hand[currentHand]);
 
-
   const stay = () => {
     if (currentHand < hand.length - 1) {
       updateHand(hand[currentHand]);
@@ -107,7 +106,7 @@ console.log(actions)
     }
   }
   actions.split.execute = () => split();
-  
+
   const doubleDown = () => {
     if (bet > bankroll) {
       window.alert(`Insufficient funds, you are missing ${bet - bankroll}$`)
@@ -120,7 +119,7 @@ console.log(actions)
     }
   }
   actions.double.execute = () => doubleDown();
-  
+
   //switch is not allowed as a function name in js, use swap instead
   const swap = (hand1, hand2) => {
     if (actions.switch.enabled) {
@@ -134,7 +133,7 @@ console.log(actions)
     }
   }
   actions.switch.execute = () => swap(hand[0], hand[1]);
-  
+
   const clearTable = () => {
     clearBet()
     dealer = new Hand();
@@ -142,7 +141,7 @@ console.log(actions)
   }
   actions.reset.execute = () => clearTable();
 
-//////////not function declarations:
+  //////////not function declarations:
 
   //DEALER
   //dealer code
@@ -153,18 +152,77 @@ console.log(actions)
       updateActions(-1, "reveal");
     }
   }
-  
+
   checkBlackjack();
 
-   // shuffle
-   if (state.turn === "reveal" && deck.cards.length < deck.resetCards.length / 2){
+  // shuffle
+  if (state.turn === "reveal" && deck.cards.length < deck.resetCards.length / 2) {
     deck.reset()
   }
 
   if (hand[currentHand] && state.turn === "player") {
     actions.split.enabled = hand[currentHand].canSplit;
     if (hand[currentHand].cards.length > 2) actions.double.enabled = false;
-  } 
+  }
+
+
+  const isKeyPressed = {
+    'h': false,
+    's': false,
+    'd': false,
+    'p': false,
+    'c': false,
+    'b': false,
+    'n': false,
+    'x': false,
+    'q': false,
+    'w': false,
+    'e': false,
+    'r': false,
+
+
+  }
+
+  document.onkeydown = (keyDownEvent) => {
+
+    isKeyPressed[keyDownEvent.key] = true;
+    if (isKeyPressed["h"]) {
+      hit(hand[currentHand])
+    }
+    if (isKeyPressed["s"]) {
+      stay()
+    }
+    if (isKeyPressed["d"]) {
+      doubleDown()
+    }
+    if (isKeyPressed["p"]) {
+      split()
+    }
+    if (isKeyPressed["c"]) {
+      clearBet()
+    }
+    if (isKeyPressed["b"]) {
+      clearTable()
+    }
+    if (isKeyPressed["n"]) {
+      deal()
+    }
+    if (isKeyPressed["x"]) {
+      swap(hand[0], hand[1])
+    }
+    if (isKeyPressed["q"]) {
+      addBet(5)
+    }
+    if (isKeyPressed["w"]) {
+      addBet(25)
+    }
+    if (isKeyPressed["e"]) {
+      addBet(100)
+    }
+    if (isKeyPressed["r"]) {
+      addBet(500)
+    }
+  }
 
   return (
     <div class="table" >
