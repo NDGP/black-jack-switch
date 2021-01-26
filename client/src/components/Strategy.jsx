@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 
 
-export default function Strategy(onClose) {
+export default function Strategy( { onClose } ) {
     return (
         <div>
             <Form>

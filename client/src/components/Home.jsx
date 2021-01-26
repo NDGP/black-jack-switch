@@ -6,7 +6,7 @@ import Chips from "./Chips";
 import Actions from './Actions';
 
 import "./Home.css";
-
+ 
 let deck = new Deck(6);
 let dealer = new Hand();
 
