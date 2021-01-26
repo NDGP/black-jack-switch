@@ -15,8 +15,7 @@ CREATE TABLE users(
     mls INT DEFAULT 0,
     wp INT DEFAULT 0,
     wpdd INT DEFAULT 0, 
-    bj INT DEFAULT 0,
-    bjp INT DEFAULT 0
+    bj INT DEFAULT 0
     ); 
 
 
