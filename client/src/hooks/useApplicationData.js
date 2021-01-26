@@ -31,13 +31,8 @@ export default function useApplicationData() {
   })
 
   useEffect(() => {
-<<<<<<< HEAD
-    Promise.all([ //unsure what the * does, might be security risk
-      axios.get('/api/users',
-=======
     Promise.all([
       axios.get('/api/users/user',
->>>>>>> 169d97f91fc420b28422926f1077748b86ad3ac0
         { headers: { 'Access-Control-Allow-Origin': '*' } }),
       axios.get('/api/cards',
         { headers: { 'Access-Control-Allow-Origin': '*' } })
