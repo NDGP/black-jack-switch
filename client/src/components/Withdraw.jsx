@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import {  Form } from "react-bootstrap"
+import {  Form, Row, Col, Button } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 
-export default function Withdraw(onClose) {
+export default function Withdraw({ onClose }) {
 
   const [value, setValue] = useState("")
 
@@ -20,6 +20,17 @@ export default function Withdraw(onClose) {
               <Form.Label>withdraw</Form.Label>
               <Form.Control type="range" />
             </Form.Group>
+
+            <Row>
+                <Col>
+                <Button variant="primary" type="submit">
+                    Submit
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant="outline-danger" onClick = { onClose } >close</Button>
+                </Col>
+            </Row>
         </Form>
     </div>
   )

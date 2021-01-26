@@ -165,7 +165,7 @@ export default function Home(props) {
   }
 
   return (
-    <div class="table">
+    <div class="table" >
       <Table
         cardLibrary={state.cards}
         deck={deck}

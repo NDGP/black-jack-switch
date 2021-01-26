@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Form } from "react-bootstrap"
+import { Button, Form, Row, Col } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 
-export default function Deposit(onClose) {
+export default function Deposit({onClose}) {
 
   const [amount, setAmount] = useState("")
 
@@ -25,6 +25,16 @@ export default function Deposit(onClose) {
                   placeholder="Enter Amount" />
 
               </Form.Group>
+              <Row>
+                <Col>
+                <Button variant="primary" type="submit">
+                    Submit
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant="outline-danger" onClick = { onClose } >close</Button>
+                </Col>
+            </Row>
       </Form>
     </div>
   )

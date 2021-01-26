@@ -61,7 +61,9 @@ export default function Header(props) {
           <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
             <NavDropdown.Item onClick={() => setSelectedMenu("register")}>Register</NavDropdown.Item>
               <Popup open={selectedMenu === "register"} onClose={() => setSelectedMenu(null)}>
-                <Registration onClose={() => setSelectedMenu(null)}></Registration>
+                <Registration 
+                logIn={() => setIsLogedIn(true)}
+                onClose={() => setSelectedMenu(null)}></Registration>
               </Popup>
             <NavDropdown.Item onClick={() => setSelectedMenu("login")}>Login</NavDropdown.Item>
               <Popup open={selectedMenu === "login"} onClose={() => setSelectedMenu(null)}>
@@ -71,11 +73,13 @@ export default function Header(props) {
               </Popup>
             <NavDropdown.Item onClick={() => setSelectedMenu("deposit")}>Deposit</NavDropdown.Item>
               <Popup open={selectedMenu === "deposit"} onClose={() => setSelectedMenu(null)}>
-                <Deposit></Deposit>
+                <Deposit 
+                  onClose={() => setSelectedMenu(null)}>
+                </Deposit>
               </Popup>
             <NavDropdown.Item onClick={() => setSelectedMenu("withdraw")}>Withdraw</NavDropdown.Item>
               <Popup open={selectedMenu === "withdraw"} onClose={() => setSelectedMenu(null)}>
-                <Withdraw></Withdraw>
+                <Withdraw onClose={() => setSelectedMenu(null)}></Withdraw>
               </Popup>
             <NavDropdown.Item onClick={() => setSelectedMenu("rules")}>Rules</NavDropdown.Item>
               <Popup open={selectedMenu === "rules"} onClose={() => setSelectedMenu(null)}>
@@ -97,34 +101,40 @@ export default function Header(props) {
 
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="mr-auto">
+      <Nav className="mr-auto">
 
-          <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-            <NavDropdown.Item onClick={() => setSelectedMenu("register")}>Register</NavDropdown.Item>
-              <Popup open={selectedMenu === "register"} onClose={() => setSelectedMenu(null)}>
-                <Registration onClose={() => setSelectedMenu(null)}></Registration>
-              </Popup>
-            <NavDropdown.Item onClick={() => setSelectedMenu("login")}>Login</NavDropdown.Item>
-              <Popup open={selectedMenu === "login"} onClose={() => setSelectedMenu(null)}>
-                <Login onClose={() => setSelectedMenu(null)}></Login>
-              </Popup>
-            <NavDropdown.Item onClick={() => setSelectedMenu("deposit")}>Deposit</NavDropdown.Item>
-              <Popup open={selectedMenu === "deposit"} onClose={() => setSelectedMenu(null)}>
-                <Deposit></Deposit>
-              </Popup>
-            <NavDropdown.Item onClick={() => setSelectedMenu("withdraw")}>Withdraw</NavDropdown.Item>
-              <Popup open={selectedMenu === "withdraw"} onClose={() => setSelectedMenu(null)}>
-                <Withdraw></Withdraw>
-              </Popup>
-            <NavDropdown.Item onClick={() => setSelectedMenu("rules")}>Rules</NavDropdown.Item>
-              <Popup open={selectedMenu === "rules"} onClose={() => setSelectedMenu(null)}>
-                <Rules onClose={() => setSelectedMenu(null)}></Rules>
-              </Popup>
-              <NavDropdown.Item onClick={() => setSelectedMenu("strategy")}>Strategy</NavDropdown.Item>
-              <Popup open={selectedMenu === "strategy"} onClose={() => setSelectedMenu(null)}>
-                <Strategy onClose={() => setSelectedMenu(null)}></Strategy>
-              </Popup>
-          </NavDropdown>
+        <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+          <NavDropdown.Item onClick={() => setSelectedMenu("register")}>Register</NavDropdown.Item>
+            <Popup open={selectedMenu === "register"} onClose={() => setSelectedMenu(null)}>
+              <Registration 
+              logIn={() => setIsLogedIn(true)}
+              onClose={() => setSelectedMenu(null)}></Registration>
+            </Popup>
+          <NavDropdown.Item onClick={() => setSelectedMenu("login")}>Login</NavDropdown.Item>
+            <Popup open={selectedMenu === "login"} onClose={() => setSelectedMenu(null)}>
+              <Login 
+              logIn={() => setIsLogedIn(true)}
+              onClose={() => setSelectedMenu(null)}></Login>
+            </Popup>
+          <NavDropdown.Item onClick={() => setSelectedMenu("deposit")}>Deposit</NavDropdown.Item>
+            <Popup open={selectedMenu === "deposit"} onClose={() => setSelectedMenu(null)}>
+              <Deposit 
+                onClose={() => setSelectedMenu(null)}>
+              </Deposit>
+            </Popup>
+          <NavDropdown.Item onClick={() => setSelectedMenu("withdraw")}>Withdraw</NavDropdown.Item>
+            <Popup open={selectedMenu === "withdraw"} onClose={() => setSelectedMenu(null)}>
+              <Withdraw onClose={() => setSelectedMenu(null)}></Withdraw>
+            </Popup>
+          <NavDropdown.Item onClick={() => setSelectedMenu("rules")}>Rules</NavDropdown.Item>
+            <Popup open={selectedMenu === "rules"} onClose={() => setSelectedMenu(null)}>
+              <Rules onClose={() => setSelectedMenu(null)}></Rules>
+            </Popup>
+            <NavDropdown.Item onClick={() => setSelectedMenu("strategy")}>Strategy</NavDropdown.Item>
+            <Popup open={selectedMenu === "strategy"} onClose={() => setSelectedMenu(null)}>
+              <Strategy onClose={() => setSelectedMenu(null)}></Strategy>
+            </Popup>
+        </NavDropdown>
         </Nav>
         <Nav>
             <Button onClick = { signOut }>Logout</Button>

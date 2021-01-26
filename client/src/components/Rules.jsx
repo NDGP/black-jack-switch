@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 
 
-export default function Rules( {onClose} ) {
+export default function Rules({onClose}) {
     return (
         <div>
             <h1> Blackjack switch rules</h1>
