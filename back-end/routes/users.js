@@ -85,7 +85,7 @@ module.exports = ({
                         res.send("password or email incorect")
                     } else {
                         req.session.id=req.body.email
-                        res.send(result)
+                        res.send(result)                        
                     }
             });
 

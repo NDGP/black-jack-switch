@@ -3,6 +3,7 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 import axios from "axios";
+import resetHands from "../hooks/useApplicationData"
 
 export default function Login({props, onClose, logIn }) {
 
@@ -20,15 +21,12 @@ export default function Login({props, onClose, logIn }) {
                 password: userPassword
             }).then(res => {
                 console.log(res)
-                axios.get('/api/users').then(res =>{
-                    debugger
-                })
-                if (res.data === "false"){
+                if (res.data === false){
                     setShow(true)
                 } else {
                     logIn()
                     onClose()
-                    res.render('/')
+                    resetHands()
                 }
 
             }).catch(res => {

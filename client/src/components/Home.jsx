@@ -167,7 +167,7 @@ console.log(actions)
   } 
 
   return (
-    <div class="table">
+    <div class="table" >
       <Table
         cardLibrary={state.cards}
         deck={deck}
