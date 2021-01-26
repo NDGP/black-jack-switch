@@ -7,7 +7,6 @@ import Actions from './Actions';
 
 import "./Home.css";
 
-
 let deck = new Deck(6);
 let dealer = new Hand();
 
@@ -17,24 +16,12 @@ let totalLosses = 0;
 let totalDraws = 0;
 let totalBlackjacks = 0;
 
-let cash = {
-  bet: 0,
-  bankroll : 0,
-  initBankroll: 0
-}
-
-// let currentUser = null;
-
 export default function Home(props) {
   const {
     state,
     updateHand,
-    updateHands,
-    resetHands,
-    addSplitHand,
+    spawnSplitHand,
     updateActions,
-    testLogin,
-    updateBankroll,
     addBet,
     clearBet,
     updateBet,
@@ -44,12 +31,10 @@ export default function Home(props) {
   let hand = state.hand;
   let currentHand = state.currentHand;
   let actions = state.actions;
-  let cash = state.cash;
-
-  // shuffle
-  if (state.turn === "reveal" && deck.cards.length < deck.resetCards.length / 2){
-      deck.reset()
-    }
+  let bet = state.bet;
+  let bankroll = state.bankroll;
+  let initBankroll = state.initBankroll;
+  
 
   const recordStats = (turnWins, turnLosses, turnDraws, turnBlackjacks) => {
     //  console.log(`Record Stats before: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
@@ -61,8 +46,6 @@ export default function Home(props) {
       console.log(`Record Stats after: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
     }
   }
-  //if (state.dealer) dealer = state.dealer;
-  if (hand[currentHand]) actions.split = hand[currentHand].canSplit;
 
   const deal = () => {
     actions.deal = false;
@@ -77,16 +60,6 @@ export default function Home(props) {
     setTimeout(() => { hit(dealer) }, 1050);
     setTimeout(() => { updateActions(0, "player") }, 1755);
   }
-
-  //testcode
-  // const fakehit = (hand) => {
-  //   hand.add("AS")
-  //   updateHand(hand);
-  // }
-  // const fakehit2 = (hand) => {
-  //   hand.add("KH")
-  //   updateHand(hand);
-  // }
 
   const hit = (hand) => {
     hand.add(deck.draw())
@@ -112,46 +85,35 @@ export default function Home(props) {
     }
   }
 
-  //DEALER
-  //dealer code
-  if (state.turn === "dealer") {
-    if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
-      hit(dealer)
-    } else {
-      
-      updateActions(-1, "reveal");
-    }
-  }
-
   const split = () => {
-    if (cash.bet > cash.bankroll) {
-      window.alert(`Insufficient funds, you are missing ${cash.bet - cash.bankroll}$`)
+    if (bet > bankroll) {
+      window.alert(`Insufficient funds, you are missing ${bet - bankroll}$`)
     } else {
       if (hand[currentHand].canSplit === true) {
         hand[currentHand].canSplit = false;
-        let newHand = new Hand(hand[currentHand].splitHand(), state.cash.bet)
-        addSplitHand(newHand);
+        let newHand = new Hand(hand[currentHand].splitHand(), bet)
+        spawnSplitHand(newHand);
         updateHand(hand[currentHand]);
         updateHand(hand[currentHand + 1]);
         setTimeout(() => { hit(hand[currentHand]) }, 500);
         setTimeout(() => { hit(hand[currentHand + 1]) }, 1000);
-        updateBet(cash.bet);
+        updateBet(bet);
       }
     }
   }
-
+  
   const doubleDown = () => {
-    if (cash.bet > cash.bankroll) {
-      window.alert(`Insufficient funds, you are missing ${cash.bet - cash.bankroll}$`)
+    if (bet > bankroll) {
+      window.alert(`Insufficient funds, you are missing ${bet - bankroll}$`)
     } else {
       hit(hand[currentHand]);
-      hand[currentHand].bet += state.cash.bet;
+      hand[currentHand].bet += bet;
       updateHand(hand[currentHand]);
-      updateBet(cash.bet);
+      updateBet(bet);
       stay();
     }
   }
-
+  
   //switch is not allowed as a function name in js, use swap instead
   const swap = (hand1, hand2) => {
     if (actions.switch) {
@@ -163,37 +125,36 @@ export default function Home(props) {
       updateHand(hand2);
     }
   }
-
-  checkBlackjack();
-
+  
   const clearTable = () => {
     clearBet()
     dealer = new Hand();
     updateActions(-1, "bet");
   }
+  
+//////////not function declarations:
 
-  ////////////////
-  // console.log(state.currentUser, "before if.  USERS:", state.users)
-  // if (state.currentUser === null && state.users.length > 0) {
-  //   //currentUser = state.users[1];
-  //   testLogin();
-  //   console.log(state.currentUser, "after if")
-  // }
-
-  // if (state.currentUser !== null && cash.bankroll === 0) {
-  //   cash.bankroll = state.currentUser.bankroll;
-  //   cash.initBankroll = state.currentUser.bankroll;
-  // }
-////////////////////////
-  ////////////////////////
-
-  // console.log(state.user, "signed in! your bankroll is:", state.bankroll)
-
-  const x = () => {
-    //let newBankroll = cash.bankroll + winningsFromTable
-
-    //updateBankroll(newBankroll)
+  //DEALER
+  //dealer code
+  if (state.turn === "dealer") {
+    if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
+      hit(dealer)
+    } else {
+      updateActions(-1, "reveal");
+    }
   }
+  
+  checkBlackjack();
+
+   // shuffle
+   if (state.turn === "reveal" && deck.cards.length < deck.resetCards.length / 2){
+    deck.reset()
+  }
+
+  if (hand[currentHand] && state.turn === "player") {
+    actions.split = hand[currentHand].canSplit;
+    if (hand[currentHand].cards.length > 2) actions.double = false;
+  } 
 
   return (
     <div class="table">
@@ -208,7 +169,7 @@ export default function Home(props) {
         totalLosses={totalLosses}
         totalDraws={totalDraws}
         totalBlackjacks={totalBlackjacks}
-        bet={cash.bet}
+        bet={bet}
         calculateBet={calculateBet}
       />
       <Actions
@@ -227,9 +188,9 @@ export default function Home(props) {
         addBet100={() => addBet(100)}
         addBet500={() => addBet(500)}
         clearBet={() => clearBet()}
-        bet={cash.bet}
-        bankroll={cash.bankroll}
-        initialBankroll={cash.initBankroll}
+        bet={bet}
+        bankroll={bankroll}
+        initialBankroll={initBankroll}
         turn={state.turn}
         hand={hand}
       />
