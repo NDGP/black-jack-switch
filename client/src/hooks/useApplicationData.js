@@ -12,8 +12,10 @@ export default function useApplicationData() {
     dealer: {},
     currentHand: -1,
     turn: null,
-    currentUser: null,
     winnings: 0,
+    bankroll: 0,
+    bet: 0,
+    initBankroll: 0,
     actions: {
       deal: false,
       hit: false,
@@ -22,14 +24,10 @@ export default function useApplicationData() {
       switch: false,
       double: false,
       reset: false,
-    },
-    cash: {
-      bankroll: 0,
-      bet: 0,
-      initBankroll: 0
     }
   })
 
+  //Get's logged-in User's data, as well as all of our card informations
   useEffect(() => {
     Promise.all([
       axios.get('/api/users/user',
@@ -37,22 +35,17 @@ export default function useApplicationData() {
       axios.get('/api/cards',
         { headers: { 'Access-Control-Allow-Origin': '*' } })
     ]).then((all) => {
-      //console.log(all[0].data.email, "EMAIL FROM AXIOS GET")
       let hand = []
       hand[0] = new Hand();
       hand[1] = new Hand();
       let dealer = new Hand();
-      let updateActions = state.actions
+      let updateActions = {}
       updateActions.deal = true;
       setState(prev => ({
         ...prev,
-        // users: all[0].data,
         user: all[0].data,
-        cash: {
-          bankroll: all[0].data.bankroll,
-          bet: 0,
-          initBankroll: all[0].data.bankroll
-        },
+        bankroll: all[0].data.bankroll,
+        initBankroll: all[0].data.bankroll,
         cards: all[1].data,
         hand: hand,
         dealer: dealer,
@@ -63,35 +56,24 @@ export default function useApplicationData() {
   }, []);
 
 
+  //////////betting / money handling
+
   const updateBankroll = (newBankroll) => {
-    let cash = {
-      bankroll: newBankroll,
-      bet: 0,
-      initBankroll: newBankroll
-    }
-    setState(prev => ({ ...prev, cash: cash }));
+    setState(prev => ({ ...prev, bankroll: newBankroll, initBankroll: newBankroll }));
   }
 
   const addBet = (amount) => {
-    let bankroll = state.cash.bankroll;
-    //if (state.turn === "bet"){
+    let bankroll = state.bankroll;
     if (amount * 2 > bankroll) {
-      window.alert(`Insufficient funds, you are missing ${(amount * 2 - bankroll)}$`)
+      window.alert(`Insufficient funds! you are missing $${(amount * 2 - bankroll)}`)
     } else {
-      bankroll = state.cash.bankroll - (amount * state.hand.length);
-      let bet = state.cash.bet + amount;
-      let cash = {
-        bankroll: bankroll,
-        bet: bet,
-        initBankroll: state.cash.initBankroll
-      }
+      bankroll = state.bankroll - (amount * state.hand.length);
+      let bet = state.bet + amount;
       let hands = state.hand;
       for (const hand of hands) {
         hand.bet = bet;
       }
-
-      setState(prev => ({ ...prev, cash: cash, hand: hands }));
-      //}
+      setState(prev => ({ ...prev, hand: hands, bankroll: bankroll, bet: bet }));
     }
   }
 
@@ -118,43 +100,33 @@ export default function useApplicationData() {
       console.log(hand.result + ' for ' + hand.cards + 'winning: ' + winnings)
       totalWinnings += winnings;
     }
-    console.log("TOTAL WINNINGS: ", totalWinnings)
-    let newBankroll = state.cash.bankroll + totalWinnings
-    console.log(`in calculateBankrollChange, final newBankroll: ${newBankroll}`)
+    let newBankroll = state.bankroll + totalWinnings
     return newBankroll;
   }
 
-  //splitBet
+  //called on splits and double-downs
   const updateBet = (amount) => {
-    let bankroll = state.cash.bankroll - amount;
-    let cash = {
-      bankroll: bankroll,
-      bet: state.cash.bet,
-      initBankroll: state.cash.initBankroll
-    }
-    setState(prev => ({ ...prev, cash: cash }));
+    let bankroll = state.bankroll - amount;
+    setState(prev => ({ ...prev, bankroll: bankroll }));
   }
 
   const clearBet = () => {
-    //if (state.turn === "bet") {
-    let cash = {
-      bankroll: state.cash.initBankroll,
-      bet: 0,
-      initBankroll: state.cash.initBankroll
-    }
-    setState(prev => ({ ...prev, cash: cash }));
-    resetHands();
+    let initBankroll = state.initBankroll
+    let hand = []
+    hand[0] = new Hand();
+    hand[1] = new Hand();
+    setState(prev => ({ ...prev, bankroll: initBankroll, bet: 0, hand: hand }));
   }
 
+  ////
+
   const updateHand = (hand) => {
-    //first calculates the values hand
     let value = 0;
     let aces = hand.ace;
-    //let currentHand = state.currentHand;
 
+    //first calculates this hand's value and aces
     for (const card of hand.cards) {
       let cardInfo = state.cards.find(info => info.name === card);
-
       value += cardInfo.value;
       if (cardInfo.ace === true) aces++;
     }
@@ -163,7 +135,6 @@ export default function useApplicationData() {
         value -= 10;
       }
     }
-
     //checks if splitting should be possible
     if (state.turn !== "dealer") {
       if (hand.cards.length === 2) {
@@ -176,55 +147,12 @@ export default function useApplicationData() {
         hand.canSplit = false;
       }
     }
-
     hand.value = value;
 
     setState(prev => ({ ...prev, [hand]: hand }));
   }
 
-  const updateHands = (hands) => {
-    let activeHand = state.currentHand;
-    for (const hand of hands) {
-      //first calculates the values hand
-      let value = 0;
-      let aces = hand.ace;
-      let currentHand = state.currentHand;
-
-      for (const card of hand.cards) {
-        let cardInfo = state.cards.find(info => info.name === card);
-
-        value += cardInfo.value;
-        if (cardInfo.ace === true) aces++;
-      }
-      for (let i = aces; i > 0; i--) {
-        if (value > 21) {
-          value -= 10;
-        }
-        //checks if splitting should be possible
-        if (hand.cards.length === 2) {
-          let card1value = state.cards.find(x => x.name === hand.cards[0]).value;
-          let card2value = state.cards.find(x => x.name === hand.cards[1]).value;
-          if (card1value === card2value) {
-            hand.canSplit = true;
-          }
-        } else {
-          hand.canSplit = false;
-        }
-        hand.value = value;
-        //checks if hand is >= 21, if so, on to the next hand
-        if (state.turn === "player") {
-          if (hand.value >= 21 && currentHand < state.hand.length - 1) {
-            currentHand = currentHand + 1;
-          } else if (hand.value >= 21 && currentHand === state.hand.length - 1) {
-            updateActions(0, "dealer");
-          }
-        }
-      }
-    }
-    setState(prev => ({ ...prev, hand: hands, currentHand: activeHand }))
-  }
-
-  const addSplitHand = (newHand) => {
+  const spawnSplitHand = (newHand) => {
     let updateHands = state.hand;
     let currentHand = state.currentHand
     if (currentHand < updateHands.length) {
@@ -232,17 +160,16 @@ export default function useApplicationData() {
     } else {
       updateHands.push(currentHand);
     }
-
     setState(prev => ({ ...prev, hand: updateHands }))
   }
 
+  //set available actions for the player based on the current turn/phase
   const updateActions = (currentHand, phase) => {
     let updateActions = state.actions
     switch (phase) {
       case "reveal":
         updateActions.reset = true;
         updateActions.split = false;
-        //will this work for setting state?
         verifyResults(state.hand).then(res => {
           calculateBankrollChange(res).then(res => {
             updateBankroll(res);
@@ -297,19 +224,10 @@ export default function useApplicationData() {
     setState(prev => ({ ...prev, currentHand: currentHand, actions: updateActions, turn: phase }))
   }
 
-  const resetHands = () => {
-    let hand = []
-    hand[0] = new Hand();
-    hand[1] = new Hand();
-    let dealer = new Hand();
-    setState(prev => ({
-      ...prev, hand: hand, currentHand: 0, dealer: dealer
-    }))
-  }
 
   return {
     state, updateHand,
-    updateHands, addSplitHand, updateActions, resetHands,
+    spawnSplitHand, updateActions,
     updateBankroll, addBet, clearBet, updateBet
   }
 }
