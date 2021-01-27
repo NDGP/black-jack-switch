@@ -36,7 +36,6 @@ export default function Home(props) {
   let bankroll = state.bankroll;
   let initBankroll = state.initBankroll;
 
-
   const recordStats = (turnWins, turnLosses, turnDraws, turnBlackjacks) => {
     //  console.log(`Record Stats before: wins ${totalWins} losses ${totalLosses} draws ${totalDraws} `)
     if (state.turn === "reveal") {
@@ -77,7 +76,6 @@ export default function Home(props) {
     actions.switch.enabled = false;
   }
   actions.hit.execute = () => hit(hand[currentHand]);
-
 
   const stay = () => {
     if (currentHand < hand.length - 1) {
@@ -163,6 +161,64 @@ export default function Home(props) {
     actions.split.enabled = hand[currentHand].canSplit;
     if (hand[currentHand].cards.length > 2) actions.double.enabled = false;
   }
+
+
+  // const isKeyPressed = {
+  //   'h': false,
+  //   's': false,
+  //   'd': false,
+  //   'p': false,
+  //   'c': false,
+  //   'b': false,
+  //   'n': false,
+  //   'x': false,
+  //   'q': false,
+  //   'w': false,
+  //   'e': false,
+  //   'r': false,
+
+  // }
+
+  // document.onkeydown = (keyDownEvent) => {
+
+  //   isKeyPressed[keyDownEvent.key] = true;
+  //   if (isKeyPressed["h"]) {
+  //     hit(hand[currentHand])
+  //   }
+  //   if (isKeyPressed["s"]) {
+  //     stay()
+  //   }
+  //   if (isKeyPressed["d"]) {
+  //     doubleDown()
+  //   }
+  //   if (isKeyPressed["p"]) {
+  //     split()
+  //   }
+  //   if (isKeyPressed["c"]) {
+  //     clearBet()
+  //   }
+  //   if (isKeyPressed["b"]) {
+  //     clearTable()
+  //   }
+  //   if (isKeyPressed["n"]) {
+  //     deal()
+  //   }
+  //   if (isKeyPressed["x"]) {
+  //     swap(hand[0], hand[1])
+  //   }
+  //   if (isKeyPressed["q"]) {
+  //     addBet(5)
+  //   }
+  //   if (isKeyPressed["w"]) {
+  //     addBet(25)
+  //   }
+  //   if (isKeyPressed["e"]) {
+  //     addBet(100)
+  //   }
+  //   if (isKeyPressed["r"]) {
+  //     addBet(500)
+  //   }
+  // }
 
   return (
     <div class="table" >

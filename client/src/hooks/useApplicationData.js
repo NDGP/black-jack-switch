@@ -83,8 +83,14 @@ export default function useApplicationData() {
   }, []);
 
 
+  const sendBankroll = () => {
+    let bankroll = state.bankroll;
+    return bankroll;
+  }
+
   //betting / money handling
   const updateBankroll = (newBankroll) => {
+    console.log("are you working")
     setState(prev => ({ ...prev, bankroll: newBankroll, initBankroll: newBankroll }));
   }
 
@@ -227,6 +233,6 @@ export default function useApplicationData() {
   return {
     state, updateHand,
     spawnSplitHand, updateActions,
-    updateBankroll, addBet, clearBet, updateBet
+    updateBankroll, addBet, clearBet, updateBet, sendBankroll
   }
 }
