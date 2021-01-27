@@ -28,7 +28,6 @@ export default function Login({props, onClose, logIn, reRender }) {
                 } else {
                     logIn()
                     onClose()
-                    forceUpdate()         
                 }
 
             }).catch(res => {

@@ -6,7 +6,7 @@ import './CSS/Table.css'
 import { checkResult } from "../hooks/helpers.js"
 
 export default function Table(props) {
-  const deck = props.deck;
+  // const deck = props.deck;
   const dealer = props.dealer;
   const hands = props.hand;
 
@@ -56,17 +56,20 @@ export default function Table(props) {
 
 return (
   <section>
-    <h1> Blackjack Switch! </h1>
+    <h1>
+      <span id="bj"> Blackjack </span>
+      <span id="switch"> Switch! </span>
+    </h1>
     {/* <p>Wins: {props.totalWins}</p>
       <p>Win percentage: {winPercentage()}%</p>
       <p>Blackjacks: {props.totalBlackjacks}</p>
       <p>Blackjack percentage: {blackjackPercentage()}%</p> */}
 
-    <div id="deck">
+    {/* <div id="deck">
       DECK:
           < br />
       {deck.cards.length}
-    </div>
+    </div> */}
 
     <div id="dealer">
       <Hand
