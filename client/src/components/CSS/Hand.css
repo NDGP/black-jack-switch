@@ -25,7 +25,8 @@ display: none
 }
 
 .handValue {
-	display: unset
+	display: unset;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .check {
@@ -46,7 +47,11 @@ display: none
 	}
 }
 
-
+.display{
+  font-family: 'ZCOOL XiaoWei', serif;
+	font-size: 32px;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
 /* .hand-active .cards {
 	border: 10px dashed black;
 	display: inline;
