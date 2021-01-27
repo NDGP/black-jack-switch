@@ -163,62 +163,62 @@ export default function Home(props) {
   }
 
 
-  const isKeyPressed = {
-    'h': false,
-    's': false,
-    'd': false,
-    'p': false,
-    'c': false,
-    'b': false,
-    'n': false,
-    'x': false,
-    'q': false,
-    'w': false,
-    'e': false,
-    'r': false,
+  // const isKeyPressed = {
+  //   'h': false,
+  //   's': false,
+  //   'd': false,
+  //   'p': false,
+  //   'c': false,
+  //   'b': false,
+  //   'n': false,
+  //   'x': false,
+  //   'q': false,
+  //   'w': false,
+  //   'e': false,
+  //   'r': false,
 
-  }
+  // }
 
-  document.onkeydown = (keyDownEvent) => {
+  // document.onkeydown = (keyDownEvent) => {
 
-    isKeyPressed[keyDownEvent.key] = true;
-    if (isKeyPressed["h"]) {
-      hit(hand[currentHand])
-    }
-    if (isKeyPressed["s"]) {
-      stay()
-    }
-    if (isKeyPressed["d"]) {
-      doubleDown()
-    }
-    if (isKeyPressed["p"]) {
-      split()
-    }
-    if (isKeyPressed["c"]) {
-      clearBet()
-    }
-    if (isKeyPressed["b"]) {
-      clearTable()
-    }
-    if (isKeyPressed["n"]) {
-      deal()
-    }
-    if (isKeyPressed["x"]) {
-      swap(hand[0], hand[1])
-    }
-    if (isKeyPressed["q"]) {
-      addBet(5)
-    }
-    if (isKeyPressed["w"]) {
-      addBet(25)
-    }
-    if (isKeyPressed["e"]) {
-      addBet(100)
-    }
-    if (isKeyPressed["r"]) {
-      addBet(500)
-    }
-  }
+  //   isKeyPressed[keyDownEvent.key] = true;
+  //   if (isKeyPressed["h"]) {
+  //     hit(hand[currentHand])
+  //   }
+  //   if (isKeyPressed["s"]) {
+  //     stay()
+  //   }
+  //   if (isKeyPressed["d"]) {
+  //     doubleDown()
+  //   }
+  //   if (isKeyPressed["p"]) {
+  //     split()
+  //   }
+  //   if (isKeyPressed["c"]) {
+  //     clearBet()
+  //   }
+  //   if (isKeyPressed["b"]) {
+  //     clearTable()
+  //   }
+  //   if (isKeyPressed["n"]) {
+  //     deal()
+  //   }
+  //   if (isKeyPressed["x"]) {
+  //     swap(hand[0], hand[1])
+  //   }
+  //   if (isKeyPressed["q"]) {
+  //     addBet(5)
+  //   }
+  //   if (isKeyPressed["w"]) {
+  //     addBet(25)
+  //   }
+  //   if (isKeyPressed["e"]) {
+  //     addBet(100)
+  //   }
+  //   if (isKeyPressed["r"]) {
+  //     addBet(500)
+  //   }
+  // }
 
   return (
     <div class="table" >

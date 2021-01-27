@@ -75,6 +75,21 @@ module.exports = (db) => {
 
     }
 
+
+    const getLeaderBoard = () => {
+        const query = {
+            text: `select *
+            from users
+            order by wp desc
+            limit 5`
+        }
+
+        return db.query(query)
+            .then(result => result.rows)
+
+    }
+
+
     //CARD QUERIES
 
     const getCards = (card) => {
@@ -113,7 +128,8 @@ module.exports = (db) => {
         getCards,
         getCard,
         updateBankroll,
-        getStats
+        getStats,
+        getLeaderBoard
     };
 };
 

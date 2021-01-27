@@ -41,6 +41,8 @@ export default function Deposit(props) {
             onChange={(e) => { setAmount(e.target.value) }}
             type="deposit funds"
             placeholder="Enter Amount" />
+        </Form.Group>
+      </Form>
           <Row>
             <Col>
               <Button variant="primary" type="submit">Submit</Button>
@@ -49,8 +51,6 @@ export default function Deposit(props) {
               <Button variant="outline-danger" onClick={props.onClose}  >close</Button>
             </Col>
           </Row>
-        </Form.Group>
-      </Form>
     </div>
   )
 }
