@@ -4,6 +4,7 @@ import Login from "./Login"
 import Deposit from "./Deposit"
 import Withdraw from "./Withdraw"
 import Registration from "./Registration"
+import LeaderBoard from "./LeaderBoard"
 import Rules from './Rules';
 import { Navbar, NavDropdown, Nav, Button} from "react-bootstrap"
 import Strategy from './Strategy';
@@ -16,7 +17,7 @@ import "./NewHeader.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-export default function Header(props) {
+export default function Header(props, send) {
 
   const [selectedMenu, setSelectedMenu] = useState(null)
   const [isLogedIn, setIsLogedIn] = useState(false)
@@ -88,6 +89,10 @@ export default function Header(props) {
               <NavDropdown.Item onClick={() => setSelectedMenu("strategy")}>Strategy</NavDropdown.Item>
               <Popup open={selectedMenu === "strategy"} onClose={() => setSelectedMenu(null)}>
                 <Strategy onClose={() => setSelectedMenu(null)}></Strategy>
+              </Popup>
+              <NavDropdown.Item onClick={() => setSelectedMenu("leaderBoard")}>Leader Board</NavDropdown.Item>
+              <Popup open={selectedMenu === "leaderBoard"} onClose={() => setSelectedMenu(null)}>
+                <LeaderBoard onClose={() => setSelectedMenu(null)}></LeaderBoard>
               </Popup>
           </NavDropdown>
         </Nav>

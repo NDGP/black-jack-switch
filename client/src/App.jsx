@@ -11,20 +11,28 @@ import Withdraw from './components/Withdraw';
 import Deposit from './components/Deposit'
 import Rules from './components/Rules'
 import Strategy from './components/Strategy'
-import { useEffect } from 'react';
+import { useEffect, forceUpdate } from 'react';
 
 function App() {
   useEffect(() => {
     document.title = "Blackjack Switch"
     }, [])
     
+const reRender = () => {
+  forceUpdate((res) => {
+    console.log("this is the reRender", res)
+  })
+}
+
   return (
     <Router> 
     <div className="App">
       <Header />
       <Switch>
         <Route path ="/login">
-          <Login />
+          <Login
+            reRender={reRender}
+          />
         </Route>
         <Route path ="/deposit">
           <Deposit />
