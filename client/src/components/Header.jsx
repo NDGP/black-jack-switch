@@ -26,22 +26,12 @@ export default function Header(props) {
     sendBankroll,
     updateBankroll
   } = useApplicationData();
-
   // let loginCheck = () =>{
   //   setIsLogedIn(true);
   // }
 
   useEffect(() => {
     axios.get("/api/users/user").then(res => {
-<<<<<<< HEAD
-      console.log(res)
-      if (res.data === "no session found") {
-        console.log("no session")
-      } else {
-        //logedIn = true
-        setIsLogedIn(true)
-      }
-=======
         //console.log(res)
         if (res.data === "no session found"){
           console.log("no session")
@@ -49,7 +39,6 @@ export default function Header(props) {
           //logedIn = true
           setIsLogedIn(true)
         }
->>>>>>> 810b82e3c3815f1b5c95179ada631546d66f4949
     })
 
   }, [])
@@ -150,6 +139,9 @@ export default function Header(props) {
                 <Strategy onClose={() => setSelectedMenu(null)}></Strategy>
               </Popup>
             </NavDropdown>
+          </Nav>
+          <Nav class="info">
+            <strong> Signed in as: {state.user.first_name} </strong>
           </Nav>
           <Nav>
             <Button onClick={signOut}>Logout</Button>
