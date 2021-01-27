@@ -23,8 +23,8 @@ export default function useApplicationData() {
         execute: ()=>console.log("action function error"),
       },
       deal:{
-        name: "Deal", //testing at true, please return to false by default
-        enabled: true,
+        name: "Deal",
+        enabled: false,
         execute: ()=>console.log("action function error"),
       },
       switch: {
