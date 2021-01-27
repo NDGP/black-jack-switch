@@ -22,5 +22,19 @@ section {
 }
 
 #dealer {
+  
+}
 
+#bj {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  font-weight: 600;
+  font-size: 60px !important;
+}
+
+#switch {
+  font-family: 'Leckerli One', cursive;
+  color: rgb(161, 83, 172);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  font-weight: 600;
+  font-size: 60px !important;
 }
