@@ -29,7 +29,7 @@ export default function Hand(props) {
 
   const displayBet = () => {
     if (props.name !== "Dealer") {
-      return (`bet: ${props.bet}$`)
+      return (`Bet: $${props.bet}`)
     }
   }
 
@@ -50,7 +50,7 @@ if (props.value === 0){
       <h3 class ={handValue}>
         <strong> {props.value} </strong>
       </h3>
-      <h3>
+      <h3 class="display">
         {displayBet()}
       </h3>
     </div>
