@@ -80,7 +80,7 @@ module.exports = (db) => {
         const query = {
             text: `select *
             from users
-            order by bankroll desc
+            order by wp desc
             limit 5`
         }
 

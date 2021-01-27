@@ -4,7 +4,7 @@ import Login from "./Login"
 import Deposit from "./Deposit"
 import Withdraw from "./Withdraw"
 import Registration from "./Registration"
-import LeaderBoard from "./LeaderBoard"
+import Leaderboard from "./Leaderboard"
 import Rules from './Rules';
 import Strategy from './Strategy';
 import { Navbar, NavDropdown, Nav, Image, Button } from "react-bootstrap"
@@ -93,9 +93,9 @@ export default function Header(props, send) {
               <Popup open={selectedMenu === "strategy"} onClose={() => setSelectedMenu(null)}>
                 <Strategy onClose={() => setSelectedMenu(null)}></Strategy>
               </Popup>
-              <NavDropdown.Item onClick={() => setSelectedMenu("leaderBoard")}>Leader Board</NavDropdown.Item>
-              <Popup open={selectedMenu === "leaderBoard"} onClose={() => setSelectedMenu(null)}>
-                <LeaderBoard onClose={() => setSelectedMenu(null)}></LeaderBoard>
+              <NavDropdown.Item onClick={() => setSelectedMenu("leaderboard")}>Leaderboard</NavDropdown.Item>
+              <Popup open={selectedMenu === "leaderboard"} onClose={() => setSelectedMenu(null)}>
+                <Leaderboard onClose={() => setSelectedMenu(null)}></Leaderboard>
               </Popup>
           </NavDropdown>
         </Nav>
@@ -144,9 +144,9 @@ export default function Header(props, send) {
               <Popup open={selectedMenu === "strategy"} onClose={() => setSelectedMenu(null)}>
                 <Strategy onClose={() => setSelectedMenu(null)}></Strategy>
               </Popup>
-              <NavDropdown.Item onClick={() => setSelectedMenu("leaderBoard")}>Leader Board</NavDropdown.Item>
-              <Popup open={selectedMenu === "leaderBoard"} onClose={() => setSelectedMenu(null)}>
-                <LeaderBoard onClose={() => setSelectedMenu(null)}></LeaderBoard>
+              <NavDropdown.Item onClick={() => setSelectedMenu("leaderboard")}>Leaderboard</NavDropdown.Item>
+              <Popup open={selectedMenu === "leaderboard"} onClose={() => setSelectedMenu(null)}>
+                <Leaderboard onClose={() => setSelectedMenu(null)}></Leaderboard>
               </Popup>
             </NavDropdown>
           </Nav>
