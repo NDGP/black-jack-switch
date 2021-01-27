@@ -29,7 +29,7 @@ export default function Hand(props) {
 
   const displayBet = () => {
     if (props.name !== "Dealer") {
-      return (`bet: ${props.bet}`)
+      return (`bet: ${props.bet}$`)
     }
   }
 

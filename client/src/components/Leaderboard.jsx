@@ -12,7 +12,7 @@ export default function Rules({ onClose }) {
 
   
         useEffect(() => {
-            axios.get('/api/users/leaderBoard').then(users => {
+            axios.get('/api/stats').then(users => {
                 // console.log(users)
                 setLeaders(users.data)
             })

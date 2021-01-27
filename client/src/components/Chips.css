@@ -18,3 +18,7 @@
   background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
   transform: translateY(4px);
 }
+
+.totalBet {
+  color: white
+}

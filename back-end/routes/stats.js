@@ -2,15 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = ({
-  getStats
+  getLeaderBoard
 }) => {
   router.get('/', (req, res) => {
-      getStats()
-          .then((stats) => res.json(stats))
-          .catch((err) => res.json({
-              error: err.message
-          }));
-
+    getLeaderBoard().then((users) => {
+      res.json(users)
+  })
   });
 
   return router;

@@ -17,12 +17,7 @@ module.exports = ({
 }) => {
 
     //leader board 
-
-    router.get('/leaderBoard', (req, res) => {
-        getLeaderBoard().then((users) => {
-            res.json(users)
-        })
-    })
+  
 
     /* GET users listing. */
     router.get('/', (req, res) => {

@@ -18,6 +18,7 @@ export default function Deposit(props) {
   let newBankroll = parseInt(bankroll) + parseInt(amount)
 
   const handleSubmit = (e) => {
+    console.log("this is the submit")
     e.preventDefault();
     axios.put("/api/users/2", {
       bankroll: newBankroll
@@ -42,7 +43,6 @@ export default function Deposit(props) {
             type="deposit funds"
             placeholder="Enter Amount" />
         </Form.Group>
-      </Form>
           <Row>
             <Col>
               <Button variant="primary" type="submit">Submit</Button>
@@ -51,6 +51,7 @@ export default function Deposit(props) {
               <Button variant="outline-danger" onClick={props.onClose}  >close</Button>
             </Col>
           </Row>
+      </Form>
     </div>
   )
 }
