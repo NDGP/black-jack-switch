@@ -16,7 +16,6 @@ export default function Withdraw( props ) {
      bankroll: newBankroll
     }).then(res => {
       console.log("Bankroll updated", {bankroll} )
-
       props.onClose()
     })
   }
@@ -33,7 +32,6 @@ export default function Withdraw( props ) {
             type="deposit funds"
             placeholder="Enter Amount" />
         </Form.Group>
-      </Form>
           <Row>
             <Col>
               <Button variant="primary" type="submit">Submit</Button>
@@ -42,6 +40,7 @@ export default function Withdraw( props ) {
               <Button variant="outline-danger" onClick = { props.onClose }  >close</Button>
             </Col>
           </Row>
+      </Form>
     </div>
   )
 }
