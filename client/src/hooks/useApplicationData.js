@@ -23,8 +23,8 @@ export default function useApplicationData() {
         execute: ()=>console.log("action function error"),
       },
       deal:{
-        name: "Deal", //testing at true, please return to false by default
-        enabled: true,
+        name: "Deal",
+        enabled: false,
         execute: ()=>console.log("action function error"),
       },
       switch: {
@@ -67,8 +67,8 @@ export default function useApplicationData() {
       hand[0] = new Hand();
       hand[1] = new Hand();
       let dealer = new Hand();
-      // let updateActions = {}
-      // updateActions.deal.enabled = true;
+      let updateActions = state.actions
+      updateActions.deal.enabled = true;
       setState(prev => ({
         ...prev,
         user: all[0].data,
@@ -77,7 +77,8 @@ export default function useApplicationData() {
         cards: all[1].data,
         hand: hand,
         dealer: dealer,
-        turn: "bet"
+        turn: "bet",
+        actions: updateActions
       }))
     });
   }, []);

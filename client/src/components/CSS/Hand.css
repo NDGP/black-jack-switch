@@ -7,13 +7,16 @@
 	100%{}
 }
 
+.hand{
+	padding: 16px 12px 0px 12px;
+	position: relative;
+}
+
 .hand-active {
-	-webkit-transform: scale(1.2);
-	-ms-transform: scale(1.2);
-	transform: scale(1.2);
 	background-color: rgba(168, 255, 168, 0.678);
 	padding: 16px 12px 0px 12px;
 	border-radius: 25px;
+	position: relative;
 }
 
 .cards{
@@ -21,11 +24,10 @@
 }
 
 .handValue-hidden{
-display: none
+	visibility: hidden;
 }
 
 .handValue {
-	display: unset;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
@@ -34,10 +36,13 @@ display: none
 	font-style: italic;
 	font-size: .8em;
 	animation: result .4s;
+	position: absolute;
+	top: -25px;
+	left: 40%;
 }
 .check-hide{
 	font-size: 0px;
-  display: none
+  display: none;
 }
 @keyframes result{
 	0%{

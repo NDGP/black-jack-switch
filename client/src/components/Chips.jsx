@@ -4,7 +4,7 @@ import oneHundred from "./images/chip100.png"
 import fiveHundred from "./images/chip500.png"
 import clear from "./images/delete.png"
 
-import './Chips.css'
+import './CSS/Chips.css'
 export default function Chips(props) {
 
 let totalBet = 0;

@@ -9,20 +9,22 @@
   background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
   color:white;
   left: -50px;
-  font-size: 1.2em
+  font-size: 1.2em;
+  border-radius: 40px;
 }
 
 section {
   color: whitesmoke;
-  height: 510px;
+  height: 520px;
 }
 
 #player {
-
+  height: 245px;
 }
 
 #dealer {
-  
+  height: 210px;
+  margin-bottom: 21px;
 }
 
 #bj {

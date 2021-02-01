@@ -31,6 +31,7 @@ export default function Table(props) {
           result={hand.result}
           dealerCount={dealerCount}
           bet={hands[index].bet}
+          turn={props.turn}
         />
       );
     })

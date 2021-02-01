@@ -1,17 +1,14 @@
-import React, { useState, forceUpdate } from 'react'
+import React, { useState } from 'react'
 import { Button, Form, Row, Col, Alert } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 import axios from "axios";
-import useApplicationData from "../hooks/useApplicationData"
-import home from "./Home"
 
 export default function Login({props, onClose, logIn, reRender }) {
 
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
     const [show, setShow] = useState(false);
-    const { clearBet } = useApplicationData();
 
 
     const handleSubmit = (e) => {
