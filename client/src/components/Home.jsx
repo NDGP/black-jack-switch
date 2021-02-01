@@ -5,7 +5,7 @@ import Table from "./Table";
 import Chips from "./Chips";
 import Actions from './Actions';
 
-import "./Home.css";
+import "./CSS/Home.css";
 
 let deck = new Deck(6);
 let dealer = new Hand();
@@ -16,6 +16,7 @@ let totalLosses = 0;
 let totalDraws = 0;
 let totalBlackjacks = 0;
 
+let renameMe = 0;
 
 export default function Home(props) {
   const {
@@ -66,11 +67,11 @@ export default function Home(props) {
     setTimeout(() => { hit(hand[1]) }, 1750);
 
     setTimeout(() => { hit(dealer) }, 1050);
-    setTimeout(() => { updateActions(0, "player") }, 1755);
+    setTimeout(() => { updateActions(0, "player") }, 2200);
   }
   actions.deal.execute = () => deal();
 
-  const hit = (hand) => {
+  const hit = async (hand) => {
     hand.add(deck.draw())
     updateHand(hand);
     actions.switch.enabled = false;
@@ -83,7 +84,7 @@ export default function Home(props) {
       currentHand++
       updateActions(currentHand, "player");
     } else if (currentHand === hand.length - 1) {
-      updateActions(currentHand, "dealer");
+      updateActions(-1, "dealer");
     }
   }
   actions.stay.execute = () => stay();
@@ -138,15 +139,21 @@ export default function Home(props) {
   }
   actions.reset.execute = () => clearTable();
 
-  const dealerPlays = async () => {
-    if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
-      hit(dealer)
-    } else {
-      updateActions(-1, "reveal");
+  const dealerPlays = () => {
+    if (state.turn === "dealer") {
+      if (dealer.value < 17 || (dealer.ace > 0 && dealer.value === 17)) {
+        hit(dealer).then(res => {
+          setTimeout(() => { dealerPlays() }, 700);
+        })
+      } else {
+        renameMe = 0;
+        updateActions(-1, "reveal");
+      }
     }
   }
 
-  if (state.turn === "dealer") {
+  if (state.turn === "dealer" && renameMe === 0) {
+    renameMe = 1;
     dealerPlays();
   }
 
@@ -235,6 +242,7 @@ export default function Home(props) {
         totalBlackjacks={totalBlackjacks}
         bet={bet}
         calculateBet={calculateBet}
+        turn={state.turn}
       />
       <Actions
         actions={actions}

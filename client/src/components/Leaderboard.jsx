@@ -37,7 +37,7 @@ export default function Rules({ onClose }) {
                 console.log(user)
               return (
               <li>
-                  {user.first_name} {user.last_name} <img src={user.flag} height="20"></img> {user.wp}%
+                  {user.first_name} {user.last_name} <img src={user.flag} height="20" alt="X"></img> {user.wp}%
               </li>
               );
             })

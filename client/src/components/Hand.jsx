@@ -8,7 +8,8 @@ export default function Hand(props) {
   let check = "check"
   let handValue = "handValue"
 
-  if (props.dealerCount <= 1) {
+  //adjust this to only display on reveal of dealer's final card
+  if (props.turn !== "reveal") {
     check = check + "-hide"
   }
 

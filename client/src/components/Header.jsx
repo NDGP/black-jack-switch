@@ -7,7 +7,7 @@ import Registration from "./Registration"
 import Leaderboard from "./Leaderboard"
 import Rules from './Rules';
 import Strategy from './Strategy';
-import { Navbar, NavDropdown, Nav, Image, Button } from "react-bootstrap"
+import { Navbar, NavDropdown, Nav, Button } from "react-bootstrap"
 import axios from 'axios';
 import useApplicationData from "../hooks/useApplicationData"
 
@@ -24,8 +24,7 @@ export default function Header(props, send) {
   const [isLogedIn, setIsLogedIn] = useState(false)
 
   const { state,
-    sendBankroll,
-    updateBankroll
+    sendBankroll
   } = useApplicationData();
   // let loginCheck = () =>{
   //   setIsLogedIn(true);

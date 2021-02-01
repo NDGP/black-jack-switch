@@ -1,4 +1,4 @@
-import { Button, Form, Col, Alert, Row } from "react-bootstrap"
+import { Button, Form, Col, Row } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 
