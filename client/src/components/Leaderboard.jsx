@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Popup.css"
 import { useEffect, useState} from "react";
 import axios from "axios"
+import "./Leaderboard.css"
 
 
 
@@ -33,12 +34,14 @@ export default function Rules({ onClose }) {
 
 
 
-            const displayLeaders = leaders.map(user => {
+            const displayLeaders = leaders.map((user, index) => {
                 console.log(user)
               return (
-              <li>
-                  {user.first_name} {user.last_name} <img src={user.flag} height="20" alt="X"></img> {user.wp}%
-              </li>
+              <tr class="leaderboard">
+                <td> {index + 1}. {user.first_name} {user.last_name} </td> 
+                <td class='img'> <img src={user.flag} height="20" ></img>  </td>
+                <td> {user.wp}% </td>                  
+              </tr>
               );
             })
 
