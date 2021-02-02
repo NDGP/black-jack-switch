@@ -1,10 +1,19 @@
 .one-card {
 	animation: dealCard .6s;
-	display: inline-block
+	display: inline-block;
 }
 @keyframes dealCard{
 	0%{transform: translate(150px,-500px) rotate(-90deg)}
 	100%{}
+}
+
+.one-card-remove {
+	animation: removeCard .6s;
+	display: inline-block;
+}
+@keyframes removeCard{
+	0%{}
+	100%{transform: translate(-500px,-750px) rotate(90deg)}
 }
 
 .hand{

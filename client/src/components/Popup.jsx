@@ -2,7 +2,7 @@ import React from "react"
 import ReactDom from "react-dom"
 import { Card } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Popup.css"
+import "./CSS/Popup.css"
 
 export default function Popup({ open, children }){
   if (!open) return null

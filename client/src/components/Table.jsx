@@ -14,7 +14,7 @@ export default function Table(props) {
     return (index === props.currentHand)
   }
 
-  const dealerCount = dealer.cards.length
+  const dealerCount = dealer.cards.length;
 
 
   const displayHands = hands.map((hand, index) => {
@@ -78,6 +78,7 @@ return (
         cardLibrary={props.cardLibrary}
         value={dealer.value}
         cards={dealer.cards}
+        turn={props.turn}
       />
     </div>
 

@@ -12,9 +12,9 @@ import axios from 'axios';
 import useApplicationData from "../hooks/useApplicationData"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Header.css";
-import "./Popup.css"
-import "./NewHeader.css"
+import "./CSS/Header.css";
+import "./CSS/Popup.css"
+import "./CSS/NewHeader.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 

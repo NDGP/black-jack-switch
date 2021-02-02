@@ -62,20 +62,6 @@ module.exports = (db) => {
         });
     }
 
-    const getUsersPosts = () => {
-        const query = {
-            text: `SELECT users.id as user_id, first_name, last_name, email, posts.id as post_id, title, content
-        FROM users
-        INNER JOIN posts
-        ON users.id = posts.user_id`
-        }
-
-        return db.query(query)
-            .then(result => result.rows)
-
-    }
-
-
     const getLeaderBoard = () => {
         const query = {
             text: `select *
@@ -124,7 +110,6 @@ module.exports = (db) => {
         getUsers,
         getUserByEmail,
         addUser,
-        getUsersPosts,
         getCards,
         getCard,
         updateBankroll,
