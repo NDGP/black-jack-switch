@@ -19,10 +19,13 @@ Blackjack Switch was built for our final project at Lighthouse Labs. My team and
 
 ## Final Product
 
+### Betting and playing a hand
 !["Betting and playing a hand"](https://github.com/NDGP/black-jack-switch/blob/main/gifs%20for%20demonstration/BJS.gif?raw=true)
 
-!["Splitting when you have a hand of two identical values (fyi: never split a 20)"](https://github.com/NDGP/black-jack-switch/blob/main/gifs%20for%20demonstration/Splitting.gif?raw=true)
+### Splitting when you have a hand of two identical values (fyi: never split a 20)
+!["Splitting when you have a hand of two identical values"](https://github.com/NDGP/black-jack-switch/blob/main/gifs%20for%20demonstration/Splitting.gif?raw=true)
 
+### Menu, rules and account registration
 !["Menu, rules and account registration"](https://github.com/NDGP/black-jack-switch/blob/main/gifs%20for%20demonstration/rules%20and%20registration.gif?raw=true)
 
 
