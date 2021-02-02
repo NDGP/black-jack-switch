@@ -7,10 +7,16 @@ export default function Hand(props) {
   let hand = "hand";
   let check = "check"
   let handValue = "handValue"
-
+  let oneCard = "one-card"
   //adjust this to only display on reveal of dealer's final card
   if (props.turn !== "reveal") {
     check = check + "-hide"
+  }
+
+  if (props.turn === "bet") {
+    oneCard = "one-card-remove"
+  } else {
+    oneCard = "one-card"
   }
 
   if (props.active) {
@@ -20,7 +26,7 @@ export default function Hand(props) {
   const cardsInHand = props.cards.map(card => {
     let image = props.cardLibrary.find(x => x.name === card).image
     return (
-      <span class="one-card">
+      <span class={oneCard}>
         <Card
           image={image}
         />
@@ -34,9 +40,9 @@ export default function Hand(props) {
     }
   }
 
-if (props.value === 0){
-  handValue = handValue + "-hidden"
-}
+  if (props.value === 0) {
+    handValue = handValue + "-hidden"
+  }
 
   return (
     <div class={hand}>
@@ -48,7 +54,7 @@ if (props.value === 0){
       <div class="cards">
         {cardsInHand}
       </div>
-      <h3 class ={handValue}>
+      <h3 class={handValue}>
         <strong> {props.value} </strong>
       </h3>
       <h3 class="display">

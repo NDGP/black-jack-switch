@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt')
 const { body, validationResult, check } = require('express-validator');
-const { getPostsByUsers } = require('../../client/src/helpers/dataHelpers');
 const cookieSession = require('cookie-session')
 
 
@@ -59,16 +58,6 @@ module.exports = ({
         res.send("session termanated")
     })
 
-    router.get('/posts', (req, res) => {
-        getUsersPosts()
-            .then((usersPosts) => {
-                const formattedPosts = getPostsByUsers(usersPosts);
-                res.json(formattedPosts);
-            })
-            .catch((err) => res.json({
-                error: err.message
-            }));
-    });
     
     // add/subtract backroll rout
     router.put('/:id', (req, res) => {

@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import { Button, Form, Row, Col } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Popup.css"
+import "./CSS/Popup.css"
 import axios from 'axios';
+import useApplicationData from "../hooks/useApplicationData"
 
 export default function Withdraw( props ) {
+
+  const {
+    state,
+    updateBankroll
+  } = useApplicationData();
 
   const [amount, setAmount] = useState("")
   let bankroll = props.bank;
@@ -12,10 +18,10 @@ export default function Withdraw( props ) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put("/api/users/2", {
+    axios.put(`/api/users/${state.user.id}`, {
      bankroll: newBankroll
     }).then(res => {
-      console.log("Bankroll updated", {bankroll} )
+      updateBankroll(newBankroll)
       props.onClose()
     })
   }

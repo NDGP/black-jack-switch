@@ -1,7 +1,7 @@
 import { Button, Form, Col, Row } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Popup.css"
-import "./Rules.css"
+import "./CSS/Popup.css"
+import "./CSS/Rules.css"
 
 export default function Rules( { onClose } ) {
 

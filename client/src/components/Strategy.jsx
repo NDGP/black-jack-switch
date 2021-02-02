@@ -1,6 +1,6 @@
 import { Button, Form } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Popup.css"
+import "./CSS/Popup.css"
 
 
 export default function Strategy( { onClose } ) {

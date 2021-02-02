@@ -15,7 +15,7 @@ for (const hand of props.hand) {
   totalBet += hand.bet;
 }
 if (props.turn !== "bet"){
-tokens = tokens +"-hidden"
+  tokens = tokens +"-hidden"
 }
 
   return (

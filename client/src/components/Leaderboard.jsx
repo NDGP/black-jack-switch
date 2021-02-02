@@ -1,9 +1,9 @@
 import { Button } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Popup.css"
+import "./CSS/Popup.css"
 import { useEffect, useState} from "react";
 import axios from "axios"
-import "./Leaderboard.css"
+import "./CSS/Leaderboard.css"
 
 
 

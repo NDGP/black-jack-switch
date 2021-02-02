@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Form, Row, Col, Alert } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Popup.css"
+import "./CSS/Popup.css"
 import axios from "axios";
 
-export default function Login({props, onClose, logIn, reRender }) {
+export default function Login({props, onClose, logIn }) {
 
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
@@ -24,6 +24,7 @@ export default function Login({props, onClose, logIn, reRender }) {
                     setShow(true)
                 } else {
                     logIn()
+                    //props.reRender()
                     onClose()
                 }
 

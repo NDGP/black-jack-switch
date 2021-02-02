@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Form, Col, Alert, Row } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Popup.css"
+import "./CSS/Popup.css"
 import axios from 'axios';
  
 export default function Registration({props, onClose, logIn}) {

@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Button, Form, Row, Col } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Popup.css"
+import "./CSS/Popup.css"
 import axios from 'axios';
 import useApplicationData from "../hooks/useApplicationData"
 
 export default function Deposit(props) {
 
   const {
-    //    state,
+    state,
     //   sendBankroll,
     updateBankroll
   } = useApplicationData();
@@ -20,14 +20,11 @@ export default function Deposit(props) {
   const handleSubmit = (e) => {
     console.log("this is the submit")
     e.preventDefault();
-    axios.put("/api/users/2", {
+    axios.put(`/api/users/${state.user.id}`, {
       bankroll: newBankroll
     }).then(res => {
-      props.onClose()
-      console.log("Bankroll before update", { bankroll })
       updateBankroll(newBankroll)
-      console.log("Bankroll after update", { bankroll })
-
+      props.onClose()
     })
   }
 

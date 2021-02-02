@@ -16,7 +16,7 @@ let totalLosses = 0;
 let totalDraws = 0;
 let totalBlackjacks = 0;
 
-let renameMe = 0;
+let dealerFirstHit = false;
 
 export default function Home(props) {
   const {
@@ -131,11 +131,13 @@ export default function Home(props) {
     }
   }
   actions.switch.execute = () => swap(hand[0], hand[1]);
-
+  
   const clearTable = () => {
-    clearBet()
-    dealer = new Hand();
     updateActions(-1, "bet");
+    setTimeout(()=> {
+      dealer = new Hand();
+      clearBet()
+    }, 600)
   }
   actions.reset.execute = () => clearTable();
 
@@ -146,14 +148,14 @@ export default function Home(props) {
           setTimeout(() => { dealerPlays() }, 700);
         })
       } else {
-        renameMe = 0;
+        dealerFirstHit = false;
         updateActions(-1, "reveal");
       }
     }
   }
 
-  if (state.turn === "dealer" && renameMe === 0) {
-    renameMe = 1;
+  if (state.turn === "dealer" && dealerFirstHit === false) {
+    dealerFirstHit = true;
     dealerPlays();
   }
 

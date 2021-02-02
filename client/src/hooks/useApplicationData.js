@@ -91,7 +91,6 @@ export default function useApplicationData() {
 
   //betting / money handling
   const updateBankroll = (newBankroll) => {
-    console.log("are you working")
     setState(prev => ({ ...prev, bankroll: newBankroll, initBankroll: newBankroll }));
   }
 
@@ -121,7 +120,8 @@ export default function useApplicationData() {
     let hand = []
     hand[0] = new Hand();
     hand[1] = new Hand();
-    setState(prev => ({ ...prev, bankroll: initBankroll, bet: 0, hand: hand }));
+    let dealer = new Hand();
+    setState(prev => ({ ...prev, bankroll: initBankroll, bet: 0, hand: hand, dealer: dealer }));
   }
 
   ///Hand manipulation
