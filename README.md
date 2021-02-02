@@ -17,17 +17,16 @@ Blackjack Switch was built for our final project at Lighthouse Labs. My team and
 *you will be able to play without signing in to an account, but you will not be able to bet money and see the change in your bankroll unless you do
 
 
-## Screenshots
+## Final Product
 
+### Betting and playing a hand
+!["Betting and playing a hand"](https://github.com/NDGP/black-jack-switch/blob/main/gifs%20for%20demonstration/BJS.gif?raw=true)
 
-*gif of cards being dealt*
+### Splitting when you have a hand of two identical values (fyi: never split a 20)
+!["Splitting when you have a hand of two identical values"](https://github.com/NDGP/black-jack-switch/blob/main/gifs%20for%20demonstration/Splitting.gif?raw=true)
 
-*gif of reveal phase*
-
-login?
-deposit/withdraw?
-rules?
-leaderboard?
+### Menu, rules and account registration
+!["Menu, rules and account registration"](https://github.com/NDGP/black-jack-switch/blob/main/gifs%20for%20demonstration/rules%20and%20registration.gif?raw=true)
 
 
 ## Installing and running the app
